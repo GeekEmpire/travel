@@ -7,7 +7,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a71e4e1-f9a3-41ed-980f-71275edd4859" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcast/travel/web/servlet/RegistUserServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcast/travel/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcast/travel/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcast/travel/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcast/travel/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcast/travel/web/servlet/CategoryServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcast/travel/web/servlet/CategoryServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcast/travel/web/servlet/UserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/itcast/travel/web/servlet/UserServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcast/travel/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcast/travel/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcast/travel/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcast/travel/service/impl/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcast/travel/web/servlet/ActiveUserServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcast/travel/web/servlet/CategoryServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcast/travel/web/servlet/CategoryServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcast/travel/web/servlet/ExitServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcast/travel/web/servlet/FindUserServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcast/travel/web/servlet/LoginServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcast/travel/web/servlet/RegistUserServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/itcast/travel/web/servlet/UserServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/itcast/travel/web/servlet/UserServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -279,7 +297,8 @@
       <workItem from="1585631531320" duration="664000" />
       <workItem from="1585632571866" duration="1301000" />
       <workItem from="1585723227529" duration="1870000" />
-      <workItem from="1585804198008" duration="200000" />
+      <workItem from="1585804198008" duration="5356000" />
+      <workItem from="1585827276326" duration="2497000" />
     </task>
     <servers />
   </component>
@@ -292,25 +311,25 @@
     </state>
     <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1585567313144" />
     <state x="1566" y="23" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728/1428.0.1378.900@1428.0.1378.900" timestamp="1585571145919" />
-    <state width="1323" height="158" key="GridCell.Tab.0.bottom" timestamp="1585636116853">
+    <state width="1323" height="51" key="GridCell.Tab.0.bottom" timestamp="1585838859085">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="158" key="GridCell.Tab.0.bottom/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1585636116853" />
+    <state width="1323" height="51" key="GridCell.Tab.0.bottom/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1585838859085" />
     <state width="1335" height="210" key="GridCell.Tab.0.bottom/0.0.1366.728/1428.0.1378.900@1428.0.1378.900" timestamp="1585579806016" />
-    <state width="1323" height="158" key="GridCell.Tab.0.center" timestamp="1585636116853">
+    <state width="1323" height="51" key="GridCell.Tab.0.center" timestamp="1585838859085">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="158" key="GridCell.Tab.0.center/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1585636116853" />
+    <state width="1323" height="51" key="GridCell.Tab.0.center/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1585838859085" />
     <state width="1335" height="210" key="GridCell.Tab.0.center/0.0.1366.728/1428.0.1378.900@1428.0.1378.900" timestamp="1585579806016" />
-    <state width="1323" height="158" key="GridCell.Tab.0.left" timestamp="1585636116852">
+    <state width="1323" height="51" key="GridCell.Tab.0.left" timestamp="1585838859085">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="158" key="GridCell.Tab.0.left/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1585636116852" />
+    <state width="1323" height="51" key="GridCell.Tab.0.left/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1585838859085" />
     <state width="1335" height="210" key="GridCell.Tab.0.left/0.0.1366.728/1428.0.1378.900@1428.0.1378.900" timestamp="1585579806016" />
-    <state width="1323" height="158" key="GridCell.Tab.0.right" timestamp="1585636116853">
+    <state width="1323" height="51" key="GridCell.Tab.0.right" timestamp="1585838859085">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="158" key="GridCell.Tab.0.right/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1585636116853" />
+    <state width="1323" height="51" key="GridCell.Tab.0.right/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1585838859085" />
     <state width="1335" height="210" key="GridCell.Tab.0.right/0.0.1366.728/1428.0.1378.900@1428.0.1378.900" timestamp="1585579806016" />
     <state width="1335" height="292" key="GridCell.Tab.1.bottom" timestamp="1585579806011">
       <screen x="1428" y="0" width="1378" height="900" />

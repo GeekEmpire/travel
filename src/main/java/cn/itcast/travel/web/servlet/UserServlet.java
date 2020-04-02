@@ -67,12 +67,16 @@ public class UserServlet extends BaseServlet {
 
         //3.调用service完成注册
         //UserService service = new UserServiceImpl();
-        boolean flag = service.regist(user);
+        int status = service.regist(user);
         ResultInfo info = new ResultInfo();
         //4.响应结果
-        if(flag){
+        if(status==200){
             //注册成功
             info.setFlag(true);
+        }else if(status == 201){
+            //用户名已存在
+            info.setFlag(false);
+            info.setErrorMsg("用户名已存在!");
         }else{
             //注册失败
             info.setFlag(false);
@@ -80,13 +84,7 @@ public class UserServlet extends BaseServlet {
         }
 
         //将info对象序列化为json
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(info);
-
-        //将json数据写回客户端
-        //设置content-type
-        response.setContentType("application/json;charset=utf-8");
-        response.getWriter().write(json);
+        writeValue(info, response);
 
     }
 
@@ -137,10 +135,7 @@ public class UserServlet extends BaseServlet {
         }
 
         //响应数据
-        ObjectMapper mapper = new ObjectMapper();
-
-        response.setContentType("application/json;charset=utf-8");
-        mapper.writeValue(response.getOutputStream(),info);
+        writeValue(info, response);
     }
 
     /**

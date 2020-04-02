@@ -113,7 +113,7 @@
 							}else{
 							    //注册失败,给errorMsg添加提示信息
 								$("#errorMsg").html(data.errorMsg);
-								$("#code").attr("src","checkCode?"+new Date().getTime())
+								$("#code").attr("src","checkCode?"+new Date().getTime());
 							}
 						});
 
@@ -156,7 +156,7 @@
     					<table style="margin-top: 25px;">
     						<tr>
     							<td class="td_left">
-    								<label for="username">用户名</label>
+    								<label for="username">账号</label>
     							</td>
     							<td class="td_right">
     								<input type="text" id="username" name="username" placeholder="请输入账号">
@@ -216,7 +216,7 @@
     								<label for="birthday">出生日期</label>
     							</td>
     							<td class="td_right">
-    								<input type="date" id="birthday" name="birthday" placeholder="年/月/日">
+    								<input type="date" id="birthday" name="birthday" value="2000-01-01" placeholder="年/月/日">
     							</td>
     						</tr>
     						<tr>
@@ -248,7 +248,7 @@
     			<div class="rg_form_right">
     				<p>
     					已有账号？
-    					<a href="#">立即登录</a>
+    					<a href="./login.html">立即登录</a>
     				</p>
     			</div>
     		</div>

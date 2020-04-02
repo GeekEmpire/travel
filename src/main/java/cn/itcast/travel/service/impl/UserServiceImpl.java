@@ -16,13 +16,13 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean regist(User user) {
+    public int regist(User user) {
         //1.根据用户名查询用户对象
         User u = userDao.findByUsername(user.getUsername());
         //判断u是否为null
         if(u != null){
             //用户名存在，注册失败
-            return false;
+            return 201;
         }
         //2.保存用户信息
         //2.1设置激活码，唯一字符串
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
         MailUtils.sendMail(user.getEmail(),content,"激活邮件");
 
-        return true;
+        return 200;
     }
 
     /**
