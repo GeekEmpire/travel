@@ -6,7 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3a71e4e1-f9a3-41ed-980f-71275edd4859" name="Default Changelist" comment="" />
+    <list default="true" id="3a71e4e1-f9a3-41ed-980f-71275edd4859" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,6 +27,9 @@
     </option>
     <expand />
     <select />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -49,7 +54,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunManager" selected="Maven.travel [tomcat7:run]">
     <configuration name="MailUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -273,6 +278,7 @@
       <workItem from="1585567159389" duration="12244000" />
       <workItem from="1585631531320" duration="664000" />
       <workItem from="1585632571866" duration="1301000" />
+      <workItem from="1585723227529" duration="1870000" />
     </task>
     <servers />
   </component>
@@ -349,9 +355,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="213" y="19" key="Maven.ArtifactSearchDialog/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1584886810703" />
-    <state x="184" y="0" key="SettingsEditor" timestamp="1584887252824">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="194" y="0" key="SettingsEditor" timestamp="1585723536650">
+      <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="184" y="0" key="SettingsEditor/0.0.1366.728/1428.0.1378.900@0.0.1366.728" timestamp="1584887252824" />
+    <state x="194" y="0" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1585723536650" />
   </component>
 </project>
