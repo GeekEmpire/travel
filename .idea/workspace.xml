@@ -7,7 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a71e4e1-f9a3-41ed-980f-71275edd4859" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/itcast/travel/web/servlet/RegistUserServlet.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -279,6 +279,7 @@
       <workItem from="1585631531320" duration="664000" />
       <workItem from="1585632571866" duration="1301000" />
       <workItem from="1585723227529" duration="1870000" />
+      <workItem from="1585804198008" duration="200000" />
     </task>
     <servers />
   </component>
