@@ -61,7 +61,7 @@
                  */
                 var lis = "";
 
-                var fristPage = '<li onclick="javascipt:load('+cid+',1,\''+rname+'\')"><a href="javascript:void(0)">首页</a></li>';
+                var fristPage = '<li class="pointer" onclick="javascipt:load('+cid+',1,\''+rname+'\')"><a href="javascript:void(0)">首页</a></li>';
 
                 //计算上一页的页码
                 var beforeNum =  pb.currentPage - 1;
@@ -69,7 +69,7 @@
                     beforeNum = 1;
                 }
 
-                var beforePage = '<li  onclick="javascipt:load('+cid+','+beforeNum+',\''+rname+'\')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
+                var beforePage = '<li onclick="javascipt:load('+cid+','+beforeNum+',\''+rname+'\')" class="threeword pointer"><a href="javascript:void(0)">上一页</a></li>';
 
                 lis += fristPage;
                 lis += beforePage;
@@ -106,7 +106,7 @@
                     //3.如果后边不足4个，前边补齐10个
                     if(end > pb.totalPage){
                         end = pb.totalPage;
-                        begin = end - 9 ;
+                        //begin = end - 9 ;
                     }
                 }
 
@@ -116,11 +116,11 @@
                     //判断当前页码是否等于i
                     if(pb.currentPage == i){
 
-                        li = '<li class="curPage" onclick="javascipt:load('+cid+','+i+',\''+rname+'\')"><a href="javascript:void(0)">'+i+'</a></li>';
+                        li = '<li class="curPage pointer" onclick="javascipt:load('+cid+','+i+',\''+rname+'\')"><a href="javascript:void(0)">'+i+'</a></li>';
 
                     }else{
                         //创建页码的li
-                        li = '<li onclick="javascipt:load('+cid+','+i+',\''+rname+'\')"><a href="javascript:void(0)">'+i+'</a></li>';
+                        li = '<li class="pointer" onclick="javascipt:load('+cid+','+i+',\''+rname+'\')"><a href="javascript:void(0)">'+i+'</a></li>';
                     }
                     //拼接字符串
                     lis += li;
@@ -144,8 +144,8 @@
                     //拼接字符串
                     lis += li;
                 }*/
-                var lastPage = '<li class="threeword"><a href="javascript:;">末页</a></li>';
-                var nextPage = '<li class="threeword"><a href="javascript:;">下一页</a></li>';
+                var lastPage = '<li class="threeword pointer"><a href="javascript:;">末页</a></li>';
+                var nextPage = '<li class="threeword pointer"><a href="javascript:;">下一页</a></li>';
 
                 lis += nextPage;
                 lis += lastPage;

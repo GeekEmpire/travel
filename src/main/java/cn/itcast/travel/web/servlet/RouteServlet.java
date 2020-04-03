@@ -34,6 +34,9 @@ public class RouteServlet extends BaseServlet {
 
         //接受rname 线路名称
         String rname = request.getParameter("rname");
+        if(rname.equals("null")) {
+            rname = "";
+        }
         rname = new String(rname.getBytes("iso-8859-1"),"utf-8");
 
 
