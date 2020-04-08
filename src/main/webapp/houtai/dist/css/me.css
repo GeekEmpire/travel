@@ -1,0 +1,281 @@
+/*弹出框*/
+#mz_add_info,#mz_edit_info{display: none;margin: 15px 70px 0 0px}
+#show_user_info li{
+    height: 30px;
+    line-height: 30px;
+    margin: 10px;
+    font-size: 16px;
+}
+.me_active{
+    background-color: #E6E9ED;
+}
+[v-cloak]{
+    display: none;
+}
+.f16{
+    font-size: 16px;
+}
+.f18{font-size: 18px}
+.f14{font-size: 14px}
+select{
+    background-color: #ffffff;
+}
+.container-fluid .content{
+    height: auto;
+    min-height: 500px;
+}
+a{
+    cursor: pointer;
+}
+.green{
+    color: green;
+}
+.blue{color: blue}
+.red{color: red}
+.me_none{
+    display: none;
+}
+.me_fl{
+    float: left;
+}
+.me_fr{
+    float: right;
+}
+.me_center{
+    text-align: center;
+}
+.me_font16{
+    font-size: 16px;
+}
+.me_margin_left{
+    margin-left: 20px;
+}
+.me_margin_leftsm{
+    margin-left: 10px;
+}
+.me_margin_right{
+    margin-right: 20px;
+}
+.me_margin_top{
+    margin-top: 10px;
+}
+.me_margin_mtop{
+    margin-top: 50px;
+}
+.me_margin_bottom{
+    margin-bottom: 10px;
+}
+.me_padding_topsm{
+    padding-top: 5px;
+}
+.me_padding_mbottom{
+    padding-bottom: 150px;
+}
+.mz_permit{
+    margin-right: 5px;
+}
+.me_border{
+    border: 1px solid #ccc;
+}
+
+/*主页*/
+.mz_ggb{
+    height: 220px;
+}/*公告板*/
+
+/*头像部分*/
+.mz_touxiang_t{
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.mz_touxiang{
+    display: block;
+    width: 100px;
+    height: 130px;
+    margin: 0 auto;
+}
+.mz_touxiang img{
+    display: block;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ccc;
+}
+.mz_touxiang a{
+    display: block;
+    margin-top: 5px;
+    text-align: center;
+}
+.layui-upload-choose{
+    display: none;
+}
+
+
+
+/*账号管理，修改信息*/
+#mz_admin_info li{
+    height: 30px;
+    line-height: 30px;
+    margin: 10px;
+    font-size: 16px;
+}
+#mz_modify_modal_t{
+    font-size: 24px;
+    text-align: center;
+}
+.layui-input-block{
+    margin-left: 130px;
+}
+.layui-form-label{
+    width: 120px;
+}
+.layui-input-inline{
+    margin-left: 10px;
+}
+.mz_info_intro{
+    display: block;
+    text-indent:2em;
+    margin-right: 15%;
+}
+@media (min-width: 768px) {
+    .me_kuochong{
+        padding-bottom: 150px;
+    }
+}/* 账号管理结束*/
+
+
+/*shenhe*/
+.mz_shenghe_hr{
+    display: block;
+    width: 80%;
+    height: 2px;
+    margin: 10px;
+}
+
+/*user*/
+.searchTable{
+    position: relative;
+    margin-left: 15px;
+}
+.search_way{
+    position: absolute;
+    top: 0px;
+    left: 50%;
+}
+.search_way select{
+    height: 25px;
+}
+#img_ms,#img_ms1{
+    text-align: center;
+    position: relative;
+}
+#img_ms #showimg,#img_ms1 #showimg1{
+    /*display: block;*/
+    margin: 15px 0px;
+    width: 150px;
+    height: 150px;
+}
+#fileimg{
+    /*display: block;*/
+    margin: 15px 0px;
+    width: 150px;
+    height: 150px;
+}
+#img_ms #up_img,#img_ms1 #up_img1{
+    position: absolute;
+    left: 95px;
+    top: 170px;
+}
+#img_ms #submit_up,#img_ms1 #submit_up1{
+    position: absolute;
+    left: 88px;
+    top: 210px;
+    width: 80px;
+}
+
+
+
+/*tag*/
+.tag{
+    height: 35px;
+    line-height: 35px;
+    width: 10%;
+    text-align: center;
+    border-radius: 5px;
+    color: #428bca;
+    font-size: 14px;
+    border: 1px solid #3bafda;
+    margin-right: 4%;
+    margin-bottom: 30px;
+    float: left;
+    cursor: pointer;
+}
+
+
+
+/*notice*/
+/*显示详细公告内容，弹出框*/
+.show_notice_content{
+    font-size: 18px;
+    margin: 20px 13px 0 20px;
+    line-height: 25px;
+    color: #666;
+    text-indent: 2em;
+}
+
+
+
+/* ht_company*/
+/*添加左边部分*/
+.user_c_l{
+    width: 380px;
+    /*height: 500px;*/
+    margin-left: 20px;
+    /*background-color: #eee;*/
+    /*border: 1px solid #EEEEEE;*/
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 40px;
+}
+.user_c_l .add_section{
+    height: 40px;
+}
+.user_c_l select{
+    width: 150px;
+    height: 24px;
+}
+.user_c_l .add_search{
+    margin-left: 20px;
+    position: relative;
+}
+.user_c_l .add_search>input{
+    padding-left: 5px;
+    width: 120px;
+    height: 24px;
+}
+.user_c_l .add_search i{
+    position: absolute;
+    display: block;
+    top: 0px;
+    right: 5px;
+    /*border: 1px solid red;*/
+}
+.add_all{
+    margin-left: 10px;
+}
+
+.user_c_r{
+    width: 280px;
+    /*height: 500px;*/
+    margin-left: 20px;
+    /*background-color: #eee;*/
+    /*border: 1px solid #EEEEEE;*/
+    margin-top: 15px;
+}
+.user_c_r .add_selected{
+    width: 100%;
+    background-color: #337ab7;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    font-size: 14px;
+}

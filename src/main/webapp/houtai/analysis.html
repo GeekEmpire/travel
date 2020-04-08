@@ -1,0 +1,312 @@
+<script src="dist/data/echarts.common.min.js"></script>
+<div class="col-xs-12 col-sm-9 content"  >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> 数据分析</h3>
+        </div>
+        <div class="panel-body"  id="">
+            <div class="row">
+                <div class="col-md-12">
+                    <h5 style="margin-left: 150px">待支付账单(元)</h5>
+                    <div class="col-md-12" id="chart2" style="height: 400px"></div>
+                </div>
+                <div class="col-md-12" style="margin: 0px 0 5px 0px"></div>
+                <hr>
+                <div class="col-md-12">
+                    <!--<h5 style="margin-left: 150px">今日预约情况</h5>-->
+                    <div class="col-md-12" id="chart0" style="height: 450px"></div>
+                </div>
+                <div class="col-md-12" style="margin: 15px 0 5px 0px"></div>
+                <hr>
+
+                <div class="col-md-12">
+                    <div class="col-md-12" id="chart1" style="height: 450px"></div>
+                </div>
+                <div class="col-md-12" style="margin: 15px 0 5px 0px"></div>
+                <hr>
+                <div class="col-md-12">
+                    <h5 style="margin-left: 150px">累计消费</h5>
+                    <div class="col-md-12" id="chart3" style="height: 500px"></div>
+                </div>
+            </div>
+        </div><!-- panel body -->
+    </div>
+</div><!-- content -->
+
+<script>
+    var myChart0 = echarts.init(document.getElementById('chart0'));
+    var option0 = {
+        title: {
+            text: '最近一年各公司预约次数'
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:["斗鱼","百度","京东","bilibili","腾讯"]
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : ['2018年3月','2018年4月','2018年5月','2018年6月','2018年7月', '2018年8月','2018年9月'
+                    ,'2018年10月','2018年11月','2018年12月','2019年1月','2019年2月']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'斗鱼',
+                type:'line',
+                stack: '总量',
+                data:[25, 15, 28, 24, 8, 32, 40, 30, 25, 15,40,36]
+            },
+            {
+                name:'百度',
+                type:'line',
+                stack: '总量',
+                data:[20, 5, 10, 16, 35, 42, 25, 46, 21, 29,37,45]
+            },
+            {
+                name:'京东',
+                type:'line',
+                stack: '总量',
+                data:[26, 28, 15, 16, 7, 35, 12, 19, 32, 46,31,54]
+            },
+            {
+                name:'bilibili',
+                type:'line',
+                stack: '总量',
+                data:[16, 29, 27, 56, 28, 11, 21, 25, 23, 24,26,51]
+            },
+            {
+                name:'腾讯',
+                type:'line',
+                stack: '总量',
+                data:[21, 16, 21, 35, 17, 24, 13, 32, 35, 38,53,27]
+            }
+        ]
+    };
+    myChart0.setOption(option0);
+
+    var myChart1 = echarts.init(document.getElementById('chart1'));
+    var option1 = {
+        title: {
+            text: '最近一年收入'
+        },
+        tooltip : {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            }
+        },
+        legend: {
+            data:["斗鱼","百度","京东","bilibili","腾讯"]
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : ['2018年3月','2018年4月','2018年5月','2018年6月','2018年7月', '2018年8月','2018年9月'
+                    ,'2018年10月','2018年11月','2018年12月','2019年1月','2019年2月']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'斗鱼',
+                type:'line',
+                stack: '总量',
+                areaStyle: {},
+                data:[654.56, 430.25, 450.20, 460.00, 440.56, 930.05, 1100.56, 185.00, 156.65, 96.00,300.02,279.00]
+            },
+            {
+                name:'百度',
+                type:'line',
+                stack: '总量',
+                areaStyle: {},
+                data:[650.26, 100.00, 362.00, 250.00, 585.26, 756.00, 350.00, 855.45, 752.26, 668.00,420.00,661.00]
+            },
+            {
+                name:'京东',
+                type:'line',
+                stack: '总量',
+                areaStyle: {},
+                data:[425.25, 456.25, 260.25, 358.25, 150.00, 1100.25, 180.00, 420.02, 1112.00, 720.75,805.65,1250.65]
+            },
+            {
+                name:'bilibili',
+                type:'line',
+                stack: '总量',
+                areaStyle: {normal: {}},
+                data:[356.56, 452.54, 453.44, 420.25, 410.25, 326.54, 389.52, 257.65, 398.65, 535.56,665.25,400.58]
+            },
+            {
+                name:'腾讯',
+                type:'line',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                },
+                areaStyle: {normal: {}},
+                data:[152.25, 98.26, 185.50, 95.04, 0.00, 128.25, 0.00, 185.00, 189.25, 195.52,157.65,156.00]
+            }
+        ]
+    };
+    myChart1.setOption(option1);
+
+    var myChart2 = echarts.init(document.getElementById('chart2'));
+    var option2 = {
+        title: {
+            // text: '今日各公司预约次数'
+        },
+        tooltip: {},
+        legend: {
+            data:['花费']
+        },
+        xAxis: {
+            data: ["斗鱼","百度","京东","bilibili","腾讯"]
+        },
+        yAxis: {},
+        series: [{
+            name: '花费',
+            type: 'bar',
+            data: [455.65, 653.45, 562.58, 438.98, 756.65]
+        }]
+    };
+    myChart2.setOption(option2);
+
+    var myChart3 = echarts.init(document.getElementById('chart3'));
+    var option3 = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:['斗鱼','百度','京东','bilibili','腾讯']
+        },
+        series: [
+            {
+                name:'消费金额',
+                type:'pie',
+                selectedMode: 'single',
+                radius: [0, '30%'],
+
+                label: {
+                    normal: {
+                        position: 'inner'
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data:[
+                    {value:8335, name:'斗鱼'},
+                    {value:11310, name:'百度'},
+                    {value:13234, name:'京东'},
+                    {value:7135, name:'bilibili'},
+                    {value:15048, name:'腾讯', selected:true}
+                ]
+            },
+            {
+                name:'消费金额',
+                type:'pie',
+                radius: ['40%', '55%'],
+                label: {
+                    normal: {
+                        formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                        backgroundColor: '#eee',
+                        borderColor: '#aaa',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        // shadowBlur:3,
+                        // shadowOffsetX: 2,
+                        // shadowOffsetY: 2,
+                        // shadowColor: '#999',
+                        // padding: [0, 7],
+                        rich: {
+                            a: {
+                                color: '#999',
+                                lineHeight: 22,
+                                align: 'center'
+                            },
+                            // abg: {
+                            //     backgroundColor: '#333',
+                            //     width: '100%',
+                            //     align: 'right',
+                            //     height: 22,
+                            //     borderRadius: [4, 4, 0, 0]
+                            // },
+                            hr: {
+                                borderColor: '#aaa',
+                                width: '100%',
+                                borderWidth: 0.5,
+                                height: 0
+                            },
+                            b: {
+                                fontSize: 16,
+                                lineHeight: 33
+                            },
+                            per: {
+                                color: '#eee',
+                                backgroundColor: '#334455',
+                                padding: [2, 4],
+                                borderRadius: 2
+                            }
+                        }
+                    }
+                },
+                data:[
+                    {value:8335, name:'斗鱼'},
+                    {value:11310, name:'百度'},
+                    {value:13234, name:'京东'},
+                    {value:7135, name:'bilibili'},
+                    {value:15048, name:'腾讯'}
+                ]
+            }
+        ]
+    };
+    myChart3.setOption(option3);
+
+
+</script>

@@ -1,0 +1,439 @@
+<!--右边内容-->
+<div class="col-xs-12 col-sm-9 content">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> 会议室管理</h3>
+      <!--<a href="#">刷新</a>-->
+    </div>
+    <div class="panel-body">
+      <div class="content-row">
+        <div class="col-md-12">
+          <!-- table-model -->
+          <div class="searchTable" id="app_search"><!--搜索-->
+            按{{way}}搜索：
+            <div class="layui-inline">
+              <input class="layui-input" name="id" id="searchReload" autocomplete="off">
+            </div>
+            <div class="search_way">
+              搜索方式：
+              <select name="city" lay-verify="required" @change="change" id="choice_way">
+                <option value="0">按ID</option>
+                <option value="1">按名称</option>
+              </select>
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+            <button class="layui-btn me_fr" id="mz_add_meet">添加会议室</button>
+          </div>
+          <table class="layui-hide" id="mz_meet_table" lay-filter="mz_meet_table"></table>
+          <div id="laypage_user"></div>
+          <script type="text/html" id="toolbarMeet">
+            <div class="layui-btn-container">
+              <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+              <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+              <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+              <button class="layui-btn layui-btn-sm" lay-event="addTable">添加</button>
+            </div>
+          </script>
+          <script type="text/html" id="barMeet">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+          </script>
+        </div>
+      </div>
+    </div><!-- panel body -->
+  </div>
+</div><!-- content -->
+
+<script type="text/html" id="switchTpl">
+  <a href="ht_meet_show.html?id={{d.id}}" target="_blank">查看</a>
+</script>
+
+<!--添加会议室-->
+<div id="mz_add_info" style="display: none;">
+  <form class="layui-form " lay-filter="initForm" id="add_meet">
+    <div class="layui-form-item">
+      <label class="layui-form-label">名称</label>
+      <div class="layui-input-block">
+        <input type="text" name="name" required  lay-verify="required" placeholder="请输入会议室名" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">楼栋</label>
+      <div class="layui-input-block">
+        <select name="buildingId" class="add_build" lay-verify="required">
+          <option></option>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">房间号</label>
+      <div class="layui-input-block">
+        <input type="text" name="address" required  lay-verify="required" placeholder="请输入，如408" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">容量</label>
+      <div class="layui-input-block">
+        <input type="number" name="volume" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">价格</label>
+      <div class="layui-input-block">
+        <input type="text" name="price" required  lay-verify="required" placeholder="（元/小时）" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+      <label class="layui-form-label">简介</label>
+      <div class="layui-input-block">
+        <textarea name="detail" placeholder="会议室简介" class="layui-textarea"></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+<!--修改会议室-->
+<div id="mz_edit_info" style="display: none;">
+  <form class="layui-form " lay-filter="editForm" id="edit_meet">
+    <div class="layui-form-item">
+      <label class="layui-form-label">名称</label>
+      <div class="layui-input-block">
+        <input type="text" name="name" required  lay-verify="required" placeholder="请输入会议室名" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">楼栋</label>
+      <div class="layui-input-block">
+        <select name="buildingId" class="edit_build" lay-verify="required">
+          <option></option>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">房间号</label>
+      <div class="layui-input-block">
+        <input type="text" name="address" required  lay-verify="required" placeholder="请输入，如408" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">容量</label>
+      <div class="layui-input-block">
+        <input type="number" name="volume" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">价格</label>
+      <div class="layui-input-block">
+        <input type="text" name="price" required  lay-verify="required" placeholder="（元/小时）" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+      <label class="layui-form-label">简介</label>
+      <div class="layui-input-block">
+        <textarea name="detail" placeholder="会议室简介" class="layui-textarea"></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+<script type="text/html" id="state"><!--权限-->
+{{#  if(d.isUsing == 0){ }}
+<p>未使用</p>
+{{#  } else if(d.isUsing == 2) { }}
+<p>HR</p>
+{{#  } else if(d.isUsing == 3) { }}
+<p>后勤</p>
+{{#  } else if(d.isUsing == 4) { }}
+<p>管理员</p>
+{{#  } }}
+</script>
+<script>
+    var vm = new Vue({
+        el: '#app_search',
+        data:{
+            way: 'ID',
+            v: 0
+        },
+        methods:{
+            change(select){
+                this.v = select.target.value;
+                if(this.v==0){ this.way='ID'}
+                if(this.v==1) { this.way = '名称'}
+            }
+        }
+    })
+
+    function getBuild(build,id){
+        var tdata = {};
+        $.ajax({
+            url:"http://lsudjh.top:8081/building/listEntity",
+            type:"POST",
+            data:JSON.stringify(tdata),
+            contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+            success:function(result){ //所有错误信息都如result.message有关
+                console.log(result);
+                if(result.code==0){
+                    layui.use('form', function(){
+                        var form = layui.form;
+                        build.empty();
+                        build.append("<option value=''></option>" );
+                        for(var i=0; i<result.data.data.length; i++) {
+                            if(result.data.data[i].id!=id){
+                                build.append("<option value=\"" +result.data.data[i].id+"\">" + result.data.data[i].location + "");
+                            } else {
+                                build.append("<option selected value=\"" +result.data.data[i].id+"\">" + result.data.data[i].location + "");
+                            }
+                        }
+                        form.render('select');
+                    });
+                }
+            }
+        });
+    }
+
+    //table数据渲染
+    var curnum = 1;
+    var size = 10;
+    layui.use(['table','laypage'], function(){
+        var table = layui.table;
+        var laypage = layui.laypage;
+        table.render({
+            elem: '#mz_meet_table'
+            ,url:'http://lsudjh.top:8081/meetingRoom/listEntity'
+            ,method: 'post'
+            ,contentType: 'application/json'
+            ,toolbar: '#toolbarMeet'
+            ,title: '用户数据表'
+            ,id:'meetTable'
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'id', title:'ID', width:60, fixed: 'left', unresize: true, sort: true}
+                ,{field:'imageUrl', title:'详情',width:80, templet: '#switchTpl', unresize: true}
+                ,{field:'name', title:'名称', width:120}
+                ,{field:'address', title:'位置', width:120,templet:'<div>{{d.building.location}} {{d.address}}</div>'}
+                ,{field:'volume', title:'容量', width:90, sort: true}
+                ,{field:'detail', title:'描述'}
+                ,{field:'isUsing', title:'状态', width:80,templet: '#state'}
+                ,{field:'price', title:'价格(元/小时)',width:120}
+                ,{fixed: 'right', title:'操作', toolbar: '#barMeet', width:120}
+            ]]
+            ,page: false
+            ,where: {size:size, page:curnum,order :'id asc'}
+            ,parseData: function(res){ //res 即为原始返回的数据
+                console.log(res);
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.data //解析数据列表
+                };
+            }
+            ,done: function(res, curr, count){
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                laypage.render({
+                    elem:'laypage_user'
+                    ,count:count
+                    ,curr:curnum
+                    ,limit:size
+                    ,layout: ['prev', 'page', 'next', 'skip','count','limit', 'refresh']
+                    ,jump:function (obj,first) {
+                        if(!first){
+                            curnum = obj.curr;
+                            size = obj.limit;
+                            // user_search(curnum,size);  //重新渲染
+                            table.reload('meetTable', {
+                                where:{
+                                    size: obj.limit
+                                    ,page: obj.curr
+                                    ,order :'id asc'
+                                }
+                            });
+                        }
+                    }
+                })
+            }
+        });
+
+        table.on('toolbar(mz_meet_table)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    break;
+            };
+        });
+
+        //监听行工具事件
+        table.on('tool(mz_meet_table)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            if(obj.event === 'del'){
+                layer.confirm('真的删除该会议室吗？', function(index){
+                    var tdata = {
+                        id: data.id
+                    }
+                    $.ajax({
+                        url:"http://lsudjh.top:8081/meetingRoom/delete",
+                        type:"POST",
+                        data:JSON.stringify(tdata),
+                        contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+                        success:function(result){ //所有错误信息都如result.message有关
+                            layer.close(index);  //关闭弹出层
+                            alert(result.msg);
+                            if(result.code==0){
+                                obj.del();
+                            }
+                        }
+                    });
+                });
+            } else if(obj.event === 'edit'){  //修改
+
+                layui.use('form', function(){
+                    var form = layui.form;
+                    var build = $('.edit_build');
+                    getBuild(build, data.building.id);
+                    form.val("editForm", data);
+                });
+                layer.open({
+                    type: 1
+                    ,title: "修改会议室"
+                    ,area: '440px'
+                    ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,btn: ['确定', '取消']
+                    ,btnAlign: 'c'
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,content: $('#mz_edit_info')
+                    ,yes:function (index, layero) {
+                        var tdata = $('form[id="edit_meet"]').serializeObject();
+                        tdata.id = data.id;
+                        console.log(tdata);
+                        $.ajax({
+                            url:"http://lsudjh.top:8081/meetingRoom/update",
+                            type:"POST",
+                            data:JSON.stringify(tdata),
+                            contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+                            success:function(result){ //所有错误信息都如result.message有关
+                                alert(result.msg);
+                                if(result.code==0){
+                                    $('#edit_meet')[0].reset();
+                                    layer.close(index);  //关闭弹出层
+                                    table.reload('meetTable', {
+                                        where:{
+                                            order :'id asc'
+                                        }
+                                    });
+                                } else{
+                                    // console.log($('#user_add'));
+                                    // $('#apply_add')[0].reset();   //[0]必须得加
+                                }
+                            }
+                        });
+                    }
+                    ,btn2:function (index, layero) {
+
+                    }
+                });
+                console.log(obj)
+            }
+        });
+        var $ = layui.$, active = {
+            reload: function(){
+                var searchReload = $('#searchReload');
+
+                //执行重载
+                //执行重载
+                var key = $('#searchReload').val();
+                var way = $('#choice_way').val();
+                var tdata = {};
+                if(way==0){
+                    tdata.id = key;
+                    tdata.name = null;
+                } else if(way==1){
+                    tdata.name = key;
+                    tdata.id = null;
+                }
+                tdata.order = 'id asc';
+                // console.log(tdata);
+                table.reload('meetTable', {
+                    where: tdata
+                });
+            }
+        };
+
+        $('.searchTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //添加会议室
+        $('#mz_add_meet').on("click", function () {
+            var bulid = $('.add_build');
+            getBuild(bulid);
+            layer.open({
+                type: 1
+                ,title: "添加会议室" //不显示标题栏
+                ,area: '440px'
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btn: ['确定', '取消']
+                ,btnAlign: 'c'
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: $('#mz_add_info')
+                ,yes:function (index, layero) {
+                    var tdata = $('form[id="add_meet"]').serializeObject();
+                    console.log(tdata);
+                    $.ajax({
+                        url:"http://lsudjh.top:8081/meetingRoom/add",
+                        type:"POST",
+                        data:JSON.stringify(tdata),
+                        contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+                        success:function(result){ //所有错误信息都如result.message有关
+                            alert(result.msg);
+                            if(result.code==0){
+                                $('#add_meet')[0].reset();
+                                layer.close(index);  //关闭弹出层
+                                table.reload('meetTable', {
+                                    where:{
+                                        order :'id asc'
+                                    }
+                                });
+                            } else{
+                                // console.log($('#user_add'));
+                                // $('#apply_add')[0].reset();   //[0]必须得加
+                            }
+                        }
+                    });
+                }
+                ,btn2:function (index, layero) {
+                    console.log(1);
+                }
+            });
+        });
+    });
+
+    /**
+     * 自动将form表单封装成json对象
+     */
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [ o[this.name] ];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+</script>
+

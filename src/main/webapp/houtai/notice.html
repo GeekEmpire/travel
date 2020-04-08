@@ -1,0 +1,281 @@
+<!--右边内容-->
+<div class="col-xs-12 col-sm-9 content" >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> 公告管理</h3>
+            <!--<a href="#">刷新</a>-->
+        </div>
+        <div class="panel-body">
+            <div class="searchTable"><!--搜索-->
+                <!--<div class="layui-inline" style="margin-left: 0px">-->
+                    <!--<input class="layui-input" name="id" id="searchReload" autocomplete="off">-->
+                <!--</div>-->
+                <!--<button class="layui-btn" data-type="reload">搜索</button>-->
+                <button class="layui-btn me_fr" id="mz_add_meet">添加公告</button>
+                <!--<button class="layui-btn me_fr" id="mz_add_meet" data-toggle="modal" data-target="#tableModal">添加会议室</button>-->
+            </div>
+            <div class="content-row">
+                <h5>近期公告列表：（公示中）</h5>
+                <div class="col-md-12">
+                    <!-- table-model -->
+                    <table class="layui-hide" id="mz_notice_table" lay-filter="mz_notice_table"></table>
+                    <script type="text/html" id="barMeet">
+                        <a class="layui-btn layui-btn-xs" lay-event="edit">撤下</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    </script>
+                </div>
+
+                <!--隔开--><div class="col-md-12 "></div>
+
+
+                <h5>历史公告列表：（已公示）</h5>
+                <div class="col-md-12">
+                    <!-- table-model -->
+                    <table class="layui-hide" id="mz_noticed_table" lay-filter="mz_noticed_table"></table>
+                    <script type="text/html" id="barMeet2">
+                        <a class="layui-btn layui-btn-xs" lay-event="edit">公布</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    </script>
+                </div>
+
+                <!--隔开-->
+                <div class="col-md-12 mz_shenghe_hr"></div>
+            </div>
+        </div><!-- panel body -->
+    </div>
+</div><!-- content -->
+
+<!--添加预约弹出框-->
+<div id="mz_add_info" style="display: none;padding-right: 45px">
+    <form class="layui-form me_margin_top" action="" lay-filter="initForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" required  lay-verify="required" placeholder="请输入时间" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">主题</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" required  lay-verify="required" placeholder="请输入主题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">位置</label>
+            <div class="layui-input-inline">
+                <input type="text" name="text" required lay-verify="required" placeholder="请输入会议室" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">辅助文字</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否需要服务</label>
+            <div class="layui-input-block">
+                <select name="city" lay-verify="required">
+                    <option value=""></option>
+                    <option value="0">是</option>
+                    <option value="1">否</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">人数</label>
+            <div class="layui-input-block">
+                <input type="number" name="" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">工具</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="like[write]" title="投影">
+                <input type="checkbox" name="like[read]" title="话筒">
+                <input type="checkbox" name="like[dai]" title="打印">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">其他</label>
+            <div class="layui-input-block">
+                <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function show_content(content){
+        layer.open({
+            type: 1,
+            content: "<p class='show_notice_content'>"+content+"</p>",
+            area: ['400px', '260px'],
+            title: '详细信息'
+        })
+    }
+
+    // 数据表
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#mz_notice_table'     //未审核
+            ,url:'http://localhost:63342/服务外包/houtai/upload/2.json'
+            ,title: '未审核数据表'
+            ,cellMinWidth: 100
+            ,id:'noticeTable'
+            ,cols: [[
+                {field:'id', title:'ID', unresize: true, sort: true}
+                ,{field:'name', title:'发起人' ,unresize: true}
+                ,{field:'time', title:'时间', unresize: true}
+                ,{field:'title', title:'标题', unresize: true}
+                ,{field:'content', title:'内容', sort: true, unresize: true,
+                    templet: '<div><a href="#" onclick=show_content("{{d.other}}") class="layui-table-link">查看</a></div>'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barMeet', width:120, unresize: true}
+            ]]
+            ,page: false
+        });
+        table.render({
+            elem: '#mz_noticed_table'     //未审核
+            ,url:'http://localhost:63342/服务外包/houtai/upload/2.json'
+            ,title: '未审核数据表'
+            ,id:'noticedTable'
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'id', title:'ID', width:100, fixed: 'left', unresize: true, sort: true}
+                ,{field:'name', title:'发起人', width:150, unresize: true}
+                ,{field:'time', title:'时间', width:150, unresize: true}
+                ,{field:'title', title:'标题', width:150, unresize: true}
+                ,{field:'content', title:'内容', sort: true, unresize: true}
+                ,{fixed: 'right', title:'操作', toolbar: '#barMeet2', width:120, unresize: true}
+            ]]
+            ,page: true
+        });
+
+
+        //监听行工具事件
+        table.on('tool(mz_notice_table)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            var re;
+            if(obj.event === 'del'){
+
+                layer.confirm( '是否删除？', function(value, index){
+                    obj.update({
+
+                    });
+                    table.reload('noticeTable', {
+                        url: 'http://localhost:63342/服务外包/houtai/upload/1.json',
+                        page: {
+                            curr: 1//重新从第 1 页开始
+                        }
+                        ,where: {
+                            key: {
+                                id: searchReload.val(),
+                                way: searchWay.val()
+                            }
+                        }
+                    });
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                layer.confirm('确认？',function (index) {
+                    obj.del();
+                    layer.close(index);//关闭弹出层
+                })
+            }
+        });
+        table.on('tool(mz_noticed_table)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            var re;
+            if(obj.event === 'del'){
+
+                layer.confirm('是否删除？', function(value, index){
+                    obj.update({
+
+                    });
+                    table.reload('noticedTable', {
+                        url: 'http://localhost:63342/服务外包/houtai/upload/1.json',
+                        page: {
+                            curr: 1//重新从第 1 页开始
+                        }
+                        ,where: {
+                            key: {
+                                id: searchReload.val(),
+                                way: searchWay.val()
+                            }
+                        }
+                    });
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                layer.confirm('确认？',function (index) {
+                    obj.del();
+                    layer.close(index);//关闭弹出层
+                })
+            }
+        });
+
+        //搜索监听，重载
+        var $ = layui.$, active = {
+            reload: function(){
+                var searchReload = $('#searchReload');
+                var searchWay = $('#mz_search_w');
+                //执行重载
+                table.reload('noticeingTable', {
+                    url: 'http://localhost:63342/服务外包/houtai/upload/1.json',
+                    page: {
+                        curr: 1//重新从第 1 页开始
+                    }
+                    ,where: {
+                        key: {
+                            id: searchReload.val(),
+                            way: searchWay.val()
+                        }
+                    }
+                });
+            }
+        };
+        $('.searchTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+
+
+    // 添加公司
+    $('#mz_add_meet').on("click", function () {
+        layui.use('form', function(){
+            var form = layui.form;
+
+            form.val("initForm", {
+                // "username": "贤心" // "name": "value"
+                // ,"sex": "女"
+                // ,"password": "123434"
+                // ,"check[write]": true
+                // ,"open": false
+                // ,"desc": "我爱layui"
+            })
+            //各种基于事件的操作，下面会有进一步介绍
+        });
+        layer.open({
+            type: 1
+            ,title: "添加预约" //不显示标题栏
+            ,closeBtn: true
+            ,area: '500px'
+            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+            ,btn: ['确定', '取消']
+            ,btnAlign: 'c'
+            ,moveType: 1 //拖拽模式，0或者1
+            ,content: $('#mz_add_info')
+            ,yes:function (index, layero) {
+                console.log(layero);
+            }
+            ,btn2:function (index, layero) {
+                console.log(1);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

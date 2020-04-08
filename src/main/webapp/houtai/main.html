@@ -1,0 +1,317 @@
+<div class="col-xs-12 col-sm-9 content">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> 主界面</h3>
+    </div>
+    <div class="panel-body">
+      <div class="content-row" id="main_content">
+
+        <!--公告板-->
+        <div class="row">
+          <div class="col-md-12 me_border mz_ggb">
+            <h5>公告板<i class="glyphicon glyphicon-comment me_margin_leftsm"></i></h5>
+            <div class="panel-group" id="accordion1">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+                      <span>2018-2-1-10:00</span>
+                      <span class="me_margin_left">发布人：管理员1号</span>
+                      <span class="me_margin_left">标题：放假提醒</span>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    即将进入春节假期，会议室从2018-02-04开始停止对外开发，直至2018-02-17恢复使用，
+                    如需需要可以提前预定，祝大家节日快乐。
+                  </div>
+                </div>
+              </div>
+
+              <!--vue-->
+              <div class="panel" v-for="(item,i) in notices" :key="item.id">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion1" v-bind:href="('#c'+(i+1))">
+                      <span>{{item.time}}</span>
+                      <span class="me_margin_left">发布人：{{item.people}}</span>
+                      <span class="me_margin_left">标题：{{item.title}}</span>
+                    </a>
+                  </h4>
+                </div>
+                <div class="panel-collapse collapse" :id="('c'+(i+1))">
+                  <div class="panel-body">
+                    <span>#{{i+1}}: </span>{{item.content}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!--公告板end-->
+
+        <div class="row">
+          <!--代审核列表-->
+          <div class="col-md-6">
+            <h5 class="me_center">预约列表<a class=" glyphicon glyphicon-eye-open me_margin_leftsm" href="apply.html"></a></h5>
+
+            <div class="table ">
+              <table class="layui-hide" id="mz_shenhe_table" lay-filter="mz_shenhe_table"></table>
+              </table>
+            </div>
+          </div><!--待审核列表end-->
+
+          <!--待参加会议-->
+          <div class="col-md-6">
+            <h5 class="me_center">待参加会议</h5>
+            <div class="panel-group panel-group-lists" id="accordion2">
+              <div class="panel">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">2019-03-17 13:30-17:30</a>
+                  </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse in">
+                  <div class="panel-body">
+                    <p>
+                      <span>发起人：</span><span>张一龙</span>
+                    </p>
+                    <p>
+                      <span>参加人数：</span><span>9</span>
+                    </p>
+                    <p>
+                      <span>地点：</span><span>18B 212</span>
+                    </p>
+                    <p>
+                      <span>主题：</span><span>新产品问题</span>
+                    </p>
+                    <p><span>备注：</span><span>关于新产品的售价</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!--待参加会议end-->
+        </div>
+
+        <div class="row bg-white has-shadow"><!--总量统计-->
+          <div class="col-xl-3 col-sm-3">
+            <div class="item d-flex align-items-center">
+              <div class="icon bg-violet"><i class="icon-user"></i></div>
+              <div class="title"><span>所有<br>注册用户</span>
+                <div class="progress">
+                  <div role="progressbar" style="width: 15%; height: 4px;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="500" class="progress-bar bg-violet"></div>
+                </div>
+              </div>
+              <div class="number"><strong>75</strong></div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-3">
+            <div class="item d-flex align-items-center">
+              <div class="icon bg-red"><i class="icon-padnote"></i></div>
+              <div class="title"><span>可预约<br>会议室</span>
+                <div class="progress">
+                  <div role="progressbar" style="width: 18%; height: 4px;" aria-valuenow="18" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-red"></div>
+                </div>
+              </div>
+              <div class="number"><strong>18</strong></div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-3">
+            <div class="item d-flex align-items-center">
+              <div class="icon bg-green"><i class="icon-bill"></i></div>
+              <div class="title"><span>所有<br>公司</span>
+                <div class="progress">
+                  <div role="progressbar" style="width: 33%; height: 4px;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="15" class="progress-bar bg-green"></div>
+                </div>
+              </div>
+              <div class="number"><strong>5</strong></div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-3">
+            <div class="item d-flex align-items-center">
+              <div class="icon bg-orange"><i class="icon-check"></i></div>
+              <div class="title"><span>总<br>预约次数</span>
+                <div class="progress">
+                  <div role="progressbar" style="width: 15%; height: 4px;" aria-valuenow="57" aria-valuemin="0" aria-valuemax="1000" class="progress-bar bg-orange"></div>
+                </div>
+              </div>
+              <div class="number"><strong>57</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- panel body -->
+  </div>
+
+  <!--申请人信息弹出-->
+  <div id="user_view" class="me_none"></div>
+  <script type="text/html" id="user_show">
+    <ul style="margin-left: 45px;" id="show_user_info" >
+      {{#  if(d.data != null){ }}
+      <li>
+        ID：<span>{{d.data.id}}</span>
+      </li>
+      <li>用户名：<span>{{d.data.name}}</span></li>
+      <li>手机号：<span>{{d.data.phone}}</span></li>
+      <li>邮箱：<span>{{d.data.email}}</span></li>
+      <li>公司：<span>{{d.data.company.name}}</span></li>
+      <li>
+        权限：
+        {{#  if(d.data.role == 1){ }}
+        <span>普通用户</span>
+        {{#  } else if(d.data.role == 2) { }}
+        <span>HR</span>
+        {{#  } else if(d.data.role == 3) { }}
+        <span>后勤</span>
+        {{#  } else if(d.data.role == 4) { }}
+        <span>管理员</span>
+        {{#  } }}
+      </li>
+      {{#  }else { }}
+      <li>无</li>
+      {{# }}}
+    </ul>
+  </script>
+
+  <script type="text/html" id="tstatus"><!--公司-->
+  {{#  if(d.status == 0){ }}
+  <p>未安排</p>
+  {{#  }else if(d.status==1) { }}
+  <p>安排</p>
+  {{# } else if(d.status==2) { }}
+  <p>进行中</p>
+  {{# } else if(d.status==3) { }}
+  <p>结束</p>
+  {{#  } }}
+  </script>
+  <script type="text/html" id="tuse">
+    {{#
+    var time = function(){
+    var start = d.beginTime.split(':')[0]+':'+d.beginTime.split(':')[1];
+    var end = d.endTime.split(" ")[1];
+
+    return start+'-'+end.split(":")[0]+':'+end.split(":")[1];
+    };
+    }}
+    {{time()}}
+  </script>
+
+  <script>
+      var vm = new Vue({
+          el: '#main_content',
+          data:{
+              notices : [],
+              attendMeet: []
+          },
+          methods:{
+              getNotice(){
+
+              },
+              getMe(){
+                  var ldata= {
+                      phone : $.cookie("login_code")
+                  };
+                  $.ajax({
+                      url: 'http://lsudjh.top:8081/user/listEntity',
+                      type: 'post',
+                      data: JSON.stringify(ldata) ,
+                      contentType: 'application/json;charset=utf-8',
+                      dataType: 'json',
+                      success: function (result) {
+                          if(result.code==0){
+                              // console.log(result.data.data[0].id);
+                              var data={
+                                  userId: result.data.data[0].id
+                              };
+                              $.ajax({
+                                  type: "POST"
+                                  ,url:"http://lsudjh.top:8081/meetingApply/listByAttendWorker"
+                                  ,contentType: 'application/json;charset=utf-8'
+                                  ,data: JSON.stringify(data)
+                                  ,dataType: "json"
+                                  ,success:function(res){
+                                      // console.log(res);
+                                      if(result.code==0){
+                                          vm.attendMeet = res.data.data;
+                                      }
+                                  }
+                              });
+                          } else {
+                              alert('系统错误，请稍后再试');
+                          }
+                      }
+                  });
+              }
+          },
+          created: function () {
+              this.getMe();
+          }
+      });
+
+      function show_people(id){
+          var data={ id: id};
+          $.ajax({
+              url: 'http://lsudjh.top:8081/user/get',
+              type: 'post',
+              data: JSON.stringify(data) ,
+              contentType: 'application/json;charset=utf-8',
+              dataType: 'json',
+              success: function (result) {
+                  console.log(result);
+                  if(result.code==0){
+                      layui.use('laytpl', function() {
+                          var laytpl = layui.laytpl;
+                          var tpldata = result;
+                          var getTpl = user_show.innerHTML, view = document.getElementById('user_view');
+                          laytpl(getTpl).render(tpldata, function (html) {
+                              view.innerHTML = html;
+                          });
+                          layer.open({
+                              type: 1
+                              , title: ['发起人信息查看', 'font-size:18px;']
+                              , area: ['300px', '360px']
+                              , id: 'show_people_detail' //设定一个id，防止重复弹出
+                              , btn: ['确定']
+                              , btnAlign: 'c'
+                              , moveType: 1 //拖拽模式，0或者1
+                              , content: $('#user_view')
+                          });
+                      });
+                  } else {
+                      alert('系统错误，请稍后再试');
+                  }
+              }
+          });
+
+      }
+
+      layui.use('table', function(){
+          var table = layui.table;
+          table.render({
+              elem: '#mz_shenhe_table'     //未审核
+              ,url:'http://lsudjh.top:8081/meetingApply/listEntity'
+              ,method: 'post'
+              ,contentType: 'application/json'
+              ,cols: [[
+                  {field:'topic', title:'会议主题',width:120, unresize: true}
+                  ,{field:'workerId',title:'申请人', width: 72,
+                      templet: '<div><a class="layui-table-link" onclick=show_people("{{d.workerId}}")>查看</a></div>'}
+                  ,{field:'useTime', title:'申请时间段', width:190, sort: true, unresize: true,
+                      templet:'#tuse'}
+                  ,{field:'status', title:'状态',templet: '#tstatus'}
+              ]]
+              ,page: false
+              ,where: {size:6, page:1,order :'id asc'}
+              ,parseData: function(res){ //res 即为原始返回的数据
+                  // console.log(res);
+                  return {
+                      "code": res.code, //解析接口状态
+                      "msg": res.message, //解析提示文本
+                      "count": res.data.total, //解析数据长度
+                      "data": res.data.data //解析数据列表
+                  };
+              }
+          });
+      });
+  </script>
+</div><!-- content -->

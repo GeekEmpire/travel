@@ -1,0 +1,103 @@
+<ul class="list-group panel">
+    <li class="list-group-item"><i class="glyphicon glyphicon-align-justify"></i> <b>功能</b></li>
+    <li class="list-group-item"><input type="text" class="form-control search-query" placeholder="查找功能"></li>
+    <li class="active">
+        <a id="to_main" class="list-group-item to_a"><i class="glyphicon glyphicon-home"></i>主界面 </a>
+    </li>
+    <li>
+        <a  id="to_city" class="list-group-item to_a">
+            <i class="glyphicon glyphicon-cog"></i>市县管理
+        </a>
+    </li>
+    <li>
+        <a  id="to_users" class="list-group-item to_a">
+            <i class="glyphicon glyphicon-user"></i>成员管理
+        </a>
+    </li>
+    <li>
+        <a  id="to_routes" class="list-group-item to_a">
+            <i class="glyphicon glyphicon-calendar"></i>路线管理
+        </a>
+    </li>
+    <li>
+        <a id="to_service" class="list-group-item to_a">
+            <i class="glyphicon glyphicon-flash"></i>客户服务
+        </a>
+    </li>
+    <li>
+        <a id="to_today" class="list-group-item  to_a">
+            <i class="glyphicon glyphicon-bell"></i>今日详情
+        </a>
+    </li>
+    <li>
+        <a id="to_analysis" class="list-group-item to_a">
+            <i class="glyphicon glyphicon-indent-left"></i>数据分析
+        </a>
+    </li>
+</ul>
+<script>
+        $('#to_main').css('background','#efefef');
+
+        $('#to_main').on('click', function () {
+            $(".midpage").load("./main.html");
+
+            $('.to_a').css('background', '#fff');
+            $('#to_main').css('background','#efefef');
+        });
+
+        $('#to_city').on('click', function () {
+            $(".midpage").load("./build.html");
+            $('.to_a').css('background', '#fff')
+            $('#to_city').css('background','#efefef');
+        });
+        // $('#to_city').on('click', function () {
+        //     $(".midpage").load("company.html");
+        //     $('.to_a').css('background', '#fff')
+        //     $('#to_company').css('background','#efefef');
+        // });
+        // $('#to_notice').on('click', function () {
+        //     $(".midpage").load("notice.html");
+        //     $('.to_a').css('background', '#fff')
+        //     $('#to_notice').css('background','#efefef');
+        // });
+
+        $('#to_routes').on('click', function () {
+            $(".midpage").load("./apply.html");
+            $('.to_a').css('background', '#fff')
+            $('#to_routes').css('background','#efefef');
+        });
+        $('#to_meet').on('click', function () {
+            $(".midpage").load("meet.html");
+            $('.to_a').css('background', '#fff')
+            $('#to_meet').css('background','#efefef');
+        });
+
+
+        $('#to_users').on('click', function () {
+            $(".midpage").load("./users.html");
+            $('.to_a').css('background', '#fff')
+            $('#to_users').css('background','#efefef');
+        });
+
+        //客服服务
+        $('#to_service').on('click', function () {
+            $(".midpage").load("service.html");
+            $('.to_a').css('background', '#fff')
+            $('#to_service').css('background','#efefef');
+        });
+
+        // 今日详情
+        $('#to_today').on('click', function () {
+            $(".midpage").load("./today.html");
+            $('.to_a').css('background', '#fff')
+            $('#to_today').css('background','#efefef');
+        });
+
+        //数据分析
+        $('#to_analysis').on('click', function () {
+            $(".midpage").load("./analysis.html");
+            $('.to_a').css('background', '#fff')
+            $('#to_analysis').css('background','#efefef');
+        });
+        $('#to_main').css('background','#efefef');
+</script>

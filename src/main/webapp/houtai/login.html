@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Wopop</title>
+<link href="./Wopop_files/style_log.css" rel="stylesheet" type="text/css">
+<script type="" src="dist/js/jquery-3.3.1.min.js"></script>
+<script type="" src="dist/js/jquery.cookie.js"></script>
+<script type="" src="dist/js/base64.js"></script>
+</head>
+
+<body class="login" mycollectionplug="bind">
+    <div class="login_m">
+    <div class="login_logo"><h1 style="color: #428bca;text-decoration: none;">会议室管理平台</h1></div>
+        <div class="login_boder">
+
+            <div class="login_padding" id="login_model">
+
+                <h2>手机号</h2>
+                <label>
+                    <input type="text" id="username" class="txt_input txt_input2" placeholder="Your phone">
+                </label>
+                <h2>密码</h2>
+                <label>
+                    <input type="password" name="textfield2" id="userpwd" class="txt_input" placeholder="***">
+                </label>
+
+                <p class="forgot"><a id="iforget" href="javascript:void(0);">忘记密码?</a></p>
+                <div class="rem_sub">
+                    <div class="rem_sub_l">
+                        <input type="checkbox" name="checkbox" id="save_me">
+                        <label for="save_me">记住密码</label>
+                    </div>
+                    <label>
+                        <input type="submit" class="sub_button" name="button" id="button" value="登录" style="opacity: 0.7;">
+                    </label>
+                </div>
+            </div>
+        </div><!--login_boder end-->
+    </div><!--login_m end-->
+
+
+    <br> <br>
+    <p align="center"> More about <a href="#" >后台管理</a> - Collect from <a href="#"  >会议室管理平台</a></p>
+    </body>
+
+<script>
+    var base64 = new Base64();
+    function setCookie(){ //设置cookie
+        var loginCode = $("#username").val();
+        var pwd = $("#userpwd").val();
+
+        if($('#save_me').is(':checked')) {
+            $.cookie("login_code",loginCode,{
+                expires: 3,
+                path: '/'
+            });
+            $.cookie("pwd",base64.encode(pwd),{
+                expires: 3,
+                path: '/'
+            });//调用jquery.cookie.js中的方法设置cookie中的登陆密码，并使用base64（jquery.base64.js）进行加密
+
+        } else{
+            $.cookie("login_code",loginCode,{
+                expires: 3,
+                path: '/'
+            });
+            $.cookie("pwd",base64.encode(""),{
+                expires: 3,
+                path: '/'
+            });
+        }
+    }
+
+    function getCookie(){ //获取cookie
+        var loginCode = $.cookie("login_code");
+        var pwd =  $.cookie("pwd");
+        if(pwd){//密码存在的话把“记住用户名和密码”复选框勾选住
+            $("[name='checkbox']").attr("checked","true");
+        }
+        if(loginCode){//用户名存在的话把用户名填充到用户名文本框
+            $("#username").val(loginCode);
+        }
+        if(pwd){//密码存在的话把密码填充到密码文本框
+            $("#userpwd").val(base64.decode(pwd));
+        }
+    }
+
+    getCookie();
+
+    function login(){
+        var data = {
+            "type": "phone",
+            "phone": $('#username').val(),
+            "password": $('#userpwd').val()
+        };
+        $.ajax({
+            type: "POST"
+            ,url:"http://lsudjh.top:8081/user/login"
+            ,contentType: 'application/json;charset=utf-8'
+            ,data: JSON.stringify(data)
+            ,dataType: "json"
+            ,success:function(result){
+                alert(result.msg);
+                if(result.code==0){
+                    setCookie();
+                    $('#username').val("");
+
+                    var ldata= {
+                        phone : $.cookie("login_code")
+                    };
+                    $.ajax({
+                        url: 'http://lsudjh.top:8081/user/listEntity',
+                        type: 'post',
+                        data: JSON.stringify(ldata) ,
+                        contentType: 'application/json;charset=utf-8',
+                        dataType: 'json',
+                        success: function (result) {
+                            console.log(result);
+                            var tdata = result.data.data[0];
+                            if(result.code==0){
+                                if(tdata.company!=null){
+                                    $.cookie("companyId",tdata.company.id,{
+                                        expires: 3,
+                                        path: '/'
+                                    });
+                                    $.cookie("companyCode",tdata.company.code,{
+                                        expires: 3,
+                                        path: '/'
+                                    });
+                                }
+
+                                $.cookie("role",tdata.role,{
+                                    expires: 3,
+                                    path: '/'
+                                });
+                                $.cookie("id",tdata.id,{
+                                    expires: 3,
+                                    path: '/'
+                                });
+                                if(tdata.role==4) {
+                                    location.href = 'index.html';
+                                } else if(tdata.role==2) {
+                                    location.href = 'hr/hr_index.html';
+                                } else if(tdata.role ==3){
+                                    location.href = 'service/service.html'
+                                }
+                            } else {
+                                alert('系统错误，请稍后再试');
+                            }
+                        }
+                    });
+
+                } else{
+                    $('#userpwd').val("");
+                }
+
+            }
+            ,error: function (message) {
+                alert(message);
+                $('#username').val("");
+                $('#userpwd').val("");
+            }
+        });
+    }
+    $('#userpwd').bind('keyup',function(event){
+        if(event.keyCode == "13")
+        {
+            login();
+        }
+    });
+
+    $('.sub_button').click(function () {
+        login();
+    });
+</script>
+</html>

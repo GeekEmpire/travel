@@ -1,0 +1,97 @@
+<script src="dist/data/echarts.common.min.js"></script>
+<div class="col-xs-12 col-sm-9 content"  >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> 今日详情</h3>
+        </div>
+        <div class="panel-body"  id="">
+            <div class="row">
+                <div class="col-md-12">
+                    <h5 style="margin-left: 150px">今日各公司预约次数</h5>
+                    <div class="col-md-12" id="chart0" style="height: 450px"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5 style="margin-left: 150px">今日会议室使用情况</h5>
+                    <div class="col-md-12" id="chart1" style="height: 400px"></div>
+                </div>
+            </div>
+        </div><!-- panel body -->
+    </div>
+</div><!-- content -->
+
+<script>
+    var myChart0 = echarts.init(document.getElementById('chart0'));
+    var option0 = {
+        title: {
+            // text: '今日各公司预约次数'
+        },
+        tooltip: {},
+        legend: {
+            data:['次数']
+        },
+        xAxis: {
+            data: ["斗鱼","百度","京东","bilibili","腾讯"]
+        },
+        yAxis: {},
+        series: [{
+            name: '次数',
+            type: 'bar',
+            data: [5, 2, 1, 3, 3]
+        }]
+    };
+    myChart0.setOption(option0);
+
+    var myChart1 = echarts.init(document.getElementById('chart1'));
+    var option1 = {
+        title: {
+            // text: '堆叠区域图'
+        },
+        tooltip : {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            }
+        },
+        legend: {
+            data:['使用次数']
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data: ['00:00-07:00','07:00-09:00', '09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00', '17:00-19:00', '19:00-21:00', '21:00-24:00']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'使用次数',
+                type:'line',
+                stack: '总量',
+                areaStyle: {},
+                data: [0, 1, 3, 1, 4, 2, 2,1,0]
+            }
+        ]
+    };
+    myChart1.setOption(option1);
+
+
+</script>

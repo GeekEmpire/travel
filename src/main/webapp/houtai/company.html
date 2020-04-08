@@ -1,0 +1,498 @@
+<!--右边内容-->
+<div class="col-xs-12 col-sm-9 content" >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> 企业信息</h3>
+            <!--<a href="#">刷新</a>-->
+        </div>
+        <div class="panel-body">
+            <div class="searchTable" id="app_search"><!--搜索-->
+                按{{way}}搜索：
+                <div class="layui-inline">
+                    <input class="layui-input" name="id" id="searchReload" autocomplete="off">
+                </div>
+                <div class="search_way">
+                    搜索方式：
+                    <select name="city" lay-verify="required" @change="change" id="choice_way">
+                        <option value="0">ID</option>
+                        <option value="1">公司名</option>
+                        <option value="2">邀请码</option>
+                    </select>
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+                <button class="layui-btn me_fr" id="mz_add_company">添加公司</button>
+            </div>
+
+            <div class="content-row">
+                <h5>雇主列表：</h5>
+                <div class="col-md-12">
+                    <!-- table-model -->
+                    <table class="layui-hide" id="mz_company_table" lay-filter="mz_company_table"></table>
+                    <script type="text/html" id="barMeet">
+                        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    </script>
+                </div>
+            </div>
+        </div><!-- panel body -->
+    </div>
+</div><!-- content -->
+
+
+<!--添加公司弹出框-->
+<div id="mz_add_info" style="display: none">
+    <form class="layui-form me_margin_top" id="company_add" action="" lay-filter="initForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">公司名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required  lay-verify="required" placeholder="请输入公司名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </form>
+</div>
+<!--修改company，弹出框-->
+<div id="mz_edit_info" style="display: none;">
+    <form class="layui-form me_margin_top" id="company_edit" action="" lay-filter="editForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">公司名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required  lay-verify="required" placeholder="请输入公司名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--添加section弹出框-->
+<div id="section_add_info" style="display: none;">
+    <form class="layui-form me_margin_top" id="section_add" action="" lay-filter="initForm">
+        <div class="layui-form-item">
+            <div class="layui-input-inline">
+                <input type="text" name="name" required id="adn"  lay-verify="required" placeholder="请输入部门名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </form>
+</div>
+<!--修改section，弹出框-->
+<div id="section_edit_info" style="display: none;">
+    <form class="layui-form me_margin_top" id="section_edit" action="" lay-filter="editForm">
+        <div class="layui-form-item">
+            <!--<label class="layui-form-label">部门名</label>-->
+            <div class="layui-input-inline">
+                <input type="text" name="name" required  id="edn" lay-verify="required" placeholder="请输入部门名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--查看hr-->
+<div id="view_hr" class="me_none"></div>
+<script id="company_hr" type="text/html">
+    <div style="font-size: 16px;margin: 20px 30px">
+        {{# if(d.hr.length==0) { }}
+            <p>暂无</p>
+        {{# } }}
+
+        {{# for(var i = 0; i < d.hr.length; i++){ }}
+            {{i+1}}：{{d.hr[i].name}}
+            <p style="margin-left: 20px">
+                phone:{{d.hr[i].phone}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;email:{{d.hr[i].email}}
+            </p>
+        {{# } }}
+    </div>
+</script>
+
+<!--查看部门-->
+<div id="view_section" class="me_none"></div>
+<script id="company_section" type="text/html">
+    <div style="font-size: 16px;margin: 20px 30px">
+        {{# if(d.data.length==0) { }}
+            <p>暂无</p>
+        {{# } }}
+
+        {{# for(var i = 0; i < d.data.length; i++){ }}
+            <p>{{d.data[i].name}}
+                <span style="float: right;">
+                    <a onclick=edit_section('{{d.data[i].id}}','{{d.company}}','{{d.data[i].name}}')>编辑</a> &nbsp;
+                    <a onclick=del_section('{{d.data[i].id}}','{{d.company}}')>删除</a>
+                </span>
+            </p>
+        {{# } }}
+    </div>
+</script>
+
+<script>
+    var vm = new Vue({
+        el: '#app_search',
+        data:{
+            way: 'ID',
+            v: 0
+        },
+        methods:{
+            change(select){
+                this.v = select.target.value;
+                if(this.v==0){ this.way='ID'}
+                if(this.v==1) { this.way = '公司名'}
+                if(this.v==2) { this.way = '邀请码'}
+            }
+        }
+    });
+
+    function edit_section(id,companyId,dName) {
+        // console.log(id+' '+companyId);
+        $('#edn').val(dName),
+        layer.open({
+            type: 1
+            , title: ['添加', 'font-size:14px;']
+            , area: ['210px', '160px']
+            , id: 'edit_section' //设定一个id，防止重复弹出
+            , btn: ['确定', '取消']
+            , btnAlign: 'c'
+            , content: $('#section_edit_info')
+            , yes: function (index, layero) {
+                var dedata = {
+                    "companyId":companyId,
+                    name: $('#edn').val(),
+                    id: id
+                };
+                $.ajax({
+                    url: "http://lsudjh.top:8081/department/update",
+                    type: "POST",
+                    data: JSON.stringify(dedata),
+                    contentType: "application/json",  //缺失会出现URL编码，无法转成json对象
+                    success: function (result) { //所有错误信息都如result.message有关
+                        alert(result.msg);
+                        getDeparment(companyId);
+                        layer.close(index);
+                    }
+                });
+            }
+        });
+    }
+    function del_section(id, companyId) {
+        var tdata = {
+            id: id,
+            "companyId": companyId
+        };
+        layer.confirm('确认删除?', {icon: 3, title:'提示'}, function(index){
+            $.ajax({
+                url:"http://lsudjh.top:8081/department/delete",
+                type:"POST",
+                data:JSON.stringify(tdata),
+                contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+                success:function(result){ //所有错误信息都如result.message有关
+                    alert(result.msg);
+                    // console.log(result);
+                    if(result.code==0){
+                        getDeparment(companyId);
+                    }
+                }
+            });
+            layer.close(index);
+        });
+    }
+    function getDeparment(id){
+        var tdata = {
+            "companyId": id
+        };
+        $.ajax({
+            url:"http://lsudjh.top:8081/department/listEntity",
+            type:"POST",
+            data:JSON.stringify(tdata),
+            contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+            success:function(result){ //所有错误信息都如result.message有关
+                // alert(result.msg);
+                console.log(result);
+                if(result.code==0){
+                    layui.use('laytpl', function() {
+                        var laytpl = layui.laytpl;
+                        var tpldata = result.data;
+                        tpldata.company = id;
+                        var getTpl = company_section.innerHTML, view = document.getElementById('view_section');
+                        laytpl(getTpl).render(tpldata, function (html) {
+                            view.innerHTML = html;
+                        });
+                    });
+                }
+            }
+        });
+    }
+    // 数据表
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#mz_company_table'     //未审核
+            , url: 'http://lsudjh.top:8081/company/listEntity'
+            , title: '公司表'
+            , id: 'companyTable'
+            , contentType: 'application/json'
+            , method: 'post'
+            , cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                , {field: 'id', title: 'ID', width: 100, fixed: 'left', unresize: true, sort: true}
+                , {field: 'name', title: '公司名', unresize: true}
+                , {field: 'hr', title: 'HR', unresize: true,
+                    templet:'<div><a lay-event="show" class="layui-table-link">查看</a></div>'}
+                , {field: 'code', title: '邀请码', unresize: true}
+                , {field: 'cost', title: '费用', sort: true, unresize: true}
+                , {field: 'other', title: '部门', sort: true, width: 100, align: 'center',
+                    templet:'<div><a lay-event="dep" class="layui-table-link">查看</a></div>'}
+                , {fixed: 'right', title: '操作', toolbar: '#barMeet', unresize: true,widtd:100}
+            ]]
+            , page: false
+            ,where: {page:0,order :'id asc'}
+            , parseData: function (res) { //res 即为原始返回的数据
+                console.log(res);
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.data //解析数据列表
+                };
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(mz_company_table)', function (obj) {
+            var data = obj.data;
+            // console.log(obj)
+            var re;
+            if (obj.event === 'del') {
+                var tdata ={
+                    id: data.id
+                };
+                console.log(tdata);
+                layer.confirm('确认删除?', {icon: 3, title:'提示'}, function(index){
+                    $.ajax({
+                        url:"http://lsudjh.top:8081/company/delete",
+                        type:"POST",
+                        data:JSON.stringify(tdata),
+                        contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+                        success:function(result){ //所有错误信息都如result.message有关
+                            alert(result.msg);
+                            if(result.code==0){
+                                obj.del();
+                                // var ttdata = {};
+                                // ttdata.order = 'id asc';
+                                // table.reload('companyTable', {
+                                //     where: ttdata
+                                // });
+                            }
+                        }
+                    });
+                    layer.close(index);
+                });
+
+            } else if (obj.event === 'edit') {
+                layui.use('form', function(){
+                    var form = layui.form;
+                    // console.log(data);
+                    // data.companyId = data.company.id;
+                    form.val("editForm", data);
+                });
+                layer.open({
+                    type: 1
+                    ,title: "编辑信息" //不显示标题栏
+                    // ,closeBtn: true
+                    ,area: '400px'
+                    ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,btn: ['确定', '取消']
+                    ,btnAlign: 'c'
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,content: $('#mz_edit_info')
+                    ,yes:function (index, layero) {
+                        console.log(JSON.stringify($('form[id="company_edit"]').serializeObject()));
+                        var tdata = $('form[id="company_edit"]').serializeObject();
+                        tdata.id = data.id;
+                        $.ajax({
+                            url:"http://lsudjh.top:8081/company/update",
+                            type:"POST",
+                            data:JSON.stringify(tdata),
+                            contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+                            success:function(result){ //所有错误信息都如result.message有关
+                                alert(result.msg);
+                                if(result.code==0){
+                                    $('#company_edit')[0].reset();
+                                    layer.close(index);  //关闭弹出层
+                                    var ttdata = {};
+                                    ttdata.order = 'id asc';
+                                    table.reload('companyTable', {
+                                        where: ttdata
+                                    });
+                                } else{
+                                    // $('#user_edit')[0].reset();   //[0]必须得加
+                                    layui.use('form', function(){
+                                        var form = layui.form;
+                                        form.val("editForm", data);
+                                    });
+                                }
+
+                            }
+                        });
+                    }
+                    ,btn2:function (index, layero) {
+
+                    }
+                });
+            } else if(obj.event==='show'){
+                console.log(data.hr);
+                layui.use('laytpl', function() {
+                    var laytpl = layui.laytpl;
+                    var tpldata = data;
+                    var getTpl = company_hr.innerHTML, view = document.getElementById('view_hr');
+                    laytpl(getTpl).render(tpldata, function (html) {
+                        view.innerHTML = html;
+                    });
+                    layer.open({
+                        type: 1
+                        , title: ['所有HR', 'font-size:18px;']
+                        , area: ['auto', '300px']
+                        , id: 'show_hr_detail' //设定一个id，防止重复弹出
+                        , btn: ['确定']
+                        , btnAlign: 'c'
+                        , moveType: 1 //拖拽模式，0或者1
+                        , content: $('#view_hr')
+                    });
+                });
+            } else if(obj.event==='dep') {
+                getDeparment(data.id);
+                layer.open({
+                    type: 1
+                    , title: ['部门', 'font-size:18px;']
+                    , area: ['280px', '300px']
+                    , id: 'show_section_detail' //设定一个id，防止重复弹出
+                    , btn: ['添加部门', '退出']
+                    , btnAlign: 'c'
+                    , moveType: 1 //拖拽模式，0或者1
+                    , content: $('#view_section')
+                    , yes: function () {
+                        layer.open({
+                            type: 1
+                            , title: ['添加', 'font-size:14px;']
+                            , area: ['210px', '160px']
+                            , id: 'add_section' //设定一个id，防止重复弹出
+                            , btn: ['确定', '取消']
+                            , btnAlign: 'c'
+                            , content: $('#section_add_info')
+                            , yes: function (index, layero) {
+                                var dedata = {
+                                    "companyId": data.id,
+                                    name: $('#adn').val()
+                                };
+                                $.ajax({
+                                    url: "http://lsudjh.top:8081/department/add",
+                                    type: "POST",
+                                    data: JSON.stringify(dedata),
+                                    contentType: "application/json",  //缺失会出现URL编码，无法转成json对象
+                                    success: function (result) { //所有错误信息都如result.message有关
+                                        alert(result.msg);
+                                        getDeparment(data.id);
+                                        layer.close(index);
+
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        //搜索监听，重载
+        var $ = layui.$, active = {
+            reload: function () {
+                var searchReload = $('#searchReload');
+
+                //执行重载
+                var key = $('#searchReload').val();
+                var way = $('#choice_way').val();
+                console.log(way)
+                var tdata = {};
+                if(way==0){
+                    tdata.id = key;
+                } else if(way==1){
+                    tdata.name = key;
+                } else if(way==2){
+                    tdata.code = key;
+                }
+                tdata.order = 'id asc';
+                console.log(tdata);
+                table.reload('companyTable', {
+                    where: tdata
+                });
+            }
+        };
+        $('.searchTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+    // 添加公司
+    $('#mz_add_company').on("click", function () {
+
+        layer.open({
+            type: 1
+            ,title: "添加公司" //不显示标题栏
+            ,area: '400px'
+            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+            ,btn: ['确定', '取消']
+            ,btnAlign: 'c'
+            ,moveType: 1 //拖拽模式，0或者1
+            ,content: $('#mz_add_info')
+            ,yes:function (index, layero) {
+                var tdata = $('form[id="company_add"]').serializeObject();
+                console.log(tdata);
+                $.ajax({
+                    url:"http://lsudjh.top:8081/company/add",
+                    type:"POST",
+                    data:JSON.stringify(tdata),
+                    contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+                    success:function(result){ //所有错误信息都如result.message有关
+                        alert(result.msg);
+                        if(result.code==0){
+                            $('#company_add')[0].reset();
+                            layer.close(index);  //关闭弹出层
+                            layui.use('table', function() {
+                                var table = layui.table;
+                                var tdata = {};
+                                tdata.order = 'id asc';
+                                table.reload('companyTable', {
+                                    where: tdata
+                                });
+                            });
+                        } else{
+                            // console.log($('#user_add'));
+                            // $('#user_add')[0].reset();   //[0]必须得加
+                        }
+
+                    }
+                });
+            }
+            ,btn2:function (index, layero) {
+                $('#user_add')[0].reset();   //[0]必须得加，清楚已填数据
+            }
+        });
+    });
+
+    /**
+     * 自动将form表单封装成json对象
+     */
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [ o[this.name] ];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+</script>
+
+</body>
+</html>
