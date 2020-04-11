@@ -27,7 +27,7 @@
 				var username = $("#username").val();
 				//2.定义正则
 				var reg_username = /^\w{8,20}$/;
-				
+
 				//3.判断，给出提示信息
 			    var flag = reg_username.test(username);
 			    if(flag){
@@ -37,7 +37,7 @@
 			        //用户名非法,加一个红色边框
 					$("#username").css("border","1px solid red");
 				}
-			    
+
                 return flag;
             }
 
@@ -258,6 +258,6 @@
     	<div id="footer"></div>
 		<!--导入布局js，共享header和footer-->
 		<script type="text/javascript" src="js/include.js"></script>
-    	
+
     </body>
 </html>

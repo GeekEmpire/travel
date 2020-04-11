@@ -6,7 +6,7 @@
 
 <header id="header">
         <div class="top_banner">
-            <img src="images/top_banner1.jpg" alt="">
+            <img src="images/top_banner.jpg" alt="">
         </div>
         <div class="shortcut">
             <!-- 未登录状态  -->
@@ -16,16 +16,15 @@
             </div>
             <!-- 登录状态  -->
             <div class="login">
-            	
                 <span id="span_username" v-text="welcome"></span>
-                <a href="myfavorite.html" class="collection">我的收藏</a>
+                <a href="myfavorite.html?cid=-3" class="collection">我的收藏</a>
                 <a href="javascript:location.href='user/exit';">退出</a>
             </div>
         </div>
         <div class="header_wrap">
             <div class="topbar">
                 <div class="logo">
-                    <a href="/"><img src="images/logo.jpg" id="logo" alt=""></a>
+                    <a href="myshared.html?cid=-3"><img src="images/logo.jpg" id="logo" alt=""></a>
                 </div>
                 <div class="search">
                     <input name="" id="search_input" v-model="search" @keyup.enter="searchRoutes" type="text" placeholder="请输入地点名称" class="search_input" autocomplete="off">
@@ -71,8 +70,10 @@
                 var that = this;
                 $.get("user/findOne",{},function (data) {
                     //{uid:1,name:'李四'}
-                    var msg = "欢迎回来，"+data.name;
-                    that.welcome = msg;
+                    if(data!=null){
+                        var msg = "欢迎回来，"+data.name;
+                        that.welcome = msg;
+                    }
                 });
             },
             findAllCatrgory(){
