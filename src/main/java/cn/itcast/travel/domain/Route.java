@@ -18,17 +18,9 @@ public class Route implements Serializable {
     private int count;//收藏数量
     private int cid;//所属分类，必输
     private String rimage;//缩略图
-    private int sid;//所属商家
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    private int sourceId;//数据的来源用户id
+    private Integer sid;//所属商家
+    private Integer sourceId;//数据的来源用户id
+    private String detail; //详情
 
     private Category category;//所属分类
     private Seller seller;//所属商家
@@ -41,6 +33,7 @@ public class Route implements Serializable {
      * 无参构造方法
      */
     public Route(){}
+
 
     /**
      * 有参构造方法
@@ -56,8 +49,9 @@ public class Route implements Serializable {
      * @param rimage
      * @param sid
      * @param sourceId
+     * @param detail
      */
-    public Route(int rid, String rname, double price, String routeIntroduce, String rflag, String rdate, String isThemeTour, int count, int cid, String rimage, int sid, int sourceId) {
+    public Route(int rid, String rname, double price, String routeIntroduce, String rflag, String rdate, String isThemeTour, int count, int cid, String rimage, Integer sid, Integer sourceId, String detail) {
         this.rid = rid;
         this.rname = rname;
         this.price = price;
@@ -70,39 +64,9 @@ public class Route implements Serializable {
         this.rimage = rimage;
         this.sid = sid;
         this.sourceId = sourceId;
+        this.detail = detail;
     }
 
-    public List<RouteImg> getRouteImgList() {
-        return routeImgList;
-    }
-
-    public void setRouteImgList(List<RouteImg> routeImgList) {
-        this.routeImgList = routeImgList;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Seller getSeller() {
-        return seller;
-    }
-
-    public void setSeller(Seller seller) {
-        this.seller = seller;
-    }
-
-    public int getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(int sourceId) {
-        this.sourceId = sourceId;
-    }
 
     public int getRid() {
         return rid;
@@ -184,11 +148,59 @@ public class Route implements Serializable {
         this.rimage = rimage;
     }
 
-    public int getSid() {
+    public Integer getSid() {
         return sid;
     }
 
-    public void setSid(int sid) {
+    public void setSid(Integer sid) {
         this.sid = sid;
+    }
+
+    public Integer getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(Integer sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<RouteImg> getRouteImgList() {
+        return routeImgList;
+    }
+
+    public void setRouteImgList(List<RouteImg> routeImgList) {
+        this.routeImgList = routeImgList;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 }

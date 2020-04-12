@@ -4,6 +4,7 @@ import cn.itcast.travel.dao.FavoriteDao;
 import cn.itcast.travel.domain.Favorite;
 import cn.itcast.travel.util.JDBCUtils;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -20,7 +21,7 @@ public class FavoriteDaoImpl implements FavoriteDao {
             String sql = " select * from tab_favorite where rid = ? and uid = ?";
             favorite = template.queryForObject(sql, new BeanPropertyRowMapper<Favorite>(Favorite.class), rid, uid);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            return null;
         }
         return favorite;
     }
@@ -37,5 +38,11 @@ public class FavoriteDaoImpl implements FavoriteDao {
         String sql = "insert into tab_favorite values(?,?,?)";
 
         template.update(sql,rid,new Date(),uid);
+    }
+
+    @Override
+    public void remove(int i, int uid) {
+        String sql = "delete from tab_favorite where rid=? && uid = ?";
+        template.update(sql, i, uid);
     }
 }

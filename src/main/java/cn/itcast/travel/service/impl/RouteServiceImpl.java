@@ -1,17 +1,8 @@
 package cn.itcast.travel.service.impl;
 
-import cn.itcast.travel.dao.FavoriteDao;
-import cn.itcast.travel.dao.RouteDao;
-import cn.itcast.travel.dao.RouteImgDao;
-import cn.itcast.travel.dao.SellerDao;
-import cn.itcast.travel.dao.impl.FavoriteDaoImpl;
-import cn.itcast.travel.dao.impl.RouteDaoImpl;
-import cn.itcast.travel.dao.impl.RouteImgDaoImpl;
-import cn.itcast.travel.dao.impl.SellerDaoImpl;
-import cn.itcast.travel.domain.PageBean;
-import cn.itcast.travel.domain.Route;
-import cn.itcast.travel.domain.RouteImg;
-import cn.itcast.travel.domain.Seller;
+import cn.itcast.travel.dao.*;
+import cn.itcast.travel.dao.impl.*;
+import cn.itcast.travel.domain.*;
 import cn.itcast.travel.service.RouteService;
 
 import java.util.List;
@@ -24,6 +15,8 @@ public class RouteServiceImpl implements RouteService {
     private SellerDao sellerDao = new SellerDaoImpl();
 
     private FavoriteDao favoriteDao = new FavoriteDaoImpl();
+
+    private UserDao userDao = new UserDaoImpl();
 
     @Override
     public PageBean<Route> pageQuery(int cid, int currentPage, int pageSize,String rname ) {
@@ -60,13 +53,18 @@ public class RouteServiceImpl implements RouteService {
         //2.2将集合设置到route对象
         route.setRouteImgList(routeImgList);
         //3.根据route的sid（商家id）查询商家对象
-        Seller seller = sellerDao.findById(route.getSid());
-        route.setSeller(seller);
+        if(route.getSid()!=null&&route.getSid()>0){
+            Seller seller = sellerDao.findById(route.getSid());
+            route.setSeller(seller);
+        }else if(route.getSourceId()!=null&&route.getSourceId()>0){
+            User user = userDao.findByUid(route.getSourceId());
+            route.setUser(user);
+        }
+
 
         //4. 查询收藏次数
         int count = favoriteDao.findCountByRid(route.getRid());
-        route.setCount(count);
-
+        routeDao.setCount(Integer.parseInt(rid),count);
 
         return route;
     }

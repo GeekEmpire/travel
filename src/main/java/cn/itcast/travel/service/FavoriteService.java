@@ -16,4 +16,6 @@ public interface FavoriteService {
      * @param uid
      */
     void add(String rid, int uid);
+
+    void remove(String rid, int uid);
 }

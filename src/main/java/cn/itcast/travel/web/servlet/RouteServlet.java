@@ -128,6 +128,7 @@ public class RouteServlet extends BaseServlet {
         int uid;//用户id
         if(user == null){
             //用户尚未登录
+            writeValue(false,response);
             return ;
         }else{
             //用户已经登录
@@ -137,7 +138,27 @@ public class RouteServlet extends BaseServlet {
 
         //3. 调用service添加
         favoriteService.add(rid,uid);
+        writeValue(true,response);
+    }
+    public void removeFavorite(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //1. 获取线路rid
+        String rid = request.getParameter("rid");
+        //2. 获取当前登录的用户
+        User user = (User) request.getSession().getAttribute("user");
+        int uid;//用户id
+        if(user == null){
+            //用户尚未登录
+            writeValue(false,response);
+            return ;
+        }else{
+            //用户已经登录
+            uid = user.getUid();
+        }
 
+
+        //3. 调用service删除
+        favoriteService.remove(rid,uid);
+        writeValue(true,response);
     }
 
 

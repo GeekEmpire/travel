@@ -22,4 +22,6 @@ public interface RouteDao {
      * @return
      */
     public Route findOne(int rid);
+
+    public int setCount(int rid, int count);
 }

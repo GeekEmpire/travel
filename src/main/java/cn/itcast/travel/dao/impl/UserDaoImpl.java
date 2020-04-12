@@ -27,6 +27,21 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User findByUid(int uid) {
+        User user = null;
+        try {
+            //1.定义sql
+            String sql = "select * from tab_user where uid = ?";
+            //2.执行sql
+            user = template.queryForObject(sql, new BeanPropertyRowMapper<User>(User.class), uid);
+        } catch (Exception e) {
+
+        }
+
+        return user;
+    }
+
+    @Override
     public void save(User user) {
         //1.定义sql
         String sql = "insert into tab_user(username,password,name,birthday,sex,telephone,email,status,code) values(?,?,?,?,?,?,?,?,?)";

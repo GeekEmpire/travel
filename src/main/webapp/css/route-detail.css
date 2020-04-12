@@ -113,7 +113,7 @@
 }
 .pros_price {
 	background: #eee;
-	margin-top: 40px;
+	margin-top: 20px;
 	padding: 10px 0 20px 10px;
 }
 .pros_price  .price strong{
@@ -122,7 +122,7 @@
 	font-weight: normal;
 }
 .collect {
-	margin-top: 30px;
+	margin-top: 15px;
 }
 .collect a {
 	font-size: 14px;

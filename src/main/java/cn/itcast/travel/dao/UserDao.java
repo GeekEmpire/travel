@@ -10,6 +10,12 @@ public interface UserDao {
      * @return
      */
     public User findByUsername(String username);
+    /**
+     * 根据用户id查询用户信息
+     * @param uid
+     * @return
+     */
+    public User findByUid(int uid);
 
     /**
      * 用户保存

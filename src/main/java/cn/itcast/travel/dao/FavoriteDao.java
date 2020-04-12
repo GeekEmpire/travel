@@ -25,4 +25,6 @@ public interface FavoriteDao {
      * @param uid
      */
     void add(int i, int uid);
+
+    void remove(int i, int uid);
 }
