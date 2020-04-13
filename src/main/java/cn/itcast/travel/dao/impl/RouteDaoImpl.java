@@ -82,5 +82,21 @@ public class RouteDaoImpl implements RouteDao {
         return template.update(sql, count, rid);
     }
 
+    @Override
+    public List<Route> findBySourceId(int uid) {
+        String sql = "select * from tab_route where sourceId=?";
+        return template.query(sql,new BeanPropertyRowMapper<>(Route.class),uid);
+    }
+
+    @Override
+    public boolean removeRoute(int rid) {
+        String sql = "delete from tab_route where rid=?";
+        int re = template.update(sql, rid);
+        if(re>0)
+            return true;
+        else
+            return false;
+    }
+
 
 }

@@ -17,7 +17,7 @@
             <!-- 登录状态  -->
             <div class="login">
                 <span id="span_username" v-text="welcome"></span>
-                <a href="myfavorite.html?cid=-3" class="collection">我的收藏</a>
+                <a @click="toFavorite" style="cursor: pointer" class="collection">我的收藏</a>
                 <a href="javascript:location.href='user/exit';">退出</a>
             </div>
         </div>
@@ -95,7 +95,16 @@
                 }
                 // 跳转路径 http://localhost/travel/route_list.html?cid=5，拼接上rname=xxx
                 location.href="route_list.html?cid="+cid+"&rname="+this.search;
-            }
+            },
+            toFavorite(){
+                if(this.uid!=null&&this.uid!=0){
+                    location.href="myfavorite.html?cid=-3";
+                }else{
+                    //用户没有登录
+                    alert("您尚未登录，请登录");
+                    location.href="./login.html";
+                }
+            },
         },
         created:function () {
             var cid = getParameter("cid");

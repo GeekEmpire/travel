@@ -20,6 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findAll() {
         //1.从redis中查询
         //1.1获取jedis客户端
+        System.out.println("456");
         Jedis jedis = JedisUtil.getJedis();
         //1.2可使用sortedset排序查询
         //Set<String> categorys = jedis.zrange("category", 0, -1);

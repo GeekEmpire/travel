@@ -13,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/route/*")
 public class RouteServlet extends BaseServlet {
@@ -140,6 +142,14 @@ public class RouteServlet extends BaseServlet {
         favoriteService.add(rid,uid);
         writeValue(true,response);
     }
+
+    /**
+     * 取消收藏
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public void removeFavorite(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //1. 获取线路rid
         String rid = request.getParameter("rid");
@@ -162,4 +172,62 @@ public class RouteServlet extends BaseServlet {
     }
 
 
+    /**
+     * 查找用户收藏
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void findUserFavorite(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //2. 获取当前登录的用户
+        User user = (User) request.getSession().getAttribute("user");
+        int uid;//用户id
+        if(user == null){
+            //用户尚未登录
+            writeValue(false,response);
+            return ;
+        }else{
+            //用户已经登录
+            uid = user.getUid();
+        }
+
+        //3. 调用service查询
+        List<Route> routes = new ArrayList<Route>();
+        routes = routeService.findUserFavorite(uid);
+
+        writeValue(routes,response);
     }
+
+    public void findUserShared(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //2. 获取当前登录的用户
+        User user = (User) request.getSession().getAttribute("user");
+        int uid;//用户id
+        if(user == null){
+            //用户尚未登录
+            writeValue(false,response);
+            return ;
+        }else{
+            //用户已经登录
+            uid = user.getUid();
+        }
+
+        //3. 调用service查询
+        List<Route> routes = new ArrayList<Route>();
+        routes = routeService.findUserShared(uid);
+
+        writeValue(routes,response);
+    }
+
+    public void removeRoute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //1. 获取线路rid
+        String rid = request.getParameter("rid");
+
+        //3. 调用service删除
+        boolean flag = routeService.removeRoute(Integer.parseInt(rid));
+        writeValue(flag, response);
+    }
+
+
+}
+

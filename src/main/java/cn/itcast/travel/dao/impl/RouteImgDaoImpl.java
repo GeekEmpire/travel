@@ -18,4 +18,16 @@ public class RouteImgDaoImpl implements RouteImgDao {
         String sql = "select * from tab_route_img where rid = ? ";
         return template.query(sql,new BeanPropertyRowMapper<RouteImg>(RouteImg.class),rid);
     }
+
+    @Override
+    public boolean removeOne(int rgid) {
+        int re =-1;
+        String sql = "delete from tab_route_img where rgid = ?";
+        re = template.update(sql, rgid);
+        if(re>=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

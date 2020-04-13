@@ -26,4 +26,5 @@ public class FavoriteServiceImpl implements FavoriteService {
     public void remove(String rid, int uid) {
         favoriteDao.remove(Integer.parseInt(rid),uid);
     }
+
 }

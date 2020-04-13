@@ -4,7 +4,10 @@ import cn.itcast.travel.dao.*;
 import cn.itcast.travel.dao.impl.*;
 import cn.itcast.travel.domain.*;
 import cn.itcast.travel.service.RouteService;
+import cn.itcast.travel.util.FileUtils;
 
+import java.sql.ClientInfoStatus;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RouteServiceImpl implements RouteService {
@@ -19,24 +22,24 @@ public class RouteServiceImpl implements RouteService {
     private UserDao userDao = new UserDaoImpl();
 
     @Override
-    public PageBean<Route> pageQuery(int cid, int currentPage, int pageSize,String rname ) {
+    public PageBean<Route> pageQuery(int cid, int currentPage, int pageSize, String rname) {
         //封装PageBean
         PageBean<Route> pb = new PageBean<Route>();
         //设置当前页码
         pb.setCurrentPage(currentPage);
         //设置每页显示条数
         pb.setPageSize(pageSize);
-        
+
         //设置总记录数
-        int totalCount = routeDao.findTotalCount(cid,rname);
+        int totalCount = routeDao.findTotalCount(cid, rname);
         pb.setTotalCount(totalCount);
         //设置当前页显示的数据集合
         int start = (currentPage - 1) * pageSize;//开始的记录数
-        List<Route> list = routeDao.findByPage(cid,start,pageSize,rname);
+        List<Route> list = routeDao.findByPage(cid, start, pageSize, rname);
         pb.setList(list);
 
         //设置总页数 = 总记录数/每页显示条数
-        int totalPage = totalCount % pageSize == 0 ? totalCount / pageSize :(totalCount / pageSize) + 1 ;
+        int totalPage = totalCount % pageSize == 0 ? totalCount / pageSize : (totalCount / pageSize) + 1;
         pb.setTotalPage(totalPage);
 
 
@@ -53,10 +56,10 @@ public class RouteServiceImpl implements RouteService {
         //2.2将集合设置到route对象
         route.setRouteImgList(routeImgList);
         //3.根据route的sid（商家id）查询商家对象
-        if(route.getSid()!=null&&route.getSid()>0){
+        if (route.getSid() != null && route.getSid() > 0) {
             Seller seller = sellerDao.findById(route.getSid());
             route.setSeller(seller);
-        }else if(route.getSourceId()!=null&&route.getSourceId()>0){
+        } else if (route.getSourceId() != null && route.getSourceId() > 0) {
             User user = userDao.findByUid(route.getSourceId());
             route.setUser(user);
         }
@@ -64,8 +67,42 @@ public class RouteServiceImpl implements RouteService {
 
         //4. 查询收藏次数
         int count = favoriteDao.findCountByRid(route.getRid());
-        routeDao.setCount(Integer.parseInt(rid),count);
+        routeDao.setCount(Integer.parseInt(rid), count);
+        route.setCount(count);
 
         return route;
+    }
+
+    @Override
+    public List<Route> findUserFavorite(int uid) {
+        //封装PageBean
+        List<Route> routes = new ArrayList<Route>();
+        List<Integer> favorites = new ArrayList<Integer>();
+        favorites = favoriteDao.findByUid(uid);
+        for (int i = 0; i < favorites.size(); i++) {
+            int rid = favorites.get(i);
+            routes.add(routeDao.findOne(rid));
+        }
+        return routes;
+    }
+
+    @Override
+    public List<Route> findUserShared(int uid) {
+        List<Route> routes = new ArrayList<Route>();
+        routes = routeDao.findBySourceId(uid);
+        return routes;
+    }
+
+    @Override
+    public boolean removeRoute(int rid) {
+        List<RouteImg> routeImgs = new ArrayList<RouteImg>();
+        routeImgs = routeImgDao.findByRid(rid);
+        for(int i=0;i<routeImgs.size();i++){
+            RouteImg routeImg = routeImgs.get(i);
+            FileUtils.deleteFile(routeImg.getBigPic());
+            FileUtils.deleteFile(routeImg.getSmallPic());
+            routeImgDao.removeOne(routeImg.getRgid());
+        }
+        return routeDao.removeRoute(rid);
     }
 }

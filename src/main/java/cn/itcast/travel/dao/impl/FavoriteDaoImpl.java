@@ -4,11 +4,11 @@ import cn.itcast.travel.dao.FavoriteDao;
 import cn.itcast.travel.domain.Favorite;
 import cn.itcast.travel.util.JDBCUtils;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.Date;
+import java.util.List;
 
 public class FavoriteDaoImpl implements FavoriteDao {
 
@@ -44,5 +44,11 @@ public class FavoriteDaoImpl implements FavoriteDao {
     public void remove(int i, int uid) {
         String sql = "delete from tab_favorite where rid=? && uid = ?";
         template.update(sql, i, uid);
+    }
+
+    @Override
+    public List<Integer> findByUid(int uid) {
+        String sql = "select rid from tab_favorite where uid=?";
+        return template.queryForList(sql, Integer.class, uid);
     }
 }

@@ -6,6 +6,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/common.css">
         <link rel="stylesheet" href="css/index.css">
+        <script src="js/vue.js"></script>
        <style>
            .tab-content .row>div {
             margin-top: 16px;
@@ -33,33 +34,24 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="home">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <a href="route_detail.html">
-                                        <img src="images/collection_pic.jpg" alt="">
+                                <div class="col-md-3" v-for="(item,index) in routes">
+                                    <a :href="'route_detail.html?rid='+item.rid">
+                                        <img :src="item.rimage" alt="">
                                         <div class="has_border">
-                                            <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                            <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                            <h3>{{item.rname}}</h3>
+                                            <div class="price">花费<em>￥</em><strong>{{item.price}}</strong><em>起</em></div>
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-md-3">
-                                    <a href="route_detail.html">
-                                        <img src="images/collection_pic.jpg" alt="">
-                                        <div class="has_border">
-                                            <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                            <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="route_detail.html">
-                                        <img src="images/collection_pic.jpg" alt="">
-                                        <div class="has_border">
-                                            <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                            <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
-                                        </div>
-                                    </a>
-                                </div>
+<!--                                <div class="col-md-3">-->
+<!--                                    <a href="route_detail.html">-->
+<!--                                        <img src="images/collection_pic.jpg" alt="">-->
+<!--                                        <div class="has_border">-->
+<!--                                            <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>-->
+<!--                                            <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>-->
+<!--                                        </div>-->
+<!--                                    </a>-->
+<!--                                </div>-->
                             </div>
                         </div>                       
                     </div>
@@ -90,5 +82,45 @@
     	<div id="footer"></div>
         <!--导入布局js，共享header和footer-->
         <script type="text/javascript" src="js/include.js"></script>
+        <script>
+            var mf = new Vue({
+                el:"#content",
+                data:{
+                    uid: null,
+                    routes:[
+
+                    ],
+                },
+                methods:{
+                    findUserFavorite(){
+                        var that = this;
+                        //2.发送请求请求 route/findUserFavorite
+                        $.get("route/findUserFavorite",{},function (routes) {
+                            //3.解析数据填充html
+                            that.routes = routes;
+
+                        });
+                    },
+                    findUser(){
+                        var that = this;
+                        //1. 判断用户是否登录
+                        $.get("user/findOne",{},function (user) {
+                            if(user){
+                                //用户登录了
+                                that.uid = user.uid;
+                            }else{
+                                //用户没有登录
+                                alert("您尚未登录，请登录");
+                                location.href="http://localhost/travel/login.html";
+                            }
+                        })
+                    },
+                },
+                created: function () {
+                    this.findUser();
+                    this.findUserFavorite();
+                }
+            })
+        </script>
     </body>
 </html>

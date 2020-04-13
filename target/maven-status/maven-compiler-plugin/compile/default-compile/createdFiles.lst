@@ -1,6 +1,7 @@
 cn\itcast\travel\web\servlet\BaseServlet.class
 cn\itcast\travel\dao\UserDao.class
 cn\itcast\travel\service\UserService.class
+cn\itcast\travel\service\RouteImgService.class
 cn\itcast\travel\dao\CategoryDao.class
 cn\itcast\travel\service\RouteService.class
 cn\itcast\travel\dao\impl\UserDaoImpl.class
@@ -13,6 +14,7 @@ cn\itcast\travel\web\servlet\RouteServlet.class
 cn\itcast\travel\domain\PageBean.class
 cn\itcast\travel\dao\RouteDao.class
 cn\itcast\travel\dao\SellerDao.class
+cn\itcast\travel\service\impl\RouteImgServiceImpl.class
 cn\itcast\travel\dao\impl\SellerDaoImpl.class
 cn\itcast\travel\web\filter\CharchaterFilter.class
 cn\itcast\travel\dao\impl\CategoryDaoImpl.class
@@ -22,5 +24,6 @@ cn\itcast\travel\dao\RouteImgDao.class
 cn\itcast\travel\dao\impl\RouteImgDaoImpl.class
 cn\itcast\travel\service\FavoriteService.class
 cn\itcast\travel\service\impl\UserServiceImpl.class
+cn\itcast\travel\util\FileUtils.class
 cn\itcast\travel\dao\impl\FavoriteDaoImpl.class
 cn\itcast\travel\dao\impl\RouteDaoImpl.class

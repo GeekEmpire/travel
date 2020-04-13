@@ -25,7 +25,9 @@ public class CategoryServlet extends BaseServlet {
      */
     public void findAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //1.调用service查询所有
+        System.out.println("123");
         List<Category> cs = service.findAll();
+        System.out.println("789");
         //2.序列化json返回
        writeValue(cs,response);
 

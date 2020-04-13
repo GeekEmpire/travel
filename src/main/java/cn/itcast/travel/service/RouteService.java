@@ -3,6 +3,8 @@ package cn.itcast.travel.service;
 import cn.itcast.travel.domain.PageBean;
 import cn.itcast.travel.domain.Route;
 
+import java.util.List;
+
 /**
  * 线路Service
  */
@@ -23,4 +25,15 @@ public interface RouteService {
      * @return
      */
     public Route findOne(String rid);
+
+    /**
+     * 根据用户id查询收藏
+     * @param uid
+     * @return
+     */
+    public List<Route> findUserFavorite(int uid);
+
+    List<Route> findUserShared(int uid);
+
+    boolean removeRoute(int rid);
 }

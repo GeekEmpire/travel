@@ -24,4 +24,8 @@ public interface RouteDao {
     public Route findOne(int rid);
 
     public int setCount(int rid, int count);
+
+    List<Route> findBySourceId(int uid);
+
+    boolean removeRoute(int rid);
 }

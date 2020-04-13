@@ -18,7 +18,8 @@
         <div class="bread_box">
             <a href="/"></a>
             <span> &gt;</span>
-            <span v-text="area"></span><span> &gt;</span>
+            <a v-text="area" :href="'route_list.html?cid='+route.cid"></a>
+            <span> &gt;</span>
             <a href="#">{{route.rname}}</a>
         </div>
         <div class="prosum_box">
@@ -47,7 +48,7 @@
                     </p>
                     <p >地址 ：
                         <span id="address" v-text="route.seller==null?'未填写':route.seller.address">
-                            传智播客城市程序员
+                            丽水学院
                         </span>
                     </p>
                 </div>

@@ -12,4 +12,6 @@ public interface RouteImgDao {
      * @return
      */
     public List<RouteImg> findByRid(int rid);
+
+    boolean removeOne(int rgid);
 }
