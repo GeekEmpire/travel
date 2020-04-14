@@ -13,7 +13,7 @@ public class RouteDaoImpl implements RouteDao {
     private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
 
     @Override
-    public int findTotalCount(int cid,String rname) {
+    public int findTotalCount(int cid, String rname, int beginPrice, int endPrice) {
         //String sql = "select count(*) from tab_route where cid = ?";
         //1.定义sql模板
         String sql = "select count(*) from tab_route where 1=1 ";
@@ -33,6 +33,15 @@ public class RouteDaoImpl implements RouteDao {
             params.add("%"+rname+"%");
         }
 
+        if(beginPrice > 0){
+            sb.append(" and price>?");
+            params.add(beginPrice);
+        }
+        if(endPrice > 0){
+            sb.append(" and price < ?");
+            params.add(endPrice);
+        }
+
         sql = sb.toString();
 
 
@@ -40,8 +49,10 @@ public class RouteDaoImpl implements RouteDao {
     }
 
     @Override
-    public List<Route> findByPage(int cid, int start, int pageSize,String rname) {
-        //String sql = "select * from tab_route where cid = ? and rname like ?  limit ? , ?";
+    public List<Route> findByPage(int cid, int start, int pageSize, String rname, boolean crank, int beginPrice, int endPrice) {
+        /*String sql = "select * from tab_route where 1=1 and cid = ? and rname like ?
+        and order by count asc and price>? and price<? limit ? , ?";
+         */
         String sql = " select * from tab_route where 1 = 1 ";
         //1.定义sql模板
         StringBuilder sb = new StringBuilder(sql);
@@ -59,13 +70,23 @@ public class RouteDaoImpl implements RouteDao {
 
             params.add("%"+rname+"%");
         }
+        if(beginPrice > 0){
+            sb.append(" and price>?");
+            params.add(beginPrice);
+        }
+        if(endPrice > 0){
+            sb.append(" and price < ?");
+            params.add(endPrice);
+        }
+        if(crank){
+            sb.append(" order by count desc");
+        }
         sb.append(" limit ? , ? ");//分页条件
 
         sql = sb.toString();
 
         params.add(start);
         params.add(pageSize);
-
 
         return template.query(sql,new BeanPropertyRowMapper<>(Route.class),params.toArray());
     }

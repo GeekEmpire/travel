@@ -21,6 +21,7 @@ public class RouteServlet extends BaseServlet {
 
     private RouteService routeService = new RouteServiceImpl();
     private FavoriteService favoriteService = new FavoriteServiceImpl();
+
     /**
      * 分页查询
      * @param request
@@ -34,22 +35,40 @@ public class RouteServlet extends BaseServlet {
         String pageSizeStr = request.getParameter("pageSize");
         String cidStr = request.getParameter("cid");
 
+        String rank = request.getParameter("rank");
+        String bprice = request.getParameter("bprice");
+        String eprice = request.getParameter("eprice");
+
         //接受rname 线路名称
         String rname = request.getParameter("rname");
-        if(rname.equals("null")) {
+        if("null".equals(rname)||rname==null||rname=="") {
             rname = "";
+        }else{
+            rname = new String(rname.getBytes("iso-8859-1"),"utf-8");
         }
-        rname = new String(rname.getBytes("iso-8859-1"),"utf-8");
 
 
         int cid = 0;//类别id
+        boolean crank = false;
+        int beginPrice = 0;
+        int endPrice = 0;
         //2.处理参数
+        if(rank != null && rank.length() > 0 && "1".equals(rank)){
+            crank = true;
+        }
+        if(bprice!=null && bprice.length()>0 && !"null".equals(bprice)){
+            beginPrice = Integer.parseInt(bprice);
+            if(eprice!=null && eprice.length()>0 && !"null".equals(eprice)){
+                endPrice = Integer.parseInt(eprice);
+            }
+        }
         if(cidStr != null && cidStr.length() > 0 && !"null".equals(cidStr)){
             cid = Integer.parseInt(cidStr);
         }
         int currentPage = 0;//当前页码，如果不传递，则默认为第一页
         if(currentPageStr != null && currentPageStr.length() > 0){
             currentPage = Integer.parseInt(currentPageStr);
+            if(currentPage<=0) currentPage = 1;
         }else{
             currentPage = 1;
         }
@@ -57,12 +76,15 @@ public class RouteServlet extends BaseServlet {
         int pageSize = 0;//每页显示条数，如果不传递，默认每页显示5条记录
         if(pageSizeStr != null && pageSizeStr.length() > 0){
             pageSize = Integer.parseInt(pageSizeStr);
-        }else{
-            pageSize = 5;
+        }else if(crank){
+            pageSize = 8;  //排行榜八个一页
+        }else {
+            pageSize = 5;   //list五个一页
         }
 
+
         //3. 调用service查询PageBean对象
-        PageBean<Route> pb = routeService.pageQuery(cid, currentPage, pageSize,rname);
+        PageBean<Route> pb = routeService.pageQuery(cid, currentPage, pageSize,rname,crank,beginPrice,endPrice);
 
         //4. 将pageBean对象序列化为json，返回
         writeValue(pb,response);
@@ -171,7 +193,6 @@ public class RouteServlet extends BaseServlet {
         writeValue(true,response);
     }
 
-
     /**
      * 查找用户收藏
      * @param request
@@ -199,6 +220,13 @@ public class RouteServlet extends BaseServlet {
         writeValue(routes,response);
     }
 
+    /**
+     * 查找用户分享
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public void findUserShared(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //2. 获取当前登录的用户
         User user = (User) request.getSession().getAttribute("user");
@@ -219,6 +247,13 @@ public class RouteServlet extends BaseServlet {
         writeValue(routes,response);
     }
 
+    /**
+     * 移除路线、路线图片
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public void removeRoute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //1. 获取线路rid
         String rid = request.getParameter("rid");

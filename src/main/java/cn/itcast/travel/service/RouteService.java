@@ -17,7 +17,8 @@ public interface RouteService {
      * @param pageSize
      * @return
      */
-    public PageBean<Route> pageQuery(int cid,int currentPage,int pageSize,String rname);
+    public PageBean<Route> pageQuery(int cid,int currentPage,int pageSize,String rname,
+                                     boolean crank, int beginPrice, int endPrice);
 
     /**
      * 根据id查询
