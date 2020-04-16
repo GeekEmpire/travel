@@ -15,10 +15,6 @@
     });
     function exit() {
         alert('退出成功');
-        $.removeCookie('id',{ path: '/'}); //path为指定路径，直接删除该路径下的cookie
-        $.removeCookie('companyId',{ path: '/'});
-        $.removeCookie('companyCode',{ path: '/'});
-        $.removeCookie('role',{ path: '/'});
         location.href = 'login.html'
     };
     function redo() {
@@ -80,13 +76,13 @@
     <div class="container-fluid">
         <!--左边-->
         <div class="navbar-header">
-            <a href="ht_shenhe.html" class="navbar-brand">会议室管理后台</a>
+            <a href="ht_shenhe.html" class="navbar-brand">城市旅游平台</a>
         </div>
         <!--右边-->
         <div id="bs-content-row-navbar-collapse-5" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="getting-started.html">会议审批</a></li>
-                <li class="active"><a href="index.html">预定详情</a></li>
+                <li class="active"><a href="getting-started.html">路线审批</a></li>
+                <li class="active"><a href="index.html">路线管理</a></li>
                 <!-- <li class="disabled"><a href="#">Link</a></li> -->
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">个人中心 <b class="caret"></b></a>

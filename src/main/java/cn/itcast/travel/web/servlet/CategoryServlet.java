@@ -1,15 +1,19 @@
 package cn.itcast.travel.web.servlet;
 
 import cn.itcast.travel.domain.Category;
+import cn.itcast.travel.domain.User;
 import cn.itcast.travel.service.CategoryService;
 import cn.itcast.travel.service.impl.CategoryServiceImpl;
+import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/category/*")
 public class CategoryServlet extends BaseServlet {
@@ -25,12 +29,80 @@ public class CategoryServlet extends BaseServlet {
      */
     public void findAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //1.调用service查询所有
-        System.out.println("123");
+//        String cid = request.getParameter("cid");
+//        String cname = request.getParameter("cname");
+//        boolean re = false;
+//        int id =0;
+//        if(cid != null&&cid!=""&&!"null".equals(cid)&&cname!= null&&cname!=""&&!"null".equals(cname)) {
+//            id = Integer.parseInt(cid);
+//            re = service.findBySearch(cname, id);
+//        }
         List<Category> cs = service.findAll();
-        System.out.println("789");
         //2.序列化json返回
-       writeValue(cs,response);
+        writeValue(cs,response);
 
+    }
+
+    /**
+     * 添加
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Map<String, String[]> map = request.getParameterMap();
+        //2.封装对象
+        Category c = new Category();
+        try {
+            BeanUtils.populate(c,map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        boolean re = service.add(c);
+        writeValue(re,response);
+    }
+
+    /**
+     * 修改
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String cid = request.getParameter("cid");
+        String cname = request.getParameter("cname");
+        boolean re = false;
+        int id =0;
+        if(cid != null&&cid!=""&&!"null".equals(cid)&&cname!= null&&cname!=""&&!"null".equals(cname)) {
+            id = Integer.parseInt(cid);
+            re = service.update(cname, id);
+        }
+        writeValue(re,response);
+
+    }
+
+
+    /**
+     * 删除
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void remove(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String cid = request.getParameter("cid");
+        boolean re = false;
+        int id =0;
+        if(cid != null&&cid!=""&&!"null".equals(cid)) {
+            id = Integer.parseInt(cid);
+            re = service.remove(id);
+        }
+        writeValue(re,response);
     }
 
 }

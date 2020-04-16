@@ -10,4 +10,10 @@ public interface CategoryDao {
      * @return
      */
     public List<Category> findAll();
+
+    boolean remove(int cid);
+
+    boolean update(String cname, int cid);
+
+    boolean add(Category c);
 }

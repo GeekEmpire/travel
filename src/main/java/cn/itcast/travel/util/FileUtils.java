@@ -1,7 +1,5 @@
 package cn.itcast.travel.util;
 
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
 
 import java.io.*;
 import java.util.UUID;

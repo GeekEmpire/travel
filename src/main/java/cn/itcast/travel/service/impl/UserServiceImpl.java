@@ -10,6 +10,7 @@ import cn.itcast.travel.util.UuidUtil;
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao = new UserDaoImpl();
+
     /**
      * 注册用户
      * @param user
@@ -30,14 +31,10 @@ public class UserServiceImpl implements UserService {
         //2.2设置激活状态
         user.setStatus("N");
         userDao.save(user);
-
         //3.激活邮件发送，邮件正文？
-
         String content="<a href='http://localhost/travel/user/active?code="+user.getCode()+
                 "'>欢迎注册【城市旅游网】，点击进行账号激活</a>";
-
         MailUtils.sendMail(user.getEmail(),content,"激活邮件");
-
         return 200;
     }
 
@@ -57,9 +54,6 @@ public class UserServiceImpl implements UserService {
         }else{
             return false;
         }
-
-
-
     }
 
     /**
@@ -70,6 +64,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(User user) {
         return userDao.findByUsernameAndPassword(user.getUsername(),user.getPassword());
+    }
+
+    /**
+     * 修改信息
+     * @param user
+     * @return
+     */
+    @Override
+    public int update(User user) {
+        return userDao.updateUserInfo(user);
+    }
+
+    @Override
+    public boolean changeUser(int uid) {
+        return userDao.changeUser(uid);
     }
 
 }

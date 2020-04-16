@@ -1,5 +1,8 @@
+E:\github\travel\src\main\java\cn\itcast\travel\dao\impl\ManagerDaoImpl.java
+E:\github\travel\src\main\java\cn\itcast\travel\service\impl\ManagerServiceImpl.java
 E:\github\travel\src\main\java\cn\itcast\travel\dao\impl\RouteImgDaoImpl.java
 E:\github\travel\src\main\java\cn\itcast\travel\service\impl\RouteImgServiceImpl.java
+E:\github\travel\src\main\java\cn\itcast\travel\service\ManagerService.java
 E:\github\travel\src\main\java\cn\itcast\travel\dao\FavoriteDao.java
 E:\github\travel\src\main\java\cn\itcast\travel\dao\impl\FavoriteDaoImpl.java
 E:\github\travel\src\main\java\cn\itcast\travel\util\MailUtils.java
@@ -33,10 +36,13 @@ E:\github\travel\src\main\java\cn\itcast\travel\service\UserService.java
 E:\github\travel\src\main\java\cn\itcast\travel\domain\Route.java
 E:\github\travel\src\main\java\cn\itcast\travel\util\UuidUtil.java
 E:\github\travel\src\main\java\cn\itcast\travel\util\JedisUtil.java
+E:\github\travel\src\main\java\cn\itcast\travel\web\servlet\ManagerServlet.java
+E:\github\travel\src\main\java\cn\itcast\travel\dao\ManagerDao.java
 E:\github\travel\src\main\java\cn\itcast\travel\domain\User.java
 E:\github\travel\src\main\java\cn\itcast\travel\web\servlet\CheckCodeServlet.java
 E:\github\travel\src\main\java\cn\itcast\travel\util\Md5Util.java
 E:\github\travel\src\main\java\cn\itcast\travel\util\JDBCUtils.java
 E:\github\travel\src\main\java\cn\itcast\travel\service\RouteService.java
+E:\github\travel\src\main\java\cn\itcast\travel\domain\Manager.java
 E:\github\travel\src\main\java\cn\itcast\travel\service\RouteImgService.java
 E:\github\travel\src\main\java\cn\itcast\travel\dao\RouteDao.java

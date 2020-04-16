@@ -15,13 +15,13 @@ import java.util.Set;
 public class CategoryServiceImpl implements CategoryService {
 
     private CategoryDao categoryDao = new CategoryDaoImpl();
+    Jedis jedis = JedisUtil.getJedis();
 
     @Override
     public List<Category> findAll() {
         //1.从redis中查询
         //1.1获取jedis客户端
-        System.out.println("456");
-        Jedis jedis = JedisUtil.getJedis();
+
         //1.2可使用sortedset排序查询
         //Set<String> categorys = jedis.zrange("category", 0, -1);
         //1.3查询sortedset中的分数(cid)和值(cname)
@@ -56,5 +56,34 @@ public class CategoryServiceImpl implements CategoryService {
 
 
         return cs;
+    }
+
+    @Override
+    public boolean remove(int cid) {
+        if(categoryDao.remove(cid)){
+            jedis.zremrangeByScore("category",cid,cid);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update(String cname, int cid) {
+        if(categoryDao.update(cname,cid)){
+            jedis.zremrangeByScore("category",cid,cid);
+            jedis.zadd("category", cid, cname);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean add(Category c) {
+        if(categoryDao.add(c)){
+            jedis.zremrangeByScore("category",c.getCid(),c.getCid());
+            jedis.zadd("category", c.getCid(), c.getCname());
+            return true;
+        }
+        return false;
     }
 }

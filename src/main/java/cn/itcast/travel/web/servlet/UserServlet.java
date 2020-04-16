@@ -121,10 +121,15 @@ public class UserServlet extends BaseServlet {
             info.setErrorMsg("用户名密码或错误");
         }
         //5.判断用户是否激活
-        if(u != null && !"Y".equals(u.getStatus())){
+        if(u != null && "N".equals(u.getStatus())){
             //用户尚未激活
             info.setFlag(false);
             info.setErrorMsg("您尚未激活，请激活");
+        }
+        if(u != null && "F".equals(u.getStatus())){
+            //用户尚未激活
+            info.setFlag(false);
+            info.setErrorMsg("您的账号已注销");
         }
         //6.判断登录成功
         if(u != null && "Y".equals(u.getStatus())){
@@ -171,6 +176,7 @@ public class UserServlet extends BaseServlet {
         response.sendRedirect(request.getContextPath()+"/login.html");
     }
 
+
     /**
      * 激活功能
      * @param request
@@ -199,4 +205,90 @@ public class UserServlet extends BaseServlet {
             response.getWriter().write(msg);
         }
     }
+
+
+    /**
+     * 修改个人信息功能
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        //验证校验
+        String check = request.getParameter("check");
+        //从sesion中获取验证码
+        HttpSession session = request.getSession();
+        String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
+        session.removeAttribute("CHECKCODE_SERVER");//为了保证验证码只能使用一次
+        //比较
+        if(checkcode_server == null || !checkcode_server.equalsIgnoreCase(check)){
+            //验证码错误
+            ResultInfo info = new ResultInfo();
+            //注册失败
+            info.setFlag(false);
+            info.setErrorMsg("验证码错误");
+            //将info对象序列化为json
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(info);
+            response.setContentType("application/json;charset=utf-8");
+            response.getWriter().write(json);
+            return;
+        }
+
+        //1.获取数据
+        Map<String, String[]> map = request.getParameterMap();
+
+        //2.封装对象
+        User user = new User();
+        try {
+            BeanUtils.populate(user,map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        //3.调用service完成注册
+        //UserService service = new UserServiceImpl();
+        int status = service.update(user);
+        ResultInfo info = new ResultInfo();
+        //4.响应结果
+        if(status==200){
+            //更新成功
+            info.setFlag(true);
+            session.setAttribute("user", user);
+        }else{
+            //注册失败
+            info.setFlag(false);
+            info.setErrorMsg("修改失败!");
+        }
+
+        //将info对象序列化为json
+        writeValue(info, response);
+
+    }
+
+
+    /**
+     * 注销（禁用）账号
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void changeUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //1.获取激活码
+        String uid = request.getParameter("uid");
+        if(uid != null&&uid!=""&&!"null".equals(uid)){
+            //2.调用service完成激活
+            //UserService service = new UserServiceImpl();
+            int id = Integer.parseInt(uid);
+            boolean flag = service.changeUser(id);
+            writeValue(flag, response);
+        }
+    }
+
+
 }

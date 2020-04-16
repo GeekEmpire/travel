@@ -108,4 +108,37 @@ public class UserDaoImpl implements UserDao {
 
         return user;
     }
+
+
+    /**
+     * 修改个人信息
+     * @param user
+     * @return
+     */
+    @Override
+    public int updateUserInfo(User user) {
+        String sql = "update tab_user set password=?, name=?, birthday=?, sex=?, telephone=?, email=?" +
+                " where uid=?";
+        int re= template.update(sql, user.getPassword(),
+                user.getName(),
+                user.getBirthday(),
+                user.getSex(),
+                user.getTelephone(),
+                user.getEmail(),
+                user.getUid()
+        );
+        if(re>0) return 200;
+        else return 201;
+    }
+
+    @Override
+    public boolean changeUser(int uid) {
+        String sql = " update tab_user set status = 'F' where uid=?";
+        int re = template.update(sql,uid);
+        if(re>=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

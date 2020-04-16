@@ -13,4 +13,8 @@ public interface UserService {
     boolean active(String code);
 
     User login(User user);
+
+    int update(User user);
+
+    boolean changeUser(int uid);
 }

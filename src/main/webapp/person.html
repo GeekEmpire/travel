@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>个人信息</title>
+        <link rel="stylesheet" type="text/css" href="css/common.css">
+        <link rel="stylesheet" href="css/register.css">
+		<!--导入jquery-->
+		<script src="js/jquery-3.3.1.js"></script>
+    </head>
+	<body>
+		<!--引入头部-->
+		<div id="header"></div>
+        <!-- 头部 end -->
+    	<div class="rg_layout" id="person">
+    		<div class="rg_form clearfix">
+    			<div class="rg_form_left">
+    				<p>个人信息</p>
+    				<p>USER INFORMATION</p>
+    			</div>
+    			<div class="rg_form_center">
+					<div id="errorMsg"></div>
+					<!--注册表单-->
+    				<form id="registerForm">
+						<!--提交处理请求的标识符-->
+						<input type="hidden" name="action" value="update">
+    					<table style="margin-top: 25px;">
+    						<tr>
+    							<td class="td_left">
+    								<label for="username">账号</label>
+    							</td>
+    							<td class="td_right">
+    								<input type="text"  disabled id="username" name="username" v-model="user.username">
+    							</td>
+    						</tr>
+							<tr>
+								<td class="td_left">
+									<label for="password">密码</label>
+								</td>
+								<td class="td_right">
+									<input type="password" disabled id="password" name="password" v-model="user.password">
+<!--									<a>修改密码</a>-->
+								</td>
+<!--								<td style="width:100px;position: relative;bottom: 0px;right: -50px;"><a>修改密码</a></td>-->
+							</tr>
+							<tr>
+    							<td class="td_left">
+    								<label for="email">Email</label>
+    							</td>
+    							<td class="td_right">
+    								<input type="text" @blur="checkEmail" id="email" name="email" v-model="user.email">
+    							</td>
+    						</tr>
+							<tr>
+    							<td class="td_left">
+    								<label for="name">姓名</label>
+    							</td>
+    							<td class="td_right">
+    								<input type="text" id="name" name="name" v-model="user.name">
+    							</td>
+    						</tr>
+    						<tr>
+    							<td class="td_left">
+    								<label for="telephone">手机号</label>
+    							</td>
+    							<td class="td_right">
+    								<input type="text" id="telephone" name="telephone" v-model="user.telephone">
+    							</td>
+    						</tr>
+    						<tr>
+    							<td class="td_left">
+    								<label for="sex">性别</label>
+    							</td>
+    							<td class="td_right gender">
+    								<input type="radio" id="sex" name="sex" value="男" :checked="user.sex=='男'?'checked':''"> 男
+    								<input type="radio" name="sex" value="女" value="男" :checked="user.sex=='女'?'checked':''"> 女
+    							</td>
+    						</tr>
+    						<tr>
+    							<td class="td_left">
+    								<label for="birthday">出生日期</label>
+    							</td>
+    							<td class="td_right">
+    								<input type="date" id="birthday" name="birthday" :value="user.birthday" placeholder="年/月/日">
+    							</td>
+    						</tr>
+    						<tr>
+    							<td class="td_left">
+    								<label for="check">验证码</label>
+    							</td>
+    							<td class="td_right check">
+    								<input type="text" id="check" name="check" class="check">
+    								<img id="code" :src="img" height="32px" alt="" @click="changeCheckCode">
+    							</td>
+    						</tr>
+    						<tr>
+    							<td class="td_left"> 
+    							</td>
+    							<td class="td_right check"> 
+    								<input style="text-align: center" type="button" class="submit pointer" @click="update" value="修改">
+									<span id="msg" style="color: red;"></span>
+    							</td>
+    						</tr>
+    					</table>
+    				</form>
+    			</div>
+    			<div class="rg_form_right">
+    				<p>
+    					<a class="pointer" @click="changeUser">永久注销账号</a>
+    				</p>
+    			</div>
+    		</div>
+    	</div>
+
+        <!--引入尾部-->
+    	<div id="footer"></div>
+		<!--导入布局js，共享header和footer-->
+		<script type="text/javascript" src="js/include.js"></script>
+		<script src="js/vue.js"></script>
+		<script>
+			var person = new Vue({
+				el:"#person",
+				data:{
+					uid: '',
+					user:{
+						
+					},
+					img: 'checkCode',
+
+				},
+				methods:{
+					//查询用户信息
+					getUser(){
+						var that = this;
+						$.get("user/findOne",{},function (data) {
+							//{uid:1,name:'李四'}
+							if(data!=null&&data.uid!=null){
+								that.user = data;
+								that.uid = data.uid;
+							}else{
+								alert("您尚未登录，请登录");
+								location.href="./login.html";
+							}
+						});
+					},
+					changeCheckCode() {
+						this.img="checkCode?"+new Date().getTime();
+					},
+					checkPassword() {
+						//1.获取密码值
+						var password = $("#password").val();
+						//2.定义正则
+						var reg_password = /^\w{8,20}$/;
+
+						//3.判断，给出提示信息
+						var flag = reg_password.test(password);
+						if(flag){
+							//密码合法
+							$("#password").css("border","");
+						}else{
+							//密码非法,加一个红色边框
+							$("#password").css("border","1px solid red");
+						}
+
+						return flag;
+					},
+					//校验邮箱
+					checkEmail(){
+						//1.获取邮箱
+						var email = $("#email").val();
+						//2.定义正则		itcast@163.com
+						var reg_email = /^\w+@\w+\.\w+$/;
+
+						//3.判断
+						var flag = reg_email.test(email);
+						if(flag){
+							$("#email").css("border","");
+						}else{
+							$("#email").css("border","1px solid red");
+						}
+
+						return flag;
+					},
+					update() {
+						//1.发送数据到服务器
+						var that = this;
+						if (this.checkEmail()) {
+							//校验通过,发送ajax请求，提交表单的数据   username=zhangsan&password=123
+							var dd = $("#registerForm").serialize();
+							dd += '&password='+this.user.password;
+							dd += "&username="+this.user.username;
+							dd += '&uid='+this.user.uid;
+							$.post("user/update", dd, function (data) {
+								//处理服务器响应的数据  data  {flag:true,errorMsg:"注册失败"}
+								if (data.flag) {    //注册成功，跳转成功页面
+									alert("修改成功");
+									location.reload();
+								} else {        //注册失败,给errorMsg添加提示信息
+									$("#errorMsg").html(data.errorMsg);
+								}
+								$("#code").attr("src", "checkCode?" + new Date().getTime());
+							})
+						}
+						return false;
+					},
+					changeUser(){
+						var that = this;
+						$.post("user/changeUser", {uid:that.uid}, function (flag) {
+							//处理服务器响应的数据  data  {flag:true,errorMsg:"注册失败"}
+							if (flag) {
+								alert("注销成功");
+								location.href="http://localhost/travel/login.html";
+							} else {
+								$("#errorMsg").html(data.errorMsg);
+							}
+							$("#code").attr("src", "checkCode?" + new Date().getTime());
+						})
+					}
+				},
+				created:function () {
+					this.getUser();
+				},
+
+			})
+		</script>
+    </body>
+</html>

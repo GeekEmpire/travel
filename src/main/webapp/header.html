@@ -16,7 +16,7 @@
             </div>
             <!-- 登录状态  -->
             <div class="login">
-                <span id="span_username" v-text="welcome"></span>
+                <a id="span_username" style="color: black" v-text="welcome" :href="'person.html?uid='+uid"></a>
                 <a @click="toFavorite" style="cursor: pointer" class="collection">我的收藏</a>
                 <a href="javascript:location.href='user/exit';">退出</a>
             </div>

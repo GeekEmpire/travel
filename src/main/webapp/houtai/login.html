@@ -50,21 +50,21 @@
         var pwd = $("#userpwd").val();
 
         if($('#save_me').is(':checked')) {
-            $.cookie("login_code",loginCode,{
+            $.cookie("manage_code",loginCode,{
                 expires: 3,
                 path: '/'
             });
-            $.cookie("pwd",base64.encode(pwd),{
+            $.cookie("manage_psw",base64.encode(pwd),{
                 expires: 3,
                 path: '/'
             });//调用jquery.cookie.js中的方法设置cookie中的登陆密码，并使用base64（jquery.base64.js）进行加密
 
         } else{
-            $.cookie("login_code",loginCode,{
+            $.cookie("manage_code",loginCode,{
                 expires: 3,
                 path: '/'
             });
-            $.cookie("pwd",base64.encode(""),{
+            $.cookie("manage_psw",base64.encode(""),{
                 expires: 3,
                 path: '/'
             });
@@ -72,8 +72,8 @@
     }
 
     function getCookie(){ //获取cookie
-        var loginCode = $.cookie("login_code");
-        var pwd =  $.cookie("pwd");
+        var loginCode = $.cookie("manage_code");
+        var pwd =  $.cookie("manage_psw");
         if(pwd){//密码存在的话把“记住用户名和密码”复选框勾选住
             $("[name='checkbox']").attr("checked","true");
         }
@@ -89,76 +89,31 @@
 
     function login(){
         var data = {
-            "type": "phone",
-            "phone": $('#username').val(),
+            "mname": $('#username').val(),
             "password": $('#userpwd').val()
         };
         $.ajax({
             type: "POST"
-            ,url:"http://lsudjh.top:8081/user/login"
-            ,contentType: 'application/json;charset=utf-8'
-            ,data: JSON.stringify(data)
-            ,dataType: "json"
+            ,url:"../manager/login"
+            // ,contentType: 'application/json;charset=utf-8'
+            // ,data: JSON.stringify(data)
+            ,data: data
+            // ,dataType: "json"
             ,success:function(result){
-                alert(result.msg);
-                if(result.code==0){
+                if(result.flag){
+                    alert("欢迎回来，管理员！")
                     setCookie();
+                    location.href="index.html";
                     $('#username').val("");
-
-                    var ldata= {
-                        phone : $.cookie("login_code")
-                    };
-                    $.ajax({
-                        url: 'http://lsudjh.top:8081/user/listEntity',
-                        type: 'post',
-                        data: JSON.stringify(ldata) ,
-                        contentType: 'application/json;charset=utf-8',
-                        dataType: 'json',
-                        success: function (result) {
-                            console.log(result);
-                            var tdata = result.data.data[0];
-                            if(result.code==0){
-                                if(tdata.company!=null){
-                                    $.cookie("companyId",tdata.company.id,{
-                                        expires: 3,
-                                        path: '/'
-                                    });
-                                    $.cookie("companyCode",tdata.company.code,{
-                                        expires: 3,
-                                        path: '/'
-                                    });
-                                }
-
-                                $.cookie("role",tdata.role,{
-                                    expires: 3,
-                                    path: '/'
-                                });
-                                $.cookie("id",tdata.id,{
-                                    expires: 3,
-                                    path: '/'
-                                });
-                                if(tdata.role==4) {
-                                    location.href = 'index.html';
-                                } else if(tdata.role==2) {
-                                    location.href = 'hr/hr_index.html';
-                                } else if(tdata.role ==3){
-                                    location.href = 'service/service.html'
-                                }
-                            } else {
-                                alert('系统错误，请稍后再试');
-                            }
-                        }
-                    });
-
+                    $('#userpwd').val("");
                 } else{
+                    alert(result.errorMsg)
                     $('#userpwd').val("");
                 }
 
             }
-            ,error: function (message) {
-                alert(message);
-                $('#username').val("");
-                $('#userpwd').val("");
+            ,error: function () {
+                alert("系统错误");
             }
         });
     }

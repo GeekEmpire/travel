@@ -28,4 +28,8 @@ public interface UserDao {
     void updateStatus(User user);
 
     User findByUsernameAndPassword(String username, String password);
+
+    int updateUserInfo(User user);
+
+    boolean changeUser(int uid);
 }
