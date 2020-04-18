@@ -224,93 +224,93 @@
         }
     });
 
-    // 文件上传
-    layui.use('upload', function(){
-        var upload = layui.upload;
-        var uploadInst = upload.render({
-            elem: '#up_img'
-            ,url: 'http://lsudjh.top:8081/file/headImage'
-            ,auto: false
-            ,bindAction: '#submit_up'
-            ,data: {
-                id: function(){
-                    return vm.imgId;
-                }
-            }
-            ,choose:function (obj) {
-                //预读本地文件示例，不支持ie8
-                // console.log(vm.imgId);
-                obj.preview(function(index, file, result){
-                    $('#showimg').attr('src', result); //图片链接（base64）
-                });
-            }
-            ,done: function(res){
-                //如果上传失败
-                if(res.code > 0){
-                    return layer.msg('上传失败');
-                }
-                // console.log(res.data);
-                $('#showimg').attr('src', res.data);
-                alert("更换成功");
-                user_search(curnum,size);
-                layer.close(1);
-            }
-        });
-    });
+    // // 文件上传
+    // layui.use('upload', function(){
+    //     var upload = layui.upload;
+    //     var uploadInst = upload.render({
+    //         elem: '#up_img'
+    //         ,url: 'http://lsudjh.top:8081/file/headImage'
+    //         ,auto: false
+    //         ,bindAction: '#submit_up'
+    //         ,data: {
+    //             id: function(){
+    //                 return vm.imgId;
+    //             }
+    //         }
+    //         ,choose:function (obj) {
+    //             //预读本地文件示例，不支持ie8
+    //             // console.log(vm.imgId);
+    //             obj.preview(function(index, file, result){
+    //                 $('#showimg').attr('src', result); //图片链接（base64）
+    //             });
+    //         }
+    //         ,done: function(res){
+    //             //如果上传失败
+    //             if(res.code > 0){
+    //                 return layer.msg('上传失败');
+    //             }
+    //             // console.log(res.data);
+    //             $('#showimg').attr('src', res.data);
+    //             alert("更换成功");
+    //             user_search(curnum,size);
+    //             layer.close(1);
+    //         }
+    //     });
+    // });
 
-
-
-    layui.use('form', function() {
-        var form = layui.form;
-        form.on('select(com)', function (data) {
-            var department = $('#department');
-            var id = data.elem[data.elem.selectedIndex].title;
-            var tdata = {
-                companyId: id
-            };
-            $.ajax({
-                url: "http://lsudjh.top:8081/department/listEntity",
-                type:"POST",
-                data:JSON.stringify(tdata),
-                contentType:"application/json",
-                success: function (result) {
-                    console.log(result);
-                    department.empty();
-                    department.append("<option value=''></option>" );
-                    for(var i=0; i<result.data.data.length; i++) {
-                        department.append("<option value=\""+ result.data.data[i].id+"\">" + result.data.data[i].name + "</option>");
-                    }
-                    form.render('select');
-                }
-            });
-        });
-
-        form.on('select(com_e)', function (data) {
-            // console.log(data.elem); //得到select原始DOM对象
-            // console.log(data.value); //得到被选中的值
-            // console.log(data.othis); //得到美化后的DOM对象
-            var department = $('#dep');
-            var tdata = {
-                companyId: $('.edit_company').val()
-            };
-            $.ajax({
-                url: "http://lsudjh.top:8081/department/listEntity",
-                type:"POST",
-                data:JSON.stringify(tdata),
-                contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
-                success: function (result) {
-                    console.log(result);
-                    department.empty();
-                    department.append("<option value=''></option>" );
-                    for(var i=0; i<result.data.data.length; i++) {
-                        department.append("<option value=\""+ result.data.data[i].id+"\">" + result.data.data[i].name + "</option>");
-                    }
-                    form.render('select');
-                }
-            });
-
-        });
-    });
+    //
+    //
+    // layui.use('form', function() {
+    //     var form = layui.form;
+    //     form.on('select(com)', function (data) {
+    //         var department = $('#department');
+    //         var id = data.elem[data.elem.selectedIndex].title;
+    //         var tdata = {
+    //             companyId: id
+    //         };
+    //         $.ajax({
+    //             url: "http://lsudjh.top:8081/department/listEntity",
+    //             type:"POST",
+    //             data:JSON.stringify(tdata),
+    //             contentType:"application/json",
+    //             success: function (result) {
+    //                 console.log(result);
+    //                 department.empty();
+    //                 department.append("<option value=''></option>" );
+    //                 for(var i=0; i<result.data.data.length; i++) {
+    //                     department.append("<option value=\""+ result.data.data[i].id+"\">" + result.data.data[i].name + "</option>");
+    //                 }
+    //                 form.render('select');
+    //             }
+    //         });
+    //     });
+    //
+    //     form.on('select(com_e)', function (data) {
+    //         // console.log(data.elem); //得到select原始DOM对象
+    //         // console.log(data.value); //得到被选中的值
+    //         // console.log(data.othis); //得到美化后的DOM对象
+    //         var department = $('#dep');
+    //         var tdata = {
+    //             companyId: $('.edit_company').val()
+    //         };
+    //         $.ajax({
+    //             url: "http://lsudjh.top:8081/department/listEntity",
+    //             type:"POST",
+    //             data:JSON.stringify(tdata),
+    //             contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+    //             success: function (result) {
+    //                 console.log(result);
+    //                 department.empty();
+    //                 department.append("<option value=''></option>" );
+    //                 for(var i=0; i<result.data.data.length; i++) {
+    //                     department.append("<option value=\""+ result.data.data[i].id+"\">" + result.data.data[i].name + "</option>");
+    //                 }
+    //                 form.render('select');
+    //             }
+    //         });
+    //
+    //     });
+    // });
 
     //数据表格
     var curnum = 1;

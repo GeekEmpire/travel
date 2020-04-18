@@ -129,7 +129,7 @@
                 }else if(currentPage>that.pb.totalPage){
                     currentPage = that.pb.totalPage;
                 }
-                $.get("route/pageQuery",{currentPage:currentPage,rname:rname,cid:cid,rank:rank}, function (pb) {
+                $.post("route/pageQuery",{currentPage:currentPage,rname:rname,cid:cid,rank:rank}, function (pb) {
                     if(rank!=1)
                         that.pb = pb;
                     else

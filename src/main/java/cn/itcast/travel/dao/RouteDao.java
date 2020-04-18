@@ -9,12 +9,12 @@ public interface RouteDao {
     /**
      * 根据cid查询总记录数
      */
-    public int findTotalCount(int cid, String rname, int beginPrice, int endPrice);
+    public int findTotalCount(int cid, String rname, int beginPrice, int endPrice, int rid);
 
     /**
      * 根据cid，start,pageSize查询当前页的数据集合
      */
-    public List<Route> findByPage(int cid, int start, int pageSize, String rname, boolean crank, int beginPrice, int endPrice);
+    public List<Route> findByPage(int cid, int start, int pageSize, String rname, boolean crank, int beginPrice, int endPrice, int rid);
 
     /**
      * 根据id查询
@@ -28,4 +28,7 @@ public interface RouteDao {
     List<Route> findBySourceId(int uid);
 
     boolean removeRoute(int rid);
+
+    boolean update(Route route);
+
 }

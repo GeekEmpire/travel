@@ -15,10 +15,11 @@ public interface RouteService {
      * @param cid
      * @param currentPage
      * @param pageSize
+     * @param rid
      * @return
      */
-    public PageBean<Route> pageQuery(int cid,int currentPage,int pageSize,String rname,
-                                     boolean crank, int beginPrice, int endPrice);
+    public PageBean<Route> pageQuery(int cid, int currentPage, int pageSize, String rname,
+                                     boolean crank, int beginPrice, int endPrice, int rid);
 
     /**
      * 根据id查询
@@ -37,4 +38,6 @@ public interface RouteService {
     List<Route> findUserShared(int uid);
 
     boolean removeRoute(int rid);
+
+    boolean update(Route route);
 }

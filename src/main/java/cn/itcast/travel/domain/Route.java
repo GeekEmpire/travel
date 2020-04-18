@@ -203,4 +203,5 @@ public class Route implements Serializable {
     public void setDetail(String detail) {
         this.detail = detail;
     }
+
 }

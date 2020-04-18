@@ -1,20 +1,26 @@
 package cn.itcast.travel.web.servlet;
 
 import cn.itcast.travel.domain.PageBean;
+import cn.itcast.travel.domain.ResultInfo;
 import cn.itcast.travel.domain.Route;
 import cn.itcast.travel.domain.User;
 import cn.itcast.travel.service.FavoriteService;
 import cn.itcast.travel.service.RouteService;
 import cn.itcast.travel.service.impl.FavoriteServiceImpl;
 import cn.itcast.travel.service.impl.RouteServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/route/*")
 public class RouteServlet extends BaseServlet {
@@ -41,11 +47,20 @@ public class RouteServlet extends BaseServlet {
 
         //接受rname 线路名称
         String rname = request.getParameter("rname");
-        if("null".equals(rname)||rname==null||rname=="") {
-            rname = "";
-        }else{
-            rname = new String(rname.getBytes("iso-8859-1"),"utf-8");
+        String ridStr = request.getParameter("rid");
+        int rid = 0;
+        if(ridStr != null &&ridStr.length() > 0 && !"null".equals(ridStr)){
+            try{
+                rid = Integer.parseInt(ridStr);
+            }catch (Exception e){
+                rid = 0;
+            }
         }
+//        if("null".equals(rname)||rname==null||rname=="") {
+//            rname = "";
+//        }else{
+//            rname = new String(rname.getBytes("iso-8859-1"),"utf-8");
+//        }
 
 
         int cid = 0;//类别id
@@ -57,13 +72,23 @@ public class RouteServlet extends BaseServlet {
             crank = true;
         }
         if(bprice!=null && bprice.length()>0 && !"null".equals(bprice)){
-            beginPrice = Integer.parseInt(bprice);
-            if(eprice!=null && eprice.length()>0 && !"null".equals(eprice)){
-                endPrice = Integer.parseInt(eprice);
+            try{
+                beginPrice = Integer.parseInt(bprice);
+                if(eprice!=null && eprice.length()>0 && !"null".equals(eprice)){
+                    endPrice = Integer.parseInt(eprice);
+                }
+            }catch (Exception e){
+                beginPrice=0;
+                endPrice =0;
             }
+
         }
         if(cidStr != null && cidStr.length() > 0 && !"null".equals(cidStr)){
-            cid = Integer.parseInt(cidStr);
+            try {
+                cid = Integer.parseInt(cidStr);
+            }catch (Exception e){
+                cid = 0;
+            }
         }
         int currentPage = 0;//当前页码，如果不传递，则默认为第一页
         if(currentPageStr != null && currentPageStr.length() > 0){
@@ -84,7 +109,7 @@ public class RouteServlet extends BaseServlet {
 
 
         //3. 调用service查询PageBean对象
-        PageBean<Route> pb = routeService.pageQuery(cid, currentPage, pageSize,rname,crank,beginPrice,endPrice);
+        PageBean<Route> pb = routeService.pageQuery(cid,currentPage, pageSize,rname,crank,beginPrice,endPrice,rid);
 
         //4. 将pageBean对象序列化为json，返回
         writeValue(pb,response);
@@ -261,6 +286,40 @@ public class RouteServlet extends BaseServlet {
         //3. 调用service删除
         boolean flag = routeService.removeRoute(Integer.parseInt(rid));
         writeValue(flag, response);
+    }
+
+    /**
+     * 修改个人信息功能
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+//        String m = request.getParameter("m");
+        HttpSession session = request.getSession();
+
+        //1.获取数据
+        Map<String, String[]> map = request.getParameterMap();
+
+        //2.封装对象
+        Route route = new Route();
+        try {
+            BeanUtils.populate(route,map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        //3.调用service完成注册
+        //UserService service = new UserServiceImpl();
+        boolean re = routeService.update(route);
+
+        //将info对象序列化为json
+        writeValue(re, response);
+
     }
 
 

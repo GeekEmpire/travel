@@ -13,7 +13,7 @@ public class RouteDaoImpl implements RouteDao {
     private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
 
     @Override
-    public int findTotalCount(int cid, String rname, int beginPrice, int endPrice) {
+    public int findTotalCount(int cid, String rname, int beginPrice, int endPrice, int rid) {
         //String sql = "select count(*) from tab_route where cid = ?";
         //1.定义sql模板
         String sql = "select count(*) from tab_route where 1=1 ";
@@ -25,6 +25,11 @@ public class RouteDaoImpl implements RouteDao {
             sb.append( " and cid = ? ");
 
             params.add(cid);//添加？对应的值
+        }
+        if(rid != 0){
+            sb.append( " and rid = ? ");
+
+            params.add(rid);//添加？对应的值
         }
 
         if(rname != null && rname.length() > 0){
@@ -49,7 +54,7 @@ public class RouteDaoImpl implements RouteDao {
     }
 
     @Override
-    public List<Route> findByPage(int cid, int start, int pageSize, String rname, boolean crank, int beginPrice, int endPrice) {
+    public List<Route> findByPage(int cid, int start, int pageSize, String rname, boolean crank, int beginPrice, int endPrice, int rid) {
         /*String sql = "select * from tab_route where 1=1 and cid = ? and rname like ?
         and order by count asc and price>? and price<? limit ? , ?";
          */
@@ -63,6 +68,11 @@ public class RouteDaoImpl implements RouteDao {
             sb.append( " and cid = ? ");
 
             params.add(cid);//添加？对应的值
+        }
+        if(rid != 0){
+            sb.append( " and rid = ? ");
+
+            params.add(rid);//添加？对应的值
         }
 
         if(rname != null && rname.length() > 0){
@@ -117,6 +127,22 @@ public class RouteDaoImpl implements RouteDao {
             return true;
         else
             return false;
+    }
+
+    @Override
+    public boolean update(Route route) {
+        String sql = "update tab_route set rname=?, price=?, routeIntroduce=?, cid=?, rimage=?, detail=?" +
+                " where rid=?";
+        int re= template.update(sql, route.getRname(),
+            route.getPrice(),
+            route.getRouteIntroduce(),
+            route.getCid(),
+            route.getRimage(),
+            route.getDetail(),
+            route.getRid()
+        );
+        if(re>0) return true;
+        return false;
     }
 
 
