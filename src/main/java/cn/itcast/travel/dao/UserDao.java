@@ -2,6 +2,8 @@ package cn.itcast.travel.dao;
 
 import cn.itcast.travel.domain.User;
 
+import java.util.List;
+
 public interface UserDao {
 
     /**
@@ -32,4 +34,8 @@ public interface UserDao {
     int updateUserInfo(User user);
 
     boolean changeUser(int uid);
+
+    int findTotalCount(String username, String name, String sex, String telephone, String email);
+
+    List<User> findByPage(int start, int pageSize, String username, String name, String sex, String telephone, String email);
 }

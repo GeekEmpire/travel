@@ -29,15 +29,19 @@ public class CategoryServlet extends BaseServlet {
      */
     public void findAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //1.调用service查询所有
-//        String cid = request.getParameter("cid");
-//        String cname = request.getParameter("cname");
+        String cid = request.getParameter("cid");
+        String cname = request.getParameter("cname");
 //        boolean re = false;
-//        int id =0;
-//        if(cid != null&&cid!=""&&!"null".equals(cid)&&cname!= null&&cname!=""&&!"null".equals(cname)) {
-//            id = Integer.parseInt(cid);
-//            re = service.findBySearch(cname, id);
-//        }
-        List<Category> cs = service.findAll();
+        List<Category> cs = null;
+        if(cid != null&&cid!=""&&!"null".equals(cid)) {
+            int id =0;
+            id = Integer.parseInt(cid);
+            cs = service.findBySearch(id, cname);
+        }else if(cname != null&&cname!=""&&!"null".equals(cname)){
+            cs = service.findBySearch(0, cname);
+        } else {
+            cs = service.findAll();
+        }
         //2.序列化json返回
         writeValue(cs,response);
 

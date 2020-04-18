@@ -3,7 +3,7 @@
 <div class="col-xs-12 col-sm-9 content" >
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> 企业信息</h3>
+            <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> 地区管理</h3>
             <!--<a href="#">刷新</a>-->
         </div>
         <div class="panel-body">
@@ -132,7 +132,7 @@
                                 alert("删除成功");
                                 obj.del();
                                 // var ttdata = {};
-                                ttdata.order = 'id asc';
+                                // ttdata.order = 'id asc';
                                 // table.reload('buildTable', {
                                 //     where: ttdata
                                 // });
@@ -205,7 +205,7 @@
                 //执行重载
                 var key = $('#searchReload').val();
                 var way = $('#choice_way').val();
-                console.log(way)
+                console.log(key)
                 var tdata = {};
                 if(way==0){
                     tdata.cid = key;

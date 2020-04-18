@@ -190,6 +190,7 @@
 							dd += '&password='+this.user.password;
 							dd += "&username="+this.user.username;
 							dd += '&uid='+this.user.uid;
+							dd += '&status=Y'
 							$.post("user/update", dd, function (data) {
 								//处理服务器响应的数据  data  {flag:true,errorMsg:"注册失败"}
 								if (data.flag) {    //注册成功，跳转成功页面

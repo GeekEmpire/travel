@@ -17,14 +17,15 @@
                         <div class="search_way">
                             搜索方式：
                             <select name="city" id="choice_way" lay-verify="required" @change="change">
-                                <option value="name">按用户名</option>
-                                <option value="phone">按手机号</option>
+                                <option value="username">按账号</option>
+                                <option value="name">按姓名</option>
+                                <option value="sex">按性别</option>
+                                <option value="telephone">按电话</option>
                                 <option value="email">按邮箱</option>
-                                <option value="company">按公司</option>
                             </select>
                         </div>
                         <button class="layui-btn" data-type="reload">搜索</button>
-                        <button class="layui-btn me_fr" id="mz_add_user">添加员工</button>
+                        <button class="layui-btn me_fr" id="mz_add_user">添加用户</button>
                     </div>
                     <table class="layui-hide" id="mz_user_table" lay-filter="mz_user_table"></table>
                     <div id="laypage_user"></div>
@@ -38,7 +39,7 @@
                     </script>
                     <script type="text/html" id="barMeet">
                         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">注销</a>
                     </script>
                 </div>
             </div>
@@ -50,7 +51,19 @@
 <div id="mz_add_info" class="me_none">
     <form class="layui-form me_margin_top" id="user_add" action="" lay-filter="addForm">
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名</label>
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" id="username" required  lay-verify="username" placeholder="请输入登录账号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="password" id="psw" required  lay-verify="psw" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
                 <input type="text" name="name" id="name" required  lay-verify="name" placeholder="请输入用户名" autocomplete="off" class="layui-input">
             </div>
@@ -58,47 +71,46 @@
         <div class="layui-form-item">
             <label class="layui-form-label">手机号</label>
             <div class="layui-input-block">
-                <input type="text" name="phone" id="phone" required lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input">
-            </div>
-            <!--<div class="layui-form-mid layui-word-aux">登陆使用</div>-->
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码</label>
-            <div class="layui-input-block">
-                <input type="password" name="psw" id="psw" required  lay-verify="psw" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input type="text" name="telephone" id="telephone" lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">邮箱</label>
             <div class="layui-input-block">
-                <input type="text" name="email" id="email" required  lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                <input type="text" name="email" id="email"  lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公司</label>
+            <label class="layui-form-label">性别</label>
             <div class="layui-input-block">
-                <select name="companyCode" id="companyCode"  class="add_company" lay-filter="com" lay-verify="required">
-                    <option value=""></option>
-                </select>
+                <input type="radio" name="sex" value="男" title="男" checked>
+                <input type="radio" name="sex" value="女" title="女" >
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">部门</label>
+            <label class="layui-form-label">出生日期</label>
             <div class="layui-input-block">
-                <select name="departmentId" id="department"  class="add_department" lay-verify="required">
-                    <option value=""></option>
-                </select>
+                <input type="text" class="layui-input" id="birthday" name="birthday">
+                <script>
+                    layui.use('laydate', function(){
+                        var laydate = layui.laydate;
+                        //执行一个laydate实例
+                        laydate.render({
+                            elem: '#birthday' //指定元素
+                            ,value: '1999-01-01'
+                        });
+                    });
+                </script>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">权限</label>
+            <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
-                <select name="role" lay-verify="required">
+                <select name="status" lay-verify="required">
                     <option value=""></option>
-                    <option value="1">普通用户</option>
-                    <option value="2">HR</option>
-                    <option value="3">后勤</option>
-                    <option value="4">管理员</option>
+                    <option value="Y">使用中</option>
+                    <option value="N">未激活</option>
+                    <option value="F">已注销</option>
                 </select>
             </div>
         </div>
@@ -108,82 +120,80 @@
 <div id="mz_edit_info"  class="me_none">
     <form class="layui-form me_margin_top" id="user_edit" action="" lay-filter="editForm">
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名</label>
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="username" required  lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
             <div class="layui-input-block">
                 <input type="text" name="name" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">手机号</label>
+            <label class="layui-form-label">密码</label>
             <div class="layui-input-block">
-                <input type="text" name="phone" required lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+                <input type="password" name="password" if="psw1" required  lay-verify="psw" placeholder="******" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">密码</label>
+            <label class="layui-form-label">手机号</label>
             <div class="layui-input-block">
-                <input type="password" name="psw" if="psw1" required  lay-verify="psw" placeholder="******" autocomplete="off" class="layui-input">
+                <input type="text" name="telephone" lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input">
             </div>
         </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">邮箱</label>
             <div class="layui-input-block">
-                <input type="text" name="email" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                <input type="text" name="email"   lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">权限</label>
+            <label class="layui-form-label">性别</label>
             <div class="layui-input-block">
-                <select name="role" lay-verify="required" lay-search>
-                    <option value=""></option>
-                    <option value="1">普通用户</option>
-                    <option value="2">HR</option>
-                    <option value="3">后勤</option>
-                    <option value="4">管理员</option>
-                </select>
+                <input type="radio" name="sex" value="男" title="男" checked>
+                <input type="radio" name="sex" value="女" title="女" >
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公司</label>
+            <label class="layui-form-label">出生日期</label>
             <div class="layui-input-block">
-                <select name="companyId" class="edit_company" lay-filter="com_e" id="companyId" lay-verify="required">
-                    <option value=""></option>
-                </select>
+                <input type="text" class="layui-input" id="edit_birthday" name="birthday">
+                <script>
+                    layui.use('laydate', function(){
+                        var laydate = layui.laydate;
+                        //执行一个laydate实例
+                        laydate.render({
+                            elem: '#edit_birthday' //指定元素
+                            ,value: '1999-01-01'
+                        });
+                    });
+                </script>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">部门</label>
+            <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
-                <select name="departmentId" class="edit_department" id="dep" lay-verify="required">
+                <select name="status" lay-verify="required">
                     <option value=""></option>
+                    <option value="Y">使用中</option>
+                    <option value="N">未激活</option>
+                    <option value="F">已注销</option>
                 </select>
             </div>
         </div>
     </form>
 </div>
 
-<div id="img_ms" class="me_none"><!--user头像-->
-    <img id="showimg">
-    <a id="up_img"><i class="layui-icon">&#xe67c;</i>更换头像</a>
-    <button id="submit_up" class="layui-btn layui-btn-sm">提交</button>
-</div>
-<script type="text/html" id="trole"><!--权限-->
-    {{#  if(d.role == 1){ }}
-        <p>普通用户</p>
-    {{#  } else if(d.role == 2) { }}
-        <p>HR</p>
-    {{#  } else if(d.role == 3) { }}
-        <p>后勤</p>
-    {{#  } else if(d.role == 4) { }}
-        <p>管理员</p>
-    {{#  } }}
-</script>
-
-<script type="text/html" id="tcompany"><!--公司-->
-    {{#  if(d.company == null){ }}
-        <p>空</p>
-    {{#  } else { }}
-        <p>{{d.company.name}}</p>
+<script type="text/html" id="status"><!--状态-->
+    {{#  if(d.status == 'Y'){ }}
+        <p>使用中</p>
+    {{#  } else if(d.status == 'N') { }}
+        <p>未激活</p>
+    {{#  } else if(d.status == 'F') { }}
+        <p>已注销</p>
     {{#  } }}
 </script>
 <script type="text/html" id="tsection"><!--部门-->
@@ -198,17 +208,18 @@
     var vm = new Vue({
         el: '#app_search',
         data:{
-            way: '用户名',
+            way: '账号',
             v: 0,
             imgId: 1
         },
         methods:{
             change(select){  //搜索方式改变
                 this.v = select.target.value;
-                if(this.v=="name"){ this.way='用户名'}
-                if(this.v=="phone") { this.way = '手机号'}
+                if(this.v=="username") { this.way = '账号'}
+                if(this.v=="name"){ this.way='姓名'}
+                if(this.v=="sex") { this.way = '性别'}
+                if(this.v=="telephone") { this.way = '手机号'}
                 if(this.v=="email") { this.way = '邮箱'}
-                if(this.v=="company") { this.way = '公司'}
             }
         }
     });
@@ -247,81 +258,7 @@
         });
     });
 
-    //点击事件显示头像
-    function show_img(src,id){
-        // console.log(id);
-        var img =  $('#showimg');
-        if(src=="default.jpg"){
-           img.attr("src", "dist/img/bg2.jpg");
-        } else{
-            img.attr("src", src);
-        }
-        vm.imgId = id;
-        layer.open({
-            type: 1
-            ,title: '头像'
-            ,id: 'LAY_layuimg000000' //设定一个id，防止重复弹出
-            ,area: ['260px', '300px']
-            ,btnAlign: 'c'
-            // ,btn: '确定'
-            ,content: $('#img_ms')
-        });
-    }
 
-    //获取公司信息，并渲染(edit)
-    function getCompany(company,id){
-        $.ajax({
-            url:"http://lsudjh.top:8081/company/listEntity",
-            type:"POST",
-            data:'{}',
-            contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
-            success:function(result){ //所有错误信息都如result.message有关
-                if(result.code==0){
-                    layui.use('form', function(){
-                        var form = layui.form;
-
-                        company.empty();
-                        company.append("<option value=''></option>" );
-                        for(var i=0; i<result.data.data.length; i++) {
-                            // console.log(result.data.data[i])
-                            if(id!=result.data.data[i].id){
-                                company.append("<option value=\"" +result.data.data[i].id+"\">" + result.data.data[i].name + "");
-                            }else {
-                                company.append("<option selected value=\"" +result.data.data[i].id+"\">" + result.data.data[i].name + "");
-                            }
-                        }
-                        form.render('select');
-                    });
-                }
-            }
-        });
-    }
-
-    //获取公司code，并渲染（add）
-    function getCompanyCode (company){
-        $.ajax({
-            url:"http://lsudjh.top:8081/company/listEntity",
-            type:"POST",
-            data:'{}',
-            contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
-            success:function(result){ //所有错误信息都如result.message有关
-                if(result.code==0){
-                    layui.use('form', function(){
-                        var form = layui.form;
-
-                        company.empty();
-                        company.append("<option value=''></option>" );
-                        for(var i=0; i<result.data.data.length; i++) {
-                            // console.log(result.data.data[i])
-                            company.append("<option value=\"" +result.data.data[i].code+"\" title=\"" +
-                                result.data.data[i].id+"\">" + result.data.data[i].name + "</option>");
-                        }
-                        form.render('select');
-                    });
-                }
-            }
-        });
-    }
 
     layui.use('form', function() {
         var form = layui.form;
@@ -385,34 +322,36 @@
 
             table.render({
                 elem: '#mz_user_table'
-                ,url:'http://lsudjh.top:8081/user/listEntity'
+                ,url:'../user/pageQuery'
                 ,toolbar: '#toolbarMeet'
                 ,title: '用户数据表'
                 ,id:'user_table'
-                ,contentType: 'application/json'
+                // ,contentType: 'application/json'
                 ,method: 'post'
                 ,cols: [[
                     {type: 'checkbox', fixed: 'left'}
-                    ,{field:'id', title:'ID', fixed: 'left',width:60, unresize: true, sort: true}
-                    ,{field:'name', title:'用户名', width:120}
-                    ,{field:'phone', title:'手机号', width:130}
+                    ,{field:'uid', title:'ID', fixed: 'left',width:40, unresize: true, sort: true}
+                    ,{field:'username', title:'账号', width:120}
+                    ,{field:'name', title:'姓名', width:60}
+                    ,{field:'sex', title:'性别', width:50}
+                    ,{field:'telephone', title:'手机号', width:120}
                     ,{field:'email', title:'邮箱', width:170}
-                    ,{field:'avatar', title:'头像', width:80,
-                        templet: '<div><a onclick=show_img("{{d.avatar}}",{{d.id}}) style="color: #666;">查看</a></div>'}
-                    ,{field:'company', title:'公司', templet:'#tcompany'}
-                    ,{field:'section', title:'部门', templet:'#tsection'}
-                    ,{field:'role', title:'权限',width:120, templet: '#trole'}
+                    ,{field:'birthday', title:'生日', width:120}
+                    ,{field:'status', title:'状态',  templet:'#status'}
+                    ,{field:'code', title:'邀请码', width:70}
                     ,{fixed: 'right', title:'操作', toolbar: '#barMeet', width:130}
                 ]]
                 ,page: false
-                ,where: {size:size, page:curnum,order :'id asc'}
+                ,where: {pageSize:size, currentPage:curnum,order :'id asc'}
                 ,parseData: function(res){ //res 即为原始返回的数据
                     // console.log(res);
+                    var code = null;
+                    if(res!=null) code = 0;
                     return {
-                        "code": res.code, //解析接口状态
+                        "code": code, //解析接口状态
                         "msg": res.message, //解析提示文本
-                        "count": res.data.total, //解析数据长度
-                        "data": res.data.data //解析数据列表
+                        "count": res.totalCount, //解析数据长度
+                        "data": res.list //解析数据列表
                     };
                 }
                 ,done: function(res, curr, count){
@@ -429,13 +368,6 @@
                                 curnum = obj.curr;
                                 size = obj.limit;
                                 user_search(curnum,size);  //重新渲染
-                                // table.reload('user_table', {
-                                //
-                                //     where:{
-                                //         size: obj.limit
-                                //         ,page: obj.curr
-                                //     }
-                                // });
                             }
                         }
                     })
@@ -467,71 +399,32 @@
                 var e = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
                 var tr = obj.tr; //获得当前行 tr 的DOM对象
 
-                if(e === 'del'){    //table行删除事件
-                    layer.confirm('真的删除行么', function(index){
+                if(e === 'del'){    //table行注销事件
+                    layer.confirm('真的注销该用户吗？', function(index){
                         var tdata = {
-                            id: data.id
+                            uid: data.uid
                         };
                         $.ajax({
-                            url:"http://lsudjh.top:8081/user/delete",
+                            url:"../user/changeUser",
                             type:"POST",
-                            data:JSON.stringify(tdata),
-                            contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+                            data:tdata,
                             success:function(result){ //所有错误信息都如result.message有关
-                                alert(result.msg);
+                                if(result){
+                                    alert("注销成功")
+                                }else{
+                                    alert("注销失败")
+                                }
                                 user_search(curnum,size);
                                 layer.close(index);//关闭弹出框
                             }
                         });
                     });
                 } else if(e === 'edit'){    //table行编辑事件
-                    var company = $('.edit_company');
-                    if(data.company!=""&&data.company!=null) {
-                        getCompany(company, data.company.id);
-                    } else{
-                        getCompany(company,0);
-                    }
 
+                    //渲染修改界面
                     layui.use('form', function(){
                         var form = layui.form;
-
-                        var tdata={};
-                        var department = $('#dep');
-                        if(data.company!=""&&data.company!=null) {
-                            tdata.companyId = data.company.id
-                        } else{
-                            tdata.companyId = '0'
-                        }
-                        // console.log(data.company.id);
-                        $.ajax({
-                            url: "http://lsudjh.top:8081/department/listEntity",
-                            type:"POST",
-                            data:JSON.stringify(tdata),
-                            contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
-                            success: function (result) {
-                                console.log(result);
-                                var departmentId = 0;
-                                if(data.department!=null){
-                                    departmentId = data.department.id;
-                                }
-
-                                department.empty();
-                                department.append("<option value=''></option>" );
-                                for(var i=0; i<result.data.data.length; i++) {
-                                    if(departmentId!=result.data.data[i].id){
-                                        department.append("<option value=\""+ result.data.data[i].id+"\">" + result.data.data[i].name + "</option>");
-                                    } else {
-                                        department.append("<option selected value=\""+ result.data.data[i].id+"\">" + result.data.data[i].name + "</option>");
-                                    }
-                                }
-                                form.render('select');
-                            }
-                        });
-
-                        // console.log(data);
-                        // data.companyId = data.company.id;
                         form.val("editForm", data);
-
                     });
                     layer.open({
                         type: 1
@@ -544,34 +437,21 @@
                         ,moveType: 1 //拖拽模式，0或者1
                         ,content: $('#mz_edit_info')
                         ,yes:function (index, layero) {
-                            console.log(JSON.stringify($('form[id="user_edit"]').serializeObject()));
                             var tdata = $('form[id="user_edit"]').serializeObject();
-                            if(tdata.psw!=''&&tdata.psw !=null){
-                                tdata.password = tdata.psw;
-                            }
-                            tdata.id = data.id;
-                            // console.log(tdata)
+                            tdata.uid = data.uid;
+                            tdata.m = 1;
                             $.ajax({
-                                url:"http://lsudjh.top:8081/user/update",
+                                url:"../user/update",
                                 type:"POST",
-                                data:JSON.stringify(tdata),
-                                contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+                                data:tdata,
                                 success:function(result){ //所有错误信息都如result.message有关
-                                    alert(result.msg);
-
-                                    if(result.code==0){
+                                    if(result.flag){
+                                        alert("修改成功")
                                         $('#user_edit')[0].reset();
                                         layer.close(index);  //关闭弹出层
-                                        // table.reload('user_table', {
-                                        //     where:{
-                                        //
-                                        //     }
-                                        // });
                                         user_search(curnum,size);
                                     } else{
-                                        // console.log($('#user_add'));
-                                        // $('#user_edit')[0].reset();   //[0]必须得加
-                                        console.log(data);
+                                        alert(result.errorMsg)
                                         layui.use('form', function(){
                                             var form = layui.form;
                                             data.password = '';
@@ -579,7 +459,6 @@
                                             form.render('select');
                                         });
                                     }
-
                                 }
                             });
                         }
@@ -599,31 +478,42 @@
                     var key = $('#searchReload').val();
                     var way = $('#choice_way').val();
                     var tdata = {};
-                    if(way=="name"){
+                    if(way=="username"){
+                        tdata.username = key;
+                        tdata.name = null;
+                        tdata.sex = null;
+                        tdata.telephone = null
+                        tdata.email = null;
+                    } else if(way=="name"){
                         tdata.name = key;
-                        tdata.phone = null,
-                        tdata.email = null,
-                        tdata.companyId = null
-                    } else if(way=="phone"){
-                        tdata.phone = key;
+                        tdata.username = null;
+                        tdata.sex = null;
+                        tdata.telephone = null;
+                        tdata.email = null;
+                    } else if(way=="telephone"){
+                        tdata.telephone = key;
+                        tdata.username = null;
                         tdata.name = null;
                         tdata.email = null,
-                        tdata.companyId = null
+                        tdata.sex = null
                     } else if(way=="email"){
                         tdata.email = key;
-                        tdata.name = '';
-                        tdata.companyId = ''
-                    } else if(way=="company"){
-                        tdata.companyId = 26;
                         tdata.name = null;
+                        tdata.sex = null;
+                        tdata.username = null;
+                        tdata.telephone = null;
+                    } else if(way=="sex"){
+                        tdata.sex = key;
+                        tdata.name = null;
+                        tdata.username = null;
                         tdata.email = null,
-                        tdata.phone = null
+                        tdata.telephone = null
                     }
                     if(key==null||key==''){
                         tdata.companyId = null;
                         tdata.name = null;
                         tdata.email = null;
-                        tdata.phone = null
+                        tdata.telephone = null
                     }
                     tdata.order = 'id asc';
                     console.log(tdata);
@@ -643,14 +533,9 @@
 
     //添加user
     $('#mz_add_user').on("click", function () {
-
-        //渲染user_add的公司下拉框
-        var company = $('.add_company');
-        getCompanyCode(company);
-
         layer.open({
             type: 1
-            ,title: "添加员工（手机号为登录账号）" //不显示标题栏
+            ,title: "添加用户" //不显示标题栏
             ,area: '400px'
             ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
             ,btn: ['确定', '取消']
@@ -658,36 +543,23 @@
             ,moveType: 1 //拖拽模式，0或者1
             ,content: $('#mz_add_info')
             ,yes:function (index, layero) {
-                // console.log(layero.html());
-                // console.log($('form').html());
                 var tdata = $('form[id="user_add"]').serializeObject();
-                var psw = $('#psw').val();
-                if(psw!=""&&psw!=null){
-                    tdata.password = psw;
-                }else{
-                    tdata.password = null;
-                }
-                // console.log(tdata);
+                tdata.m = 1;
                 $.ajax({
-                    url:"http://lsudjh.top:8081/user/register",
+                    url:"../user/regist",
                     type:"POST",
-                    data:JSON.stringify(tdata),
-                    contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+                    data:tdata,
                     success:function(result){ //所有错误信息都如result.message有关
-                        alert(result.msg);
-
-                        if(result.code==0){
+                        if(result.flag){
+                            alert("添加成功")
                             $('#user_add')[0].reset();
                             layer.close(index);  //关闭弹出层
                             layui.use('table', function() {
                                 var table = layui.table;
-                                // table.reload('user_table', {
-                                // });
                                 user_search(curnum,size);
                             });
                         } else{
-                            // console.log($('#user_add'));
-                            // $('#user_add')[0].reset();   //[0]必须得加
+                            alert(result.errorMsg)
                         }
 
                     }

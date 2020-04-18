@@ -1,5 +1,6 @@
 package cn.itcast.travel.service;
 
+import cn.itcast.travel.domain.PageBean;
 import cn.itcast.travel.domain.User;
 
 public interface UserService {
@@ -17,4 +18,6 @@ public interface UserService {
     int update(User user);
 
     boolean changeUser(int uid);
+
+    PageBean<User> pageQuery(int currentPage, int pageSize, String username, String name, String sex, String telephone, String email);
 }

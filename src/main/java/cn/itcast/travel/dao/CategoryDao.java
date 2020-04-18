@@ -15,5 +15,7 @@ public interface CategoryDao {
 
     boolean update(String cname, int cid);
 
-    boolean add(Category c);
+    Category add(Category c);
+
+    List<Category> findBySearch(int id, String cname);
 }

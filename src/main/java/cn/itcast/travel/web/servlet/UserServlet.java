@@ -1,9 +1,12 @@
 package cn.itcast.travel.web.servlet;
 
+import cn.itcast.travel.domain.PageBean;
 import cn.itcast.travel.domain.ResultInfo;
+import cn.itcast.travel.domain.Route;
 import cn.itcast.travel.domain.User;
 import cn.itcast.travel.service.UserService;
 import cn.itcast.travel.service.impl.UserServiceImpl;
+import com.alibaba.druid.sql.visitor.functions.Char;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -32,26 +35,28 @@ public class UserServlet extends BaseServlet {
     public void regist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         //验证校验
-        String check = request.getParameter("check");
-        //从sesion中获取验证码
-        HttpSession session = request.getSession();
-        String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
-        session.removeAttribute("CHECKCODE_SERVER");//为了保证验证码只能使用一次
-        //比较
-        if(checkcode_server == null || !checkcode_server.equalsIgnoreCase(check)){
-            //验证码错误
-            ResultInfo info = new ResultInfo();
-            //注册失败
-            info.setFlag(false);
-            info.setErrorMsg("验证码错误");
-            //将info对象序列化为json
-            ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(info);
-            response.setContentType("application/json;charset=utf-8");
-            response.getWriter().write(json);
-            return;
+        String m = request.getParameter("m");
+        if(!"1".equals(m)){
+            String check = request.getParameter("check");
+            //从sesion中获取验证码
+            HttpSession session = request.getSession();
+            String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
+            session.removeAttribute("CHECKCODE_SERVER");//为了保证验证码只能使用一次
+            //比较
+            if(checkcode_server == null || !checkcode_server.equalsIgnoreCase(check)){
+                //验证码错误
+                ResultInfo info = new ResultInfo();
+                //注册失败
+                info.setFlag(false);
+                info.setErrorMsg("验证码错误");
+                //将info对象序列化为json
+                ObjectMapper mapper = new ObjectMapper();
+                String json = mapper.writeValueAsString(info);
+                response.setContentType("application/json;charset=utf-8");
+                response.getWriter().write(json);
+                return;
+            }
         }
-
         //1.获取数据
         Map<String, String[]> map = request.getParameterMap();
 
@@ -216,25 +221,28 @@ public class UserServlet extends BaseServlet {
      */
     public void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //验证校验
-        String check = request.getParameter("check");
-        //从sesion中获取验证码
+        String m = request.getParameter("m");
         HttpSession session = request.getSession();
-        String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
-        session.removeAttribute("CHECKCODE_SERVER");//为了保证验证码只能使用一次
-        //比较
-        if(checkcode_server == null || !checkcode_server.equalsIgnoreCase(check)){
-            //验证码错误
-            ResultInfo info = new ResultInfo();
-            //注册失败
-            info.setFlag(false);
-            info.setErrorMsg("验证码错误");
-            //将info对象序列化为json
-            ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(info);
-            response.setContentType("application/json;charset=utf-8");
-            response.getWriter().write(json);
-            return;
+        if(!"1".equals(m)){  //如果不是管理员添加，验证
+            //验证校验
+            String check = request.getParameter("check");
+            //从sesion中获取验证码
+            String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
+            session.removeAttribute("CHECKCODE_SERVER");//为了保证验证码只能使用一次
+            //比较
+            if(checkcode_server == null || !checkcode_server.equalsIgnoreCase(check)){
+                //验证码错误
+                ResultInfo info = new ResultInfo();
+                //注册失败
+                info.setFlag(false);
+                info.setErrorMsg("验证码错误");
+                //将info对象序列化为json
+                ObjectMapper mapper = new ObjectMapper();
+                String json = mapper.writeValueAsString(info);
+                response.setContentType("application/json;charset=utf-8");
+                response.getWriter().write(json);
+                return;
+            }
         }
 
         //1.获取数据
@@ -290,5 +298,47 @@ public class UserServlet extends BaseServlet {
         }
     }
 
+
+    /**
+     * 查询所有
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void pageQuery(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //1.接受参数
+        String currentPageStr = request.getParameter("currentPage");
+        String pageSizeStr = request.getParameter("pageSize");
+
+        String username = request.getParameter("username");
+        String name = request.getParameter("name");
+        String sex = request.getParameter("sex");
+        String telephone = request.getParameter("telephone");
+        String email = request.getParameter("email");
+
+        int currentPage = 0;//当前页码，如果不传递，则默认为第一页
+        if(currentPageStr != null && currentPageStr.length() > 0){
+            currentPage = Integer.parseInt(currentPageStr);
+            if(currentPage<=0) currentPage = 1;
+        }else{
+            currentPage = 1;
+        }
+
+        int pageSize = 0;//每页显示条数，如果不传递，默认每页显示5条记录
+        if(pageSizeStr != null && pageSizeStr.length() > 0){
+            pageSize = Integer.parseInt(pageSizeStr);
+        }else{
+            pageSize = 10;   //list 10个一页
+        }
+
+
+        //3. 调用service查询PageBean对象
+        PageBean<User> pb = service.pageQuery(currentPage, pageSize,username,name,sex,telephone,email);
+
+        //4. 将pageBean对象序列化为json，返回
+        writeValue(pb,response);
+
+    }
 
 }

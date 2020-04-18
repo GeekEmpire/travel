@@ -79,11 +79,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean add(Category c) {
-        if(categoryDao.add(c)){
-            jedis.zremrangeByScore("category",c.getCid(),c.getCid());
-            jedis.zadd("category", c.getCid(), c.getCname());
+        Category category = categoryDao.add(c);
+        if(category!=null){
+            jedis.zadd("category", category.getCid(), category.getCname());
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Category> findBySearch(int id, String cname) {
+        return categoryDao.findBySearch(id, cname);
     }
 }

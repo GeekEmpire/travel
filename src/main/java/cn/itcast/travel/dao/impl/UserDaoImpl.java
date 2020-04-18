@@ -1,11 +1,15 @@
 package cn.itcast.travel.dao.impl;
 
 import cn.itcast.travel.dao.UserDao;
+import cn.itcast.travel.domain.Route;
 import cn.itcast.travel.domain.User;
 import cn.itcast.travel.util.JDBCUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDaoImpl implements UserDao {
 
@@ -117,7 +121,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public int updateUserInfo(User user) {
-        String sql = "update tab_user set password=?, name=?, birthday=?, sex=?, telephone=?, email=?" +
+        String sql = "update tab_user set password=?, name=?, birthday=?, sex=?, telephone=?, email=?, status=?" +
                 " where uid=?";
         int re= template.update(sql, user.getPassword(),
                 user.getName(),
@@ -125,12 +129,18 @@ public class UserDaoImpl implements UserDao {
                 user.getSex(),
                 user.getTelephone(),
                 user.getEmail(),
+                user.getStatus(),
                 user.getUid()
         );
         if(re>0) return 200;
         else return 201;
     }
 
+    /**
+     * 禁用账号
+     * @param uid
+     * @return
+     */
     @Override
     public boolean changeUser(int uid) {
         String sql = " update tab_user set status = 'F' where uid=?";
@@ -140,5 +150,89 @@ public class UserDaoImpl implements UserDao {
         }else{
             return false;
         }
+    }
+
+    @Override
+    public int findTotalCount(String username, String name, String sex, String telephone, String email) {
+        //String sql = "select count(*) from tab_route where cid = ?";
+        //1.定义sql模板
+        String sql = "select count(*) from tab_user where 1=1 ";
+        StringBuilder sb = new StringBuilder(sql);
+
+        List params = new ArrayList();//条件们
+        //2.判断参数是否有值
+        if(username != null && username.length() > 0){
+            sb.append(" and username like ? ");
+            params.add("%"+username+"%");
+        }
+
+        if(name != null && name.length() > 0){
+            sb.append(" and name like ? ");
+            params.add("%"+name+"%");
+        }
+
+        if(sex != null && sex.length()==1){
+            sb.append(" and sex = ? ");
+            params.add(sex);
+        }
+
+        if(telephone != null && telephone.length() > 0){
+            sb.append(" and telephone like ? ");
+            params.add("%"+telephone+"%");
+        }
+
+        if(email != null && email.length() > 0){
+            sb.append(" and email like ? ");
+            params.add("%"+email+"%");
+        }
+
+        sql = sb.toString();
+        return template.queryForObject(sql,Integer.class,params.toArray());
+    }
+
+    @Override
+    public List<User> findByPage(int start, int pageSize, String username, String name, String sex, String telephone, String email) {
+         /*String sql = "select * from tab_route where 1=1 and cid = ? and rname like ?
+        and order by count asc and price>? and price<? limit ? , ?";
+         */
+        String sql = " select * from tab_user where 1 = 1 ";
+        //1.定义sql模板
+        StringBuilder sb = new StringBuilder(sql);
+
+        List params = new ArrayList();//条件们
+        //2.判断参数是否有值
+        if(username != null && username.length() > 0){
+            sb.append(" and username like ? ");
+            params.add("%"+username+"%");
+        }
+
+        if(name != null && name.length() > 0){
+            sb.append(" and name like ? ");
+            params.add("%"+name+"%");
+        }
+
+        if(sex != null && sex.length()==1){
+            sb.append(" and sex = ? ");
+            params.add(sex);
+        }
+
+        if(telephone != null && telephone.length() > 0){
+            sb.append(" and telephone like ? ");
+            params.add("%"+telephone+"%");
+        }
+
+        if(email != null && email.length() > 0){
+            sb.append(" and email like ? ");
+            params.add("%"+email+"%");
+        }
+
+        sb.append(" limit ? , ? ");//分页条件
+
+        sql = sb.toString();
+
+        params.add(start);
+        params.add(pageSize);
+
+        return template.query(sql,new BeanPropertyRowMapper<>(User.class),params.toArray());
     }
 }

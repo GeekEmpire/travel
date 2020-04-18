@@ -14,4 +14,5 @@ public interface CategoryService {
 
     boolean add(Category c);
 
+    List<Category> findBySearch(int id, String cname);
 }
