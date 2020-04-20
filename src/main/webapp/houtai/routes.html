@@ -45,53 +45,11 @@
 </div><!-- content -->
 
 <script type="text/html" id="switchTpl">
-  <a href="ht_meet_show.html?id={{d.id}}" target="_blank">查看</a>
+  <a href="../ht_route_detail.html?rid={{d.rid}}" target="_blank">查看</a>
 </script>
 
-<!--添加会议室-->
-<div id="mz_add_info" style="display: none;">
-  <form class="layui-form " lay-filter="initForm" id="add_meet">
-    <div class="layui-form-item">
-      <label class="layui-form-label">名称</label>
-      <div class="layui-input-block">
-        <input type="text" name="name" required  lay-verify="required" placeholder="请输入会议室名" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">楼栋</label>
-      <div class="layui-input-block">
-        <select name="buildingId" class="add_build" lay-verify="required">
-          <option></option>
-        </select>
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">房间号</label>
-      <div class="layui-input-block">
-        <input type="text" name="address" required  lay-verify="required" placeholder="请输入，如408" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">容量</label>
-      <div class="layui-input-block">
-        <input type="number" name="volume" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">价格</label>
-      <div class="layui-input-block">
-        <input type="text" name="price" required  lay-verify="required" placeholder="（元/小时）" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item layui-form-text">
-      <label class="layui-form-label">简介</label>
-      <div class="layui-input-block">
-        <textarea name="detail" placeholder="会议室简介" class="layui-textarea"></textarea>
-      </div>
-    </div>
-  </form>
-</div>
-<!--修改会议室-->
+
+<!--修改-->
 <div id="mz_edit_info" style="display: none;">
   <form class="layui-form " lay-filter="editForm" id="edit_meet">
     <div class="layui-form-item">
@@ -103,7 +61,8 @@
     <div class="layui-form-item">
       <label class="layui-form-label">介绍</label>
       <div class="layui-input-block">
-        <input type="text" name="routeIntroduce"   lay-verify="required" placeholder="请输入路线介绍" autocomplete="off" class="layui-input">
+        <textarea name="routeIntroduce"  placeholder="请输入路线介绍"  class="layui-textarea">
+        </textarea>
       </div>
     </div>
     <div class="layui-form-item">
@@ -363,43 +322,7 @@
 
         //添加会议室
         $('#mz_add_meet').on("click", function () {
-            layer.open({
-                type: 1
-                ,title: "添加路线" //不显示标题栏
-                ,area: '440px'
-                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-                ,btn: ['确定', '取消']
-                ,btnAlign: 'c'
-                ,moveType: 1 //拖拽模式，0或者1
-                ,content: $('#mz_add_info')
-                ,yes:function (index, layero) {
-                    var tdata = $('form[id="add_meet"]').serializeObject();
-                    console.log(tdata);
-                    $.ajax({
-                        url:"../route/add",
-                        type:"POST",
-                        data:tdata,
-                        success:function(result){ //所有错误信息都如result.message有关
-                            alert(result.msg);
-                            if(result.code==0){
-                                $('#add_meet')[0].reset();
-                                layer.close(index);  //关闭弹出层
-                                table.reload('meetTable', {
-                                    where:{
-                                        order :'id asc'
-                                    }
-                                });
-                            } else{
-                                // console.log($('#user_add'));
-                                // $('#apply_add')[0].reset();   //[0]必须得加
-                            }
-                        }
-                    });
-                }
-                ,btn2:function (index, layero) {
-                    console.log(1);
-                }
-            });
+          window.open("../add_route.html","_blank");
         });
     });
 

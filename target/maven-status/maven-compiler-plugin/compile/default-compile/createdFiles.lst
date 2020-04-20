@@ -22,14 +22,17 @@ cn\itcast\travel\dao\CategoryDao.class
 cn\itcast\travel\service\ManagerService.class
 cn\itcast\travel\dao\impl\UserDaoImpl.class
 cn\itcast\travel\service\impl\RouteServiceImpl.class
+cn\itcast\travel\service\SellerService.class
 cn\itcast\travel\domain\Manager.class
 cn\itcast\travel\dao\ManagerDao.class
 cn\itcast\travel\service\impl\FavoriteServiceImpl.class
 cn\itcast\travel\web\servlet\UserServlet.class
 cn\itcast\travel\web\servlet\ManagerServlet.class
 cn\itcast\travel\dao\FavoriteDao.class
+cn\itcast\travel\web\servlet\SellerServlet.class
 cn\itcast\travel\dao\RouteImgDao.class
 cn\itcast\travel\service\FavoriteService.class
 cn\itcast\travel\service\impl\UserServiceImpl.class
 cn\itcast\travel\dao\impl\FavoriteDaoImpl.class
+cn\itcast\travel\service\impl\SellerServiceImpl.class
 cn\itcast\travel\dao\impl\RouteDaoImpl.class

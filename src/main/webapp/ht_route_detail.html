@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>路线详情</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/route-detail.css">
+    <script src="js/vue.js"></script>
+</head>
+
+<body>
+<!--引入头部-->
+<div id="header"></div>
+    <!-- 详情 start -->   
+    <div class="wrap" id="detail">
+        <div class="bread_box" style="font-size: 28px">
+            <a href="/"></a>
+            <span> &gt;</span>
+            <a v-text="area"></a>
+            <span> &gt;</span>
+            <a href="#">{{route.rname}}</a>
+        </div>
+        <div class="prosum_box" style="margin-top: 20px">
+            <dl class="prosum_left">
+                <dt>
+                    <img alt="" class="big_img" :src="route.rimage">
+                </dt>
+                <dd id="dd" v-html="ddstr">
+                </dd>
+            </dl>
+            <div class="prosum_right">
+               <p class="pros_title" id="rname">{{route.rname}}</p>
+                <p class="hot" id="routeIntroduce">{{route.routeIntroduce}}</p>
+                <div class="pros_other">
+                    <p >
+                        发布者<span v-text="route.seller==null?'（个人）':'（商家）'"></span>  :
+                        <span id="sname" v-text="route.seller==null?route.user.name:route.seller.sname">
+                            城市国旅
+                        </span>
+                    </p>
+                    <p >
+                        <span v-text="route.seller==null?'邮箱地址 ：':'联系电话 ：'">联系电话 :</span>
+                        <span id="consphone" v-text="route.seller==null?route.user.email:route.seller.consphone">
+                            400-618-9090
+                        </span>
+                    </p>
+                    <p >地址 ：
+                        <span id="address" v-text="route.seller==null?'未填写':route.seller.address">
+                            丽水学院
+                        </span>
+                    </p>
+                </div>
+                <div class="pros_price">
+                    <p class="price">
+                        <span style="font-size: 18px;margin-right: 5px">花费</span>
+                        <strong id="price">{{route.price}}</strong>
+                        <span>起</span></p>
+                    <p class="collect">
+<!--                        <a class="btn" id="favorite"  @click="doFavorite" :class="flag?'already':''">-->
+<!--                            <i class="glyphicon glyphicon-heart-empty"></i>-->
+<!--                            <span v-text="shouchang">收藏</span>-->
+<!--                        </a>-->
+                       <!-- <a  class="btn already" disabled="disabled"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>-->
+                        <span id="favoriteCount" style="font-size: 18px">总收藏数：{{route.count}}</span>
+                    </p>
+                </div>        
+            </div>
+        </div>
+        <div class="you_need_konw">
+            <span>详情</span>
+            <div class="notice">
+                <p style="line-height: 35px">{{route.detail}}</p>
+            </div>
+        </div>
+    </div>
+    <!-- 详情 end -->
+
+    <!--引入头部-->
+    <div id="footer"></div>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <!--导入布局js，共享header和footer-->
+    <script src="js/getParameter.js"></script>
+    <script>
+
+    var detail = new Vue({
+        el:"#detail",
+        data:{
+            rid: null,
+            uid: null,
+            area: "浙江",
+            flag: false,
+            route:{
+                user:{},
+                seller: {}
+            },
+            ddstr: "",
+            shouchang: "收藏",
+            printer:{
+                name:"",
+                phone:"",
+                address:""
+            }
+        },
+        methods:{
+            goImg(){
+                //焦点图效果
+                //点击图片切换图片
+                $('.little_img').on('mousemove', function() {
+                    $('.little_img').removeClass('cur_img');
+                    var big_pic = $(this).data('bigpic');
+                    $('.big_img').attr('src', big_pic);
+                    $(this).addClass('cur_img');
+                });
+                //上下切换
+                var picindex = 0;
+                var nextindex = 4;
+                $('.down_img').on('click',function(){
+                    var num = $('.little_img').length;
+                    if((nextindex + 1) <= num){
+                        $('.little_img:eq('+picindex+')').hide();
+                        $('.little_img:eq('+nextindex+')').show();
+                        picindex = picindex + 1;
+                        nextindex = nextindex + 1;
+                    }
+                });
+                $('.up_img').on('click',function(){
+                    var num = $('.little_img').length;
+                    if(picindex > 0){
+                        $('.little_img:eq('+(nextindex-1)+')').hide();
+                        $('.little_img:eq('+(picindex-1)+')').show();
+                        picindex = picindex - 1;
+                        nextindex = nextindex - 1;
+                    }
+                });
+            },
+            findUser(){
+                var that = this;
+                $.get("user/findOne",{},function (data) {
+                    //{uid:1,name:'李四'}
+                    if(data!=null&&data.uid!=null){
+                        that.uid = data.uid;
+                        that.isFavorite();
+                    }
+
+                });
+            },
+            findOne(){
+                var that = this;
+                //1.获取rid
+                var rid = getParameter("rid");
+
+                //2.发送请求请求 route/findOne
+                $.get("route/findOne",{rid:rid},function (route) {
+                    //3.解析数据填充html
+                    that.route = route;
+                    if(route.cid==1){that.area = "莲都区"}
+                    else if(route.cid==2){that.area = "青田县"}
+                    else if(route.cid==3){that.area = "缙云县"}
+                    else if(route.cid==4){that.area = "遂昌县"}
+                    else if(route.cid==5){that.area = "松阳县"}
+                    else if(route.cid==6){that.area = "庆元县"}
+                    else if(route.cid==7){that.area = "景宁县"}
+                    else if(route.cid==8){that.area = "云和县"}
+                    else if(route.cid==9){that.area = "龙泉市"}
+                    //图片展示
+                    var ddstr = '<a class="up_img up_img_disable"></a>';
+                    //遍历routeImgList
+                    for (var i = 0; i < route.routeImgList.length; i++) {
+                        var astr;
+                        if (i >= 4) {
+                            astr = '<a title="" class="little_img" data-bigpic="' + route.routeImgList[i].bigPic + '" style="display:none;">\n' +
+                                '                        <img src="' + route.routeImgList[i].smallPic + '">\n' +
+                                '                    </a>';
+                        } else {
+                            astr = '<a title="" class="little_img" data-bigpic="' + route.routeImgList[i].bigPic + '">\n' +
+                                '                        <img src="' + route.routeImgList[i].smallPic + '">\n' +
+                                '                    </a>';
+                        }
+                        ddstr += astr;
+                    }
+                    ddstr += '<a class="down_img down_img_disable" style="margin-bottom: 0;"></a>';
+                    // that.ddstr = ddstr;
+                    $("#dd").html(ddstr);
+                    //图片展示和切换代码调用
+                    that.goImg();
+                });
+            },
+            //自动轮播方法
+            auto_play() {
+                var cur_index = $('.prosum_left dd').find('a.cur_img').index();
+                cur_index = cur_index - 1;
+                var num = $('.little_img').length;
+                var max_index = 3;
+                if ((num - 1) < 3) {
+                    max_index = num - 1;
+                }
+                if (cur_index < max_index) {
+                    var next_index = cur_index + 1;
+                    var big_pic = $('.little_img:eq(' + next_index + ')').data('bigpic');
+                    $('.little_img').removeClass('cur_img');
+                    $('.little_img:eq(' + next_index + ')').addClass('cur_img');
+                    $('.big_img').attr('src', big_pic);
+                } else {
+                    var big_pic = $('.little_img:eq(0)').data('bigpic');
+                    $('.little_img').removeClass('cur_img');
+                    $('.little_img:eq(0)').addClass('cur_img');
+                    $('.big_img').attr('src', big_pic);
+                }
+            },
+            // 发送请求，判断用户是否收藏过该线路
+            isFavorite(){
+                var that = this;
+                // console.log(that.uid)
+                if(this.uid==null||this.uid==null){
+                    return;
+                }
+                var rid = getParameter("rid");
+                $.get("route/isFavorite",{rid:rid},function (flag) {
+                    // alert(flag);
+                    if(flag){
+                        // 用户已经收藏过
+                        that.flag = flag;
+                        that.shouchang = "取消收藏";
+                    }else{
+                        that.flag = false;
+                        that.shouchang = "点击收藏";
+                    }
+                });
+            },
+            //点击收藏按钮触发的方法
+            addFavorite(){
+                // alert("add");
+                var that = this;
+                var rid = getParameter("rid");
+                //1. 判断用户是否登录
+                $.get("user/findOne",{},function (user) {
+                    if(user){
+                        //用户登录了
+                        //添加功能
+                        that.uid = user.uid;
+                        $.get("route/addFavorite",{rid:rid},function (data) {
+                            //代码刷新页面
+                            if(data){
+                                that.shouchang = "取消收藏"
+                                location.reload();
+                            }else {
+                                that.shouchang = "点击收藏"
+                            }
+
+                        });
+
+                    }else{
+                        //用户没有登录
+                        alert("您尚未登录，请登录");
+                        location.href="http://localhost/travel/login.html";
+                    }
+                })
+            },
+            removeFavorite(){
+                var that = this;
+                if(this.uid!=null&&this.uid!=0){
+                    var rid = this.rid;
+                    $.get("route/removeFavorite",{rid:rid},function (data) {
+                        //代码刷新页面
+                        if(data){
+                            that.shouchang = "点击收藏"
+                            location.reload();
+                        }else {
+                            that.shouchang = "取消收藏"
+                        }
+                    });
+                }else{
+                    //用户没有登录
+                    alert("您尚未登录，请登录");
+                    location.href="http://localhost/travel/login.html";
+                }
+
+            },
+            doFavorite(){
+                if(this.flag){
+                    this.removeFavorite();
+                } else{
+                    this.addFavorite();
+
+                }
+            }
+        },
+        created: function () {
+            this.rid = getParameter("rid");
+            this.goImg();
+            this.auto_play();
+            this.findOne();
+            this.findUser();
+        }
+    })
+    </script>
+</body>
+
+</html>
