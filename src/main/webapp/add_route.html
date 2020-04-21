@@ -57,6 +57,7 @@
                     <div class="form-group" style="margin-right: 20px" >
                         <label for="routeIntroduce">发布者选择</label>
                         <select class="form-control" name="sid" v-model="sid">
+                            <option value="0">用户</option>
                             <option v-for="(item, index) in sellers" :value="item.sid">{{item.sname}}</option>
                         </select>
                     </div>
@@ -185,11 +186,11 @@
                 formData.append('routeIntroduce', this.routeIntroduce);
                 formData.append('price', this.price);
                 formData.append('detail', this.detail);
-                if(this.sid!=null&&this.sid!=""){
+                if(this.sid!=null&&this.sid!=""&&this.sid!=0){
                     formData.append('sid', this.sid);
                 }
-                if(this.uid!=null&&this.uid!=""){
-                    formData.append('uid', this.uid);
+                if(this.uid!=null&&this.uid!=""&&this.uid!=0){
+                    formData.append('sourceId', this.uid);
                 }
                 for(var i=0;i<this.sfiles.length;i++){
                     formData.append("file"+i, this.sfiles[i]);
