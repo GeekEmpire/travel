@@ -15,20 +15,21 @@
         </a>
     </li>
     <li>
+        <a id="to_seller" class="list-group-item to_a">
+            <i class="glyphicon glyphicon-flash"></i>商家管理
+        </a>
+    </li>
+    <li>
         <a  id="to_routes" class="list-group-item to_a">
             <i class="glyphicon glyphicon-calendar"></i>路线管理
         </a>
     </li>
-    <li>
-        <a id="to_service" class="list-group-item to_a">
-            <i class="glyphicon glyphicon-flash"></i>敏感词管理
-        </a>
-    </li>
-    <li>
-        <a id="to_today" class="list-group-item  to_a">
-            <i class="glyphicon glyphicon-bell"></i>路线审批
-        </a>
-    </li>
+
+<!--    <li>-->
+<!--        <a id="to_today" class="list-group-item  to_a">-->
+<!--            <i class="glyphicon glyphicon-bell"></i>路线审批-->
+<!--        </a>-->
+<!--    </li>-->
     <li>
         <a id="to_analysis" class="list-group-item to_a">
             <i class="glyphicon glyphicon-indent-left"></i>数据分析
@@ -71,10 +72,10 @@
         });
 
         //客服服务
-        $('#to_service').on('click', function () {
-            $(".midpage").load("service.html");
+        $('#to_seller').on('click', function () {
+            $(".midpage").load("seller.html");
             $('.to_a').css('background', '#fff')
-            $('#to_service').css('background','#efefef');
+            $('#to_seller').css('background','#efefef');
         });
 
         // 今日详情

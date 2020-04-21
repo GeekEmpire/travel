@@ -37,7 +37,7 @@
                     <li class="threeword pointer" v-if="pb.currentPage>1" @click="load(pb.currentPage-1,null,1,null,null)"><a href="#">上一页</a></li>
                     <li class="threeword pointer" v-if="pb.currentPage<=1" ><a>上一页</a></li>
 
-                    <li v-for="index in endP" :class="index==pb.currentPage?'curPage pointer':'pointer'" v-if="index>=beginP" @click="load(index,null,1,null,null)"><a>{{index}}</a></li>';
+                    <li v-for="index in endP" :class="index==pb.currentPage?'curPage pointer':'pointer'" v-if="index>=beginP" @click="load(index,null,1,null,null)"><a>{{index}}</a></li>
 
                     <li class="threeword pointer" v-if="pb.currentPage+1<=pb.totalPage" @click="load(pb.currentPage+1,null,1,null,null)"><a>下一页</a></li>
                     <li class="threeword pointer" v-if="pb.currentPage+1>pb.totalPage"><a>下一页</a></li>
@@ -59,9 +59,7 @@
                 search: '',
                 bprice: '',
                 eprice: '',
-                pb:{
-
-                },
+                pb:{},
                 beginP: 1,
                 endP: 10,
                 startr: 0,
@@ -73,11 +71,17 @@
                     this.load(null, this.search, 1, this.bprice, this.eprice);
                 },
                 load(currentPage,rname,rank,bprice,eprice){
+                    var that = this;
+                    console.log(that.search)
                     //发送ajax请求，请求route/pageQuery,传递cid
-                    if(this.isSearch){
-                        rname = this.rname;
-                        bprice = this.bprice;
-                        eprice = this.eprice;
+                    if(!this.isSearch){
+                        rname = "";
+                        bprice = "";
+                        eprice = "";
+                    }else{
+                        rname = that.search;
+                        bprice = that.bprice;
+                        eprice = that.eprice;
                     }
                     var that = this;
                     if(currentPage<1){
@@ -85,7 +89,7 @@
                     }else if(currentPage>that.pb.totalPage){
                         currentPage = that.pb.totalPage;
                     }
-                    $.get("route/pageQuery",{currentPage:currentPage,
+                    $.post("route/pageQuery",{currentPage:currentPage,
                         rname:rname,
                         rank:rank,
                         bprice: bprice,

@@ -1,0 +1,395 @@
+<div class="col-xs-12 col-sm-9 content">
+    <div class="panel panel-default">
+        <!--内容上面标题部分-->
+        <div class="panel-heading">
+            <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> 用户管理</h3>
+            <!--<a href="#">刷新</a>-->
+        </div>
+        <div class="panel-body">
+            <div class="content-row">
+                <div class="col-md-12">
+                    <!-- table-model -->
+                    <div class="searchTable" id="app_search"><!--搜索-->
+                        按{{way}}搜索：
+                        <div class="layui-inline">
+                            <input class="layui-input" name="id" id="searchReload" autocomplete="off">
+                        </div>
+                        <div class="search_way">
+                            搜索方式：
+                            <select name="city" id="choice_way" lay-verify="required" @change="change">
+                                <option value="sname">按名字</option>
+                                <option value="consphone">按电话</option>
+                                <option value="address">按地址</option>
+                            </select>
+                        </div>
+                        <button class="layui-btn" data-type="reload">搜索</button>
+                        <button class="layui-btn me_fr" id="mz_add_user">添加商家</button>
+                    </div>
+                    <table class="layui-hide" id="mz_user_table" lay-filter="mz_user_table"></table>
+                    <div id="laypage_user"></div>
+                    <script type="text/html" id="toolbarMeet">
+                        <div class="layui-btn-container">
+                            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+                            <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+                            <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+                            <button class="layui-btn layui-btn-sm" lay-event="addTable">添加</button>
+                        </div>
+                    </script>
+                    <script type="text/html" id="barMeet">
+                        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">注销</a>
+                    </script>
+                </div>
+            </div>
+        </div><!-- panel body -->
+    </div>
+</div><!-- content -->
+
+<!--添加user，弹出框-->
+<div id="mz_add_info" class="me_none">
+    <form class="layui-form me_margin_top" id="user_add" action="" lay-filter="addForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">商家名</label>
+            <div class="layui-input-block">
+                <input type="text" name="sname" id="sname" required  lay-verify="name" placeholder="请输入商家名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">电话号</label>
+            <div class="layui-input-block">
+                <input type="text" name="consphone" id="consphone" lay-verify="required" placeholder="请输入电话号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+                <textarea name="address" placeholder="请输入地址" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<!--修改user，弹出框-->
+<div id="mz_edit_info"  class="me_none">
+    <form class="layui-form me_margin_top" id="user_edit" action="" lay-filter="editForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">商家名</label>
+            <div class="layui-input-block">
+                <input type="text" name="sname"  lay-verify="required" placeholder="请输入商家名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">电话号</label>
+            <div class="layui-input-block">
+                <input type="text" name="consphone" lay-verify="required" placeholder="请输入电话号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+                <textarea name="address" placeholder="请输入地址" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    var vm = new Vue({
+        el: '#app_search',
+        data:{
+            way: '名字',
+            v: 0,
+            imgId: 1
+        },
+        methods:{
+            change(select){  //搜索方式改变
+                this.v = select.target.value;
+                if(this.v=="sname") { this.way = '名字'}
+                if(this.v=="consphone") { this.way = '电话'}
+                if(this.v=="address") { this.way = '地址'}
+            }
+        }
+    });
+
+    //数据表格
+    var curnum = 1;
+    var size = 10;
+    function user_search(curnum,size){
+        layui.use(['table','laypage'], function(){
+            var table = layui.table;
+            var laypage = layui.laypage;
+
+            table.render({
+                elem: '#mz_user_table'
+                ,url:'../seller/pageQuery'
+                ,toolbar: '#toolbarMeet'
+                ,title: '用户数据表'
+                ,id:'user_table'
+                // ,contentType: 'application/json'
+                ,method: 'post'
+                ,cols: [[
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field:'sid', title:'ID', fixed: 'left',width:60, unresize: true, sort: true}
+                    ,{field:'sname', title:'名字', width:120}
+                    ,{field:'consphone', title:'电话', width:240}
+                    ,{field:'address', title:'地址', width:380}
+                    ,{fixed: 'right', title:'操作', toolbar: '#barMeet', width:130}
+                ]]
+                ,page: false
+                ,where: {pageSize:size, currentPage:curnum,order :'id asc'}
+                ,parseData: function(res){ //res 即为原始返回的数据
+                    // console.log(res);
+                    var code = null;
+                    if(res!=null) code = 0;
+                    return {
+                        "code": code, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.totalCount, //解析数据长度
+                        "data": res.list //解析数据列表
+                    };
+                }
+                ,done: function(res, curr, count){
+                    //如果是异步请求数据方式，res即为你接口返回的信息。
+                    //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                    laypage.render({
+                        elem:'laypage_user'
+                        ,count:count
+                        ,curr:curnum
+                        ,limit:size
+                        ,layout: ['prev', 'page', 'next', 'skip','count','limit', 'refresh']
+                        ,jump:function (obj,first) {
+                            if(!first){
+                                curnum = obj.curr;
+                                size = obj.limit;
+                                user_search(curnum,size);  //重新渲染
+                            }
+                        }
+                    })
+                }
+            });
+
+            //监听头部工具事件
+            table.on('toolbar(mz_user_table)', function(obj){
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch(obj.event){
+                    case 'getCheckData':
+                        var data = checkStatus.data;
+                        layer.alert(JSON.stringify(data));
+                        break;
+                    case 'getCheckLength':
+                        var data = checkStatus.data;
+                        layer.msg('选中了：'+ data.length + ' 个');
+                        break;
+                    case 'isAll':
+                        layer.msg(checkStatus.isAll ? '全选': '未全选');
+                        break;
+                };
+            });
+
+            //监听行工具事件
+            table.on('tool(mz_user_table)', function(obj){
+                var data = obj.data;  //获得当前行数据
+                console.log(data)
+                var e = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+                if(e === 'del'){    //table行注销事件
+                    layer.confirm('真的注销该用户吗？', function(index){
+                        var tdata = {
+                            uid: data.uid
+                        };
+                        $.ajax({
+                            url:"../user/changeUser",
+                            type:"POST",
+                            data:tdata,
+                            success:function(result){ //所有错误信息都如result.message有关
+                                if(result){
+                                    alert("注销成功")
+                                }else{
+                                    alert("注销失败")
+                                }
+                                user_search(curnum,size);
+                                layer.close(index);//关闭弹出框
+                            }
+                        });
+                    });
+                } else if(e === 'edit'){    //table行编辑事件
+
+                    //渲染修改界面
+                    layui.use('form', function(){
+                        var form = layui.form;
+                        form.val("editForm", data);
+                    });
+                    layer.open({
+                        type: 1
+                        ,title: "编辑信息" //不显示标题栏
+                        // ,closeBtn: true
+                        ,area: '400px'
+                        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                        ,btn: ['确定', '取消']
+                        ,btnAlign: 'c'
+                        ,moveType: 1 //拖拽模式，0或者1
+                        ,content: $('#mz_edit_info')
+                        ,yes:function (index, layero) {
+                            var tdata = $('form[id="user_edit"]').serializeObject();
+                            tdata.uid = data.uid;
+                            tdata.m = 1;
+                            $.ajax({
+                                url:"../user/update",
+                                type:"POST",
+                                data:tdata,
+                                success:function(result){ //所有错误信息都如result.message有关
+                                    if(result.flag){
+                                        alert("修改成功")
+                                        $('#user_edit')[0].reset();
+                                        layer.close(index);  //关闭弹出层
+                                        user_search(curnum,size);
+                                    } else{
+                                        alert(result.errorMsg)
+                                        layui.use('form', function(){
+                                            var form = layui.form;
+                                            data.password = '';
+                                            form.val("editForm", data);
+                                            form.render('select');
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                        ,btn2:function (index, layero) {
+
+                        }
+                    });
+                }
+            });
+
+            //搜索重载
+            var $ = layui.$, active = {
+                reload: function(){
+                    var searchReload = $('#searchReload');
+
+                    //执行重载
+                    var key = $('#searchReload').val();
+                    var way = $('#choice_way').val();
+                    var tdata = {};
+                    if(way=="username"){
+                        tdata.username = key;
+                        tdata.name = null;
+                        tdata.sex = null;
+                        tdata.telephone = null
+                        tdata.email = null;
+                    } else if(way=="name"){
+                        tdata.name = key;
+                        tdata.username = null;
+                        tdata.sex = null;
+                        tdata.telephone = null;
+                        tdata.email = null;
+                    } else if(way=="telephone"){
+                        tdata.telephone = key;
+                        tdata.username = null;
+                        tdata.name = null;
+                        tdata.email = null,
+                        tdata.sex = null
+                    } else if(way=="email"){
+                        tdata.email = key;
+                        tdata.name = null;
+                        tdata.sex = null;
+                        tdata.username = null;
+                        tdata.telephone = null;
+                    } else if(way=="sex"){
+                        tdata.sex = key;
+                        tdata.name = null;
+                        tdata.username = null;
+                        tdata.email = null,
+                        tdata.telephone = null
+                    }
+                    if(key==null||key==''){
+                        tdata.companyId = null;
+                        tdata.name = null;
+                        tdata.email = null;
+                        tdata.telephone = null
+                    }
+                    tdata.order = 'id asc';
+                    console.log(tdata);
+                    table.reload('user_table', {
+                        where: tdata
+                    });
+                }
+            };
+            $('.searchTable .layui-btn').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+        });
+    }
+
+    user_search(curnum,size);
+
+    //添加user
+    $('#mz_add_user').on("click", function () {
+        layer.open({
+            type: 1
+            ,title: "添加用户" //不显示标题栏
+            ,area: '400px'
+            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+            ,btn: ['确定', '取消']
+            ,btnAlign: 'c'
+            ,moveType: 1 //拖拽模式，0或者1
+            ,content: $('#mz_add_info')
+            ,yes:function (index, layero) {
+                var tdata = $('form[id="user_add"]').serializeObject();
+                tdata.m = 1;
+                $.ajax({
+                    url:"../user/regist",
+                    type:"POST",
+                    data:tdata,
+                    success:function(result){ //所有错误信息都如result.message有关
+                        if(result.flag){
+                            alert("添加成功")
+                            $('#user_add')[0].reset();
+                            layer.close(index);  //关闭弹出层
+                            layui.use('table', function() {
+                                var table = layui.table;
+                                user_search(curnum,size);
+                            });
+                        } else{
+                            alert(result.errorMsg)
+                        }
+
+                    }
+                });
+            }
+            ,btn2:function (index, layero) {
+                $('#user_add')[0].reset();   //[0]必须得加，清楚已填数据
+            }
+        });
+    });
+
+    /**
+     * 自动将form表单封装成json对象
+     */
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [ o[this.name] ];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+</script>
+
+
+
+<!--
+存在问题：
+1.数据提交失败后，表单重新渲染的问题
+2.数据未空时出现的问题
+
+-->

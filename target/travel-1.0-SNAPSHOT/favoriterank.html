@@ -10,106 +10,38 @@
     <body>
     <!--引入头部-->
     <div id="header"></div>
-        <div class="contant">
+        <div class="contant" id="content">
             <div class="shaixuan">
                 <span>线路名称</span>
-                <input type="text">
+                <input type="text" v-model="search">
                 <span>金额</span>
-                <input type="text">~<input type="text">
-                <button>搜索</button>
+                <input type="text" v-model="bprice">~<input type="text" v-model="eprice">
+                <button @click="searchRoutes">搜索</button>
             </div>
             <div class="list clearfix">
                 <ul>
-                    <li>
-                        <span class="num one">1</span>
-                        <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
-                        <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
+                    <li v-for="(item,index) in pb.list">
+                        <span class="num" v-text="index+1+startr" :class="index+startr==0?'one':(index+startr==1?'two':'')"></span>
+                        <a :href="'route_detail.html?rid='+item.rid"><img :src="item.rimage" alt=""></a>
+                        <h4><a href="'route_detail.html?rid='+item.rid">{{item.rname}}</a></h4>
                         <p>
-                            <b class="price">&yen;<span>899</span>起</b>
-                            <span class="shouchang">已收藏450次</span>
-                        </p>
-                    </li>
-                    <li>
-                        <span class="num two">2</span>
-                         <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
-                        <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
-                        <p>
-                            <b class="price">&yen;<span>899</span>起</b>
-                            <span class="shouchang">已收藏450次</span>
-                        </p>
-                    </li>
-                    <li>
-                        <span class="num">3</span>
-                         <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
-                        <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
-                        <p>
-                            <b class="price">&yen;<span>899</span>起</b>
-                            <span class="shouchang">已收藏450次</span>
-                        </p>
-                    </li>
-                    <li>
-                        <span class="num">4</span>
-                         <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
-                        <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
-                        <p>
-                            <b class="price">&yen;<span>899</span>起</b>
-                            <span class="shouchang">已收藏450次</span>
-                        </p>
-                    </li>
-                    <li>
-                        <span class="num">5</span>
-                         <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
-                        <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
-                        <p>
-                            <b class="price">&yen;<span>899</span>起</b>
-                            <span class="shouchang">已收藏450次</span>
-                        </p>
-                    </li>
-                    <li>
-                        <span class="num">6</span>
-                         <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
-                        <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
-                        <p>
-                            <b class="price">&yen;<span>899</span>起</b>
-                            <span class="shouchang">已收藏450次</span>
-                        </p>
-                    </li>
-                    <li>
-                        <span class="num">7</span>
-                         <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
-                        <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
-                        <p>
-                            <b class="price">&yen;<span>899</span>起</b>
-                            <span class="shouchang">已收藏450次</span>
-                        </p>
-                    </li>
-                    <li>
-                        <span class="num">8</span>
-                        <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
-                        <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
-                        <p>
-                            <b class="price">&yen;<span>899</span>起</b>
-                            <span class="shouchang">已收藏450次</span>
+                            <b class="price">&yen;<span>{{item.price}}</span>起</b>
+                            <span class="shouchang">已收藏{{item.count}}次</span>
                         </p>
                     </li>
                 </ul>
             </div>
             <div class="pageNum">
-                <ul>
-                    <li><a href="">首页</a></li>
-                    <li class="threeword"><a href="#">上一页</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li><a href="#">7</a></li>
-                    <li><a href="#">8</a></li>
-                    <li><a href="#">9</a></li>
-                    <li><a href="#">10</a></li>
-                    <li class="threeword"><a href="javascript:;">下一页</a></li>
-                    <li class="threeword"><a href="javascript:;">末页</a></li>
+                <ul  id="pageLi">
+                    <li class="pointer" @click="load(1,null,1,null,null)"><a>首页</a></li>
+                    <li class="threeword pointer" v-if="pb.currentPage>1" @click="load(pb.currentPage-1,null,1,null,null)"><a href="#">上一页</a></li>
+                    <li class="threeword pointer" v-if="pb.currentPage<=1" ><a>上一页</a></li>
+
+                    <li v-for="index in endP" :class="index==pb.currentPage?'curPage pointer':'pointer'" v-if="index>=beginP" @click="load(index,null,1,null,null)"><a>{{index}}</a></li>';
+
+                    <li class="threeword pointer" v-if="pb.currentPage+1<=pb.totalPage" @click="load(pb.currentPage+1,null,1,null,null)"><a>下一页</a></li>
+                    <li class="threeword pointer" v-if="pb.currentPage+1>pb.totalPage"><a>下一页</a></li>
+                    <li class="threeword pointer"  @click="load(pb.totalPage,null,1,null,null)"><a>末页</a></li>
                 </ul>
             </div>
         </div>
@@ -118,5 +50,91 @@
    		 <div id="footer"></div>
     <!--导入布局js，共享header和footer-->
     <script type="text/javascript" src="js/include.js"></script>
+    <script src="js/vue.js"></script>
+    <script>
+        var rank = new Vue({
+            el:"#content",
+            data:{
+                uid: null,
+                search: '',
+                bprice: '',
+                eprice: '',
+                pb:{
+
+                },
+                beginP: 1,
+                endP: 10,
+                startr: 0,
+                isSearch: false,
+            },
+            methods:{
+                searchRoutes(){
+                    this.isSearch = true;
+                    this.load(null, this.search, 1, this.bprice, this.eprice);
+                },
+                load(currentPage,rname,rank,bprice,eprice){
+                    //发送ajax请求，请求route/pageQuery,传递cid
+                    if(this.isSearch){
+                        rname = this.rname;
+                        bprice = this.bprice;
+                        eprice = this.eprice;
+                    }
+                    var that = this;
+                    if(currentPage<1){
+                        currentPage = 1;
+                    }else if(currentPage>that.pb.totalPage){
+                        currentPage = that.pb.totalPage;
+                    }
+                    $.get("route/pageQuery",{currentPage:currentPage,
+                        rname:rname,
+                        rank:rank,
+                        bprice: bprice,
+                        eprice: eprice
+                    }, function (pb) {
+                        that.pb = pb;
+                        that.startr = (pb.currentPage-1)*8;
+                        //1.2 展示分页页码
+                        /*
+                            1.一共展示10个页码，能够达到前5后4的效果
+                            2.如果前边不够5个，后边补齐10个
+                            3.如果后边不足4个，前边补齐10个
+                            定义开始位置begin,结束位置 end
+                        */
+                        var begin; // 开始位置
+                        var end ; //  结束位置
+                        //1.要显示10个页码
+                        if(pb.totalPage < 10){
+                            //总页码不够10页
+                            begin = 1;
+                            end = pb.totalPage;
+                        }else{
+                            //总页码超过10页
+                            begin = pb.currentPage - 5 ;
+                            end = pb.currentPage + 4 ;
+                            //2.如果前边不够5个，后边补齐10个
+                            if(begin < 1){
+                                begin = 1;
+                                end = begin + 9;
+                            }
+                            //3.如果后边不足4个，前边补齐10个
+                            if(end > pb.totalPage){
+                                end = pb.totalPage;
+                                begin = end - 9 ;
+                            }
+                        }
+                        that.beginP = begin;
+                        that.endP = end;
+                        //定位到页面顶部
+                        window.scrollTo(0,0);
+                    });
+
+                }
+            },
+            created:function () {
+                this.load(null,this.search,1,this.bprice,this.eprice)
+            },
+
+        })
+    </script>
     </body>
 </html>

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>黑马旅游网</title>
+    <title>丽水旅游网</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/common.css">
@@ -23,6 +23,7 @@
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="js/vue.js"></script>
 </head>
 <body>
 	<!--引入头部-->
@@ -39,13 +40,13 @@
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">
                 <div class="item active">
-                    <img src="images/banner_1.jpg" alt="">
+                    <img src="images/sc1.jpg" alt="" class="banner_img">
                 </div>
                 <div class="item">
-                    <img src="images/banner_2.jpg" alt="">
+                    <img src="images/sc2.jpg" alt="" class="banner_img">
                 </div>
                 <div class="item">
-                    <img src="images/banner_3.jpg" alt="">
+                    <img src="images/sc3.jpg" alt="" class="banner_img">
                 </div>
             </div>
             <!-- Controls -->
@@ -62,12 +63,12 @@
     <!-- banner end-->
     <!-- 旅游 start-->
     <section id="content">
-         <!-- 黑马精选start-->
+         <!-- 丽水精选start-->
         <section class="hemai_jx">
             <div class="jx_top">
                 <div class="jx_tit">
                     <img src="images/icon_5.jpg" alt="">
-                    <span>黑马精选</span>
+                    <span>丽水精选</span>
                 </div>
                 <!-- Nav tabs -->
                 <ul class="jx_tabs" role="tablist">
@@ -91,38 +92,38 @@
                     <div role="tabpanel" class="tab-pane active" id="popularity">
                         <div class="row">
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_4.jpg" alt="">
+                                <a href="route_detail.html?rid=1">
+                                    <img src="images/bg.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>缙云县仙都景区(丽水必去+影视取景圣地)</h3>
+                                        <div class="price">花费<em>￥</em><strong>100</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_4.jpg" alt="">
+                                <a href="route_detail.html?rid=2">
+                                    <img src="images/jx01.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>丽水龙泉市安仁古镇</h3>
+                                        <div class="price">花费<em>￥</em><strong>0</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_4.jpg" alt="">
+                                <a href="route_detail.html?rid=3">
+                                    <img src="images/jx02.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>丽水云和梯田2天1晚自驾游（梅雨天气+云海）</h3>
+                                        <div class="price">花费<em>￥</em><strong>100</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_4.jpg" alt="">
+                                <a href="route_detail.html?rid=4">
+                                    <img src="images/jx03.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>莲都区古堰画乡（如诗如画+灵感圣地）</h3>
+                                        <div class="price">花费<em>￥</em><strong>80</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
@@ -131,38 +132,38 @@
                     <div role="tabpanel" class="tab-pane" id="newest">
                         <div class="row">
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_1.jpg" alt="">
+                                <a href="route_detail.html?rid=5">
+                                    <img src="images/jx11.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>丽水九坑桃花源（春天赏花必去+农家乐）</h3>
+                                        <div class="price">费用<em>￥</em><strong>0</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_1.jpg" alt="">
+                                <a href="route_detail.html?rid=6">
+                                    <img src="images/jx12.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>笕川花海(春季赏花+游乐场+水上乐园)</h3>
+                                        <div class="price">费用<em>￥</em><strong>150</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_1.jpg" alt="">
+                                <a href="route_detail.html?rid=7">
+                                    <img src="images/jx13.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>长汀沙滩（沙滩+放风筝圣地+亲子游+农家乐）</h3>
+                                        <div class="price">网付价<em>￥</em><strong>100</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_1.jpg" alt="">
+                                <a href="route_detail.html?rid=8">
+                                    <img src="images/jx14.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>红星坪温泉度假村（温泉+度假+休闲）</h3>
+                                        <div class="price">花费<em>￥</em><strong>200</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
@@ -171,38 +172,38 @@
                     <div role="tabpanel" class="tab-pane" id="theme">
                         <div class="row">
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_2.jpg" alt="">
+                                <a href="route_detail.html?rid=9">
+                                    <img src="images/jx21.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>丽水东西岩“三月三”畲乡风情节(民族风情)</h3>
+                                        <div class="price">费用<em>￥</em><strong>0</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_2.jpg" alt="">
+                                <a href="route_detail.html?rid=10">
+                                    <img src="images/jx22.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>畲乡景宁洗井泼水节(节日)</h3>
+                                        <div class="price">费用<em>￥</em><strong>0</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_2.jpg" alt="">
+                                <a href="route_detail.html?rid=11">
+                                    <img src="images/jx23.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>庆元西洋村菇神庙会（非物质文化遗产）</h3>
+                                        <div class="price">费用<em>￥</em><strong>0</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="javascript:;">
-                                    <img src="images/jiangxuan_2.jpg" alt="">
+                                <a href="route_detail.html?rid=12">
+                                    <img src="images/jx24.jpg" alt="">
                                     <div class="has_border">
-                                        <h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-                                        <div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>
+                                        <h3>崇头镇云和梯田开犁节（摄影之乡+云海+梯田+山村+竹海+瀑布+雾凇）</h3>
+                                        <div class="price">费用<em>￥</em><strong>100</strong><em>起</em></div>
                                     </div>
                                 </a>
                             </div>
@@ -211,27 +212,118 @@
                 </div>
             </div>
         </section>
-        <!-- 黑马精选end-->
-        <!-- 国内游 start-->
+        <!-- 丽水精选end-->
+        <!-- 浙江游 start-->
         <section class="hemai_jx">
             <div class="jx_top">
                 <div class="jx_tit">
                     <img src="images/icon_6.jpg" alt="">
-                    <span>国内游</span>
+                    <span>浙江游</span>
                 </div>
             </div>
             <div class="heima_gn">
                 <div class="guonei_l">
-                    <img src="images/guonei_1.jpg" alt="">
+                    <img src="images/zhejiang.jpg" alt="">
+                </div>
+                <div class="guone_r">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="route_detail.html?rid=9">
+								<img src="images/zj01.jpg" alt="">
+								<div class="has_border">
+									<h3>浙江丽水东西岩</h3>
+									<div class="price">花费<em>￥</em><strong>50</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="route_detail.html?rid=19">
+								<img src="images/zj02.jpg" alt="">
+								<div class="has_border">
+									<h3>浙江温州雁荡山（5A） </h3>
+									<div class="price">花费<em>￥</em><strong>150</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="route_detail.html?rid=20">
+								<img src="images/zj03.jpg" alt="">
+								<div class="has_border">
+									<h3>浙江嘉兴西塘（千年古镇）</h3>
+									<div class="price">花费<em>￥</em><strong>100</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="route_detail.html?rid=21">
+								<img src="images/zj04.jpg" alt="">
+								<div class="has_border">
+									<h3>浙江省台州市神仙居（火山流纹岩地貌）</h3>
+									<div class="price">花费<em>￥</em><strong>150</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="route_detail.html?rid=3">
+									<img src="images/jx24.jpg" alt="">
+								<div class="has_border">
+									<h3>浙江丽水云和梯田</h3>
+									<div class="price">花费<em>￥</em><strong>100</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="route_detail.html?rid=7">
+								<img src="images/jx13.jpg" alt="">
+								<div class="has_border">
+									<h3>浙江丽水长汀沙滩</h3>
+									<div class="price">花费<em>￥</em><strong>100</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 浙江游 end-->
+        <!-- 世界游 start-->
+        <section class="hemai_jx">
+            <div class="jx_top">
+                <div class="jx_tit">
+                    <img src="images/icon_7.jpg" alt="">
+                    <span>世界游</span>
+                </div>
+            </div>
+            <div class="heima_gn">
+                <div class="guonei_l">
+                    <img src="images/world.jpg" alt="">
                 </div>
                 <div class="guone_r">
                     <div class="row">
                         <div class="col-md-4">
                             <a href="route_detail.html">
-								<img src="images/jiangxuan_4.jpg" alt="">
+								<img src="images/jiangxuan_1.jpg" alt="">
 								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
+									<h3>海边度假村（蜜月+度假+海边）</h3>
+									<div class="price">花费<em>￥</em><strong>889</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="route_detail.html">
+								<img src="images/jiangxuan_2.jpg" alt="">
+								<div class="has_border">
+									<h3>海上游艇(度假+游玩)</h3>
+									<div class="price">花费<em>￥</em><strong>998</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="route_detail.html">
+								<img src="images/jiangxuan_3.jpg" alt="">
+								<div class="has_border">
+									<h3>国际森林公园(公园+大自然)</h3>
+									<div class="price">花费<em>￥</em><strong>300</strong><em>起</em></div>
 								</div>
 							</a>
                         </div>
@@ -239,44 +331,17 @@
                             <a href="route_detail.html">
 								<img src="images/jiangxuan_4.jpg" alt="">
 								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
+									<h3>三亚度假村(亲子+蜜月+休闲游首选)</h3>
+									<div class="price">花费<em>￥</em><strong>3888</strong><em>起</em></div>
 								</div>
 							</a>
                         </div>
                         <div class="col-md-4">
                             <a href="route_detail.html">
-								<img src="images/jiangxuan_4.jpg" alt="">
+									<img src="images/jiangxuan_5.jpg" alt="">
 								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
-								</div>
-							</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="route_detail.html">
-								<img src="images/jiangxuan_4.jpg" alt="">
-								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
-								</div>
-							</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="route_detail.html">
-									<img src="images/jiangxuan_4.jpg" alt="">
-								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
-								</div>
-							</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="route_detail.html">
-								<img src="images/jiangxuan_4.jpg" alt="">
-								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
+									<h3>浪漫城(蜜月+休闲+豪华酒店)</h3>
+									<div class="price">花费<em>￥</em><strong>4888</strong><em>起</em></div>
 								</div>
 							</a>
                         </div>
@@ -285,83 +350,25 @@
             </div>
         </section>
         <!-- 国内游 end-->
-        <!-- 境外游 start-->
-        <section class="hemai_jx">
-            <div class="jx_top">
-                <div class="jx_tit">
-                    <img src="images/icon_7.jpg" alt="">
-                    <span>境外游</span>
-                </div>
-            </div>
-            <div class="heima_gn">
-                <div class="guonei_l">
-                    <img src="images/jiangwai_1.jpg" alt="">
-                </div>
-                <div class="guone_r">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <a href="route_detail.html">
-								<img src="images/jiangxuan_4.jpg" alt="">
-								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
-								</div>
-							</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="route_detail.html">
-								<img src="images/jiangxuan_4.jpg" alt="">
-								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
-								</div>
-							</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="route_detail.html">
-								<img src="images/jiangxuan_4.jpg" alt="">
-								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
-								</div>
-							</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="route_detail.html">
-								<img src="images/jiangxuan_4.jpg" alt="">
-								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
-								</div>
-							</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="route_detail.html">
-									<img src="images/jiangxuan_4.jpg" alt="">
-								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
-								</div>
-							</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="route_detail.html">
-								<img src="images/jiangxuan_4.jpg" alt="">
-								<div class="has_border">
-									<h3>上海直飞三亚5天4晚自由行(春节预售+亲子/蜜月/休闲游首选+豪华酒店任选+接送机)</h3>
-									<div class="price">网付价<em>￥</em><strong>889</strong><em>起</em></div>									
-								</div>
-							</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- 境外游 end-->
     </section>
     <!-- 旅游 end-->
    <!--导入底部-->
     <div id="footer"></div>
 
+<script>
+    var index = new Vue({
+        el:"#content",
+        data:{
+            ls: "丽水",
+            city: "浙江",
+        },
+        methods:{
+
+        },
+        created: function () {
+
+        }
+    })
+</script>
 </body>
 </html>

@@ -1,50 +1,8 @@
 <!-- 头部 start -->
-
 <script src="js/getParameter.js"></script>
-<script>
-    $(function () {
-        //查询用户信息
-        $.get("user/findOne",{},function (data) {
-           //{uid:1,name:'李四'}
-           var msg = "欢迎回来，"+data.name;
-           $("#span_username").html(msg);
+<script src="js/vue.js"></script>
 
-       });
-
-       //查询分类数据
-        $.get("category/findAll",{},function (data) {
-            //[{cid:1,cname:国内游},{},{}]
-            var lis = '<li class="nav-active"><a href="index.html">首页</a></li>';
-            //遍历数组,拼接字符串(<li>)
-            for (var i = 0; i < data.length; i++) {
-                var li = '<li><a href="route_list.html?cid='+data[i].cid+'">'+data[i].cname+'</a></li>';
-
-                lis += li;
-                
-            }
-            
-
-            //拼接收藏排行榜的li,<li><a href="favoriterank.html">收藏排行榜</a></li>
-            
-            lis+= '<li><a href="favoriterank.html">收藏排行榜</a></li>';
-
-            //将lis字符串，设置到ul的html内容中
-            $("#category").html(lis);
-        });
-
-
-        //给搜索按钮绑定单击事件，获取搜索输入框的内容
-        $("#search-button").click(function () {
-            //线路名称
-            var rname = $("#search_input").val();
-
-            var cid = getParameter("cid");
-            // 跳转路径 http://localhost/travel/route_list.html?cid=5，拼接上rname=xxx
-            location.href="http://localhost/travel/route_list.html?cid="+cid+"&rname="+rname;
-        });
-    });
-
-</script>
+<div id="vm">
 
 <header id="header">
         <div class="top_banner">
@@ -58,20 +16,19 @@
             </div>
             <!-- 登录状态  -->
             <div class="login">
-            	
-                <span id="span_username"></span>
-                <a href="myfavorite.html" class="collection">我的收藏</a>
-                <a href="javascript:location.href='exitServlet';">退出</a>
+                <a id="span_username" style="color: black" v-text="welcome" :href="'person.html?uid='+uid"></a>
+                <a @click="toFavorite" style="cursor: pointer" class="collection">我的收藏</a>
+                <a href="javascript:location.href='user/exit';">退出</a>
             </div>
         </div>
         <div class="header_wrap">
             <div class="topbar">
                 <div class="logo">
-                    <a href="/"><img src="images/logo.jpg" alt=""></a>
+                    <a href="myshared.html?cid=-3"><img src="images/logo.jpg" id="logo" alt=""></a>
                 </div>
                 <div class="search">
-                    <input name="" id="search_input"  type="text" placeholder="请输入路线名称" class="search_input" autocomplete="off">
-                    <a href="javascript:;" id="search-button" class="search-button">搜索</a>
+                    <input name="" id="search_input" v-model="search" @keyup.enter="searchRoutes" type="text" placeholder="请输入地点名称" class="search_input" autocomplete="off">
+                    <a href="javascript:;" @click="searchRoutes"   id="search-button" class="search-button">搜索</a>
                 </div>
                 <div class="hottel">
                     <div class="hot_pic">
@@ -84,21 +41,88 @@
                 </div>
             </div>
         </div>
+
     </header>
     <!-- 头部 end -->
      <!-- 首页导航 -->
     <div class="navitem">
         <ul id="category" class="nav">
-           <!-- <li class="nav-active"><a href="index.html">首页</a></li>
-            <li><a href="route_list.html">门票</a></li>
-            <li><a href="route_list.html">酒店</a></li>
-            <li><a href="route_list.html">香港车票</a></li>
-            <li><a href="route_list.html">出境游</a></li>
-            <li><a href="route_list.html">国内游</a></li>
-            <li><a href="route_list.html">港澳游</a></li>
-            <li><a href="route_list.html">抱团定制</a></li>
-            <li><a href="route_list.html">全球自由行</a></li>
-            <li><a href="favoriterank.html">收藏排行榜</a></li>-->
+            <li :class="cid==-1?'nav-active':''"><a href="index.html?cid=-1">首页</a></li>
+            <li v-for="(item,index) in categorys" :class="item.cid-cid==0?'nav-active':''">
+                <a :href="'route_list.html?cid='+item.cid">{{item.cname}}</a>
+            </li>
+            <li :class="cid==-2?'nav-active':''"><a href="favoriterank.html?cid=-2">收藏排行榜</a></li>
         </ul>
     </div>
+</div>
+<script>
+    var head = new Vue({
+        el:"#vm",
+        data:{
+            uid: null,
+            welcome: '',
+            search: '',
+            categorys: [],
+            cid: "-1"
+        },
+        methods:{
+            //查询用户信息
+            click(){
+                alert(123)
+            },
+            showName(){
+                var that = this;
+                $.get("user/findOne",{},function (data) {
+                    //{uid:1,name:'李四'}
+                    if(data!=null){
+                        var msg = "欢迎回来，"+data.name;
+                        that.welcome = msg;
+                        that.uid = data.uid;
+                    }
+                });
+            },
+            findAllCatrgory(){
+                //查询分类数据
+                var that = this;
+                $.get("category/findAll",{},function (data) {
+                    if (data!=null){
+                        that.categorys = data;
+                        // console.log(that.categorys);
+                    }
+                });
+            },
+            searchRoutes(){
+                var cid = getParameter("cid");
+                if(cid!=""&&cid!=null){
+                    this.cid = cid;
+                }else{
+                    this.cid = 0;
+                }
+                // 跳转路径 http://localhost/travel/route_list.html?cid=5，拼接上rname=xxx
+                location.href="route_list.html?cid="+"&rname="+this.search;
+                // location.href="route_list.html?cid="+cid+"&rname="+this.search;
+            },
+            toFavorite(){
+                if(this.uid!=null&&this.uid!=0){
+                    location.href="myfavorite.html?cid=-3";
+                }else{
+                    //用户没有登录
+                    alert("您尚未登录，请登录");
+                    location.href="./login.html";
+                }
+            },
+        },
+        created:function () {
+            var cid = getParameter("cid");
+            if(cid!=""&&cid!=null){
+                this.cid = cid;
+            }else{
+                this.cid = 0;
+            }
+            this.showName();
+            this.findAllCatrgory();
+        },
+
+    })
+</script>
     

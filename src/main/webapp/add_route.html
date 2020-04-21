@@ -26,11 +26,11 @@
             <div class="prosum_box" style="margin-top: 20px">
                 <dl class="prosum_left">
                     <dt>
-                        <button id="load" @click="loadImg()" type="button">
-                            <img alt="" class="big_img" id="big_img" :src="bigimg" >
-                            <input type="file" id="load_xls" style="display:none"
-                                   accept="image/gif,image/jpeg,image/jpg,image/png" @change ="uploadFile($event)">
-                        </button>
+<!--                        <button id="load" @click="loadImg()" type="button">-->
+                            <img alt="" class="big_img" id="big_img" :src="simages[0]" >
+<!--                            <input type="file" id="load_xls" style="display:none"-->
+<!--                                   accept="image/gif,image/jpeg,image/jpg,image/png" @change ="uploadFile($event)">-->
+<!--                        </button>-->
                     </dt>
                     <dd id="dd">
                         <a class="up_img up_img_disable"></a>
@@ -48,32 +48,45 @@
                 <div class="prosum_right">
                     <div class="form-group" style="margin-right: 20px">
                         <label for="routeName">路线名</label>
-                        <input type="text" name="rname" class="form-control" id="routeName" placeholder="请输入路线名">
+                        <input type="text" name="rname" v-model="rname" class="form-control" id="routeName" placeholder="请输入路线名">
                     </div>
                     <div class="form-group" style="margin-right: 20px" >
                         <label for="routeIntroduce">路线介绍</label>
-                        <textarea class="form-control" id="routeIntroduce" name="routeIntroduce" placeholder="请输入路线介绍"></textarea>
+                        <textarea class="form-control" v-model="routeIntroduce" id="routeIntroduce" name="routeIntroduce" placeholder="请输入路线介绍"></textarea>
                     </div>
-                    <div class="pros_other">
-                        <p >
-                            发布者(管理员)<span ></span>  :
-                            <span id="sname" >
-                            {{seller.sname}}
-                        </span>
-                        </p>
-                        <p >
-                            <span>联系电话 :</span>
-                            <span id="consphone">{{seller.consphone}}</span>
-                        </p>
-                        <p>地址 ：
-                            <span id="address">{{seller.address}}</span>
-                        </p>
+                    <div class="form-group" style="margin-right: 20px" >
+                        <label for="routeIntroduce">发布者选择</label>
+                        <select class="form-control" name="sid" v-model="sid">
+                            <option v-for="(item, index) in sellers" :value="item.sid">{{item.sname}}</option>
+                        </select>
                     </div>
+                    <div class="form-group" style="margin-right: 20px" >
+                        <select class="form-control" name="cid" v-model="cid">
+                            <option>请选择地区</option>
+                            <option v-for="(item, index) in areas" :value="item.cid">{{item.cname}}</option>
+                        </select>
+                    </div>
+
+<!--                    <div class="pros_other">-->
+<!--                        <p >-->
+<!--                            发布者(管理员)<span ></span>  :-->
+<!--                            <span id="sname" >-->
+<!--                            {{seller.sname}}-->
+<!--                        </span>-->
+<!--                        </p>-->
+<!--                        <p >-->
+<!--                            <span>联系电话 :</span>-->
+<!--                            <span id="consphone">{{seller.consphone}}</span>-->
+<!--                        </p>-->
+<!--                        <p>地址 ：-->
+<!--                            <span id="address">{{seller.address}}</span>-->
+<!--                        </p>-->
+<!--                    </div>-->
                     <div class="pros_price">
                         <p class="price">
                             <span style="font-size: 18px;margin-right: 5px">花费</span>
                             <strong id="price">
-                                <input name="price" style="height: 30px;padding: 5px 10px;font-size: 16px">
+                                <input name="price" v-model="price" style="height: 30px;padding: 5px 10px;font-size: 16px">
                             </strong>
                             <span style="margin-left: 10px">起</span></p>
                     </div>
@@ -82,7 +95,7 @@
             <div class="you_need_konw">
                 <span>详情</span>
                 <div style="line-height: 35px;margin-top: 5px">
-                    <textarea style="width: 100%;height: 120px" name="deatil"></textarea>
+                    <textarea style="width: 100%;height: 120px" name="deatil" v-model="detail"></textarea>
                 </div>
                 <input class="btn btn-success"  @click="addRoute" style="width: 150px;margin-left: 46%" type="button" value="提交" >
             </div>
@@ -103,47 +116,18 @@
     var detail = new Vue({
         el:"#detail",
         data:{
-            rid: null,
-            uid: null,
-            area: "浙江",
-            flag: false,
+            sid: null, uid: null, cid: 2,
+            rname: '', routeIntroduce: '', price: null, detail: '',
             route:{
                 user:{},
                 seller: {}
             },
-            seller:{
-
-            },
-            ddstr: "",
-            bigimg: 'images/main.jpg',
-            bfile: null,
-            simages: [
-                "images/mainfu.jpg"
-            ],
-            sfiles: [
-
-            ]
+            areas:[],
+            sellers: [], user:{},
+            simages: ["images/main.jpg"],
+            sfiles: []
         },
         methods:{
-            loadImg(){
-                $("#load_xls").click();
-            },
-            uploadFile(e){
-                var that = this;
-                /*创建文件读取对象*/
-                var reader=new FileReader();
-                /*文件存储在file表单元素的files属性中，它是一个数组*/
-                var file=e.target.files[0];
-                if(file) {
-                    this.bfile = file;
-                    console.log(this.bfile)
-                    reader.readAsDataURL(file)
-                    reader.onload= function(e){
-                        // 这里的this 指向reader
-                        that.bigimg = e.target.result
-                    }
-                }
-            },
             loadSImg(){
                 $("#load_files").click();
             },
@@ -152,7 +136,7 @@
                 /*创建文件读取对象*/
                 /*文件存储在file表单元素的files属性中，它是一个数组*/
                 var files=e.target.files;
-                console.log(files)
+                // console.log(files)
                 if(files) {
                     for(var i =0;i<files.length;i++){
                         that.sfiles[i] = files[i];
@@ -162,90 +146,96 @@
                         reader.onload = function (e) {
                             simages.push(e.target.result);
                         }
-                        that.simages = simages;
                     }
-                    console.log(this.simages)
+                    that.simages = simages;
                 }
-            },
-            goImg(){
-                //焦点图效果
-                //点击图片切换图片
-                $('.little_img').on('mousemove', function() {
-                    $('.little_img').removeClass('cur_img');
-                    var big_pic = $(this).data('bigpic');
-                    $('.big_img').attr('src', big_pic);
-                    $(this).addClass('cur_img');
-                });
-                //上下切换
-                var picindex = 0;
-                var nextindex = 4;
-                $('.down_img').on('click',function(){
-                    var num = $('.little_img').length;
-                    if((nextindex + 1) <= num){
-                        $('.little_img:eq('+picindex+')').hide();
-                        $('.little_img:eq('+nextindex+')').show();
-                        picindex = picindex + 1;
-                        nextindex = nextindex + 1;
-                    }
-                });
-                $('.up_img').on('click',function(){
-                    var num = $('.little_img').length;
-                    if(picindex > 0){
-                        $('.little_img:eq('+(nextindex-1)+')').hide();
-                        $('.little_img:eq('+(picindex-1)+')').show();
-                        picindex = picindex - 1;
-                        nextindex = nextindex - 1;
-                    }
-                });
             },
             findSeller(){
                 var that = this;
-                $.post("seller/findOne",{sid:1},function (data) {
+                if(that.sid=="1"||that.sid ==1){
+                    $.post("seller/findAll",{sid:1},function (data) {
+                        if(data!=null){
+                            that.sellers = data;
+                        }
+                    });
+                }else {
+                    $.post("seller/findOne",{sid: that.sid},function (data) {
+                        if(data!=null){
+                            var sellers = [];
+                            sellers[0] = data;
+                            that.sellers = sellers;
+                        }
+                    });
+                }
+
+            },
+            findUser(){
+                var that = this;
+                $.post("user/findOne",{uid:that.uid},function (data) {
                     if(data!=null){
-                        that.seller = data;
+                        that.user = data;
                     }
                 });
             },
-            //自动轮播方法
-            auto_play() {
-                var cur_index = $('.prosum_left dd').find('a.cur_img').index();
-                cur_index = cur_index - 1;
-                var num = $('.little_img').length;
-                var max_index = 3;
-                if ((num - 1) < 3) {
-                    max_index = num - 1;
-                }
-                if (cur_index < max_index) {
-                    var next_index = cur_index + 1;
-                    var big_pic = $('.little_img:eq(' + next_index + ')').data('bigpic');
-                    $('.little_img').removeClass('cur_img');
-                    $('.little_img:eq(' + next_index + ')').addClass('cur_img');
-                    $('.big_img').attr('src', big_pic);
-                } else {
-                    var big_pic = $('.little_img:eq(0)').data('bigpic');
-                    $('.little_img').removeClass('cur_img');
-                    $('.little_img:eq(0)').addClass('cur_img');
-                    $('.big_img').attr('src', big_pic);
-                }
-            },
             addRoute(){
-                var data = $('#addRoute').serialize();
-                $.post("route/add", data,function (data) {
-                    if(data!=null){
-                        alert("添加成功")
-                        location.href="ht_route_detail.html?rid="+data.rid;
-                    }else{
+                var rdata = $('#addRoute').serialize();
+                var formData = new FormData();
+                formData.append('rname', this.rname);
+                formData.append('cid', this.cid);
+                formData.append('routeIntroduce', this.routeIntroduce);
+                formData.append('price', this.price);
+                formData.append('detail', this.detail);
+                if(this.sid!=null&&this.sid!=""){
+                    formData.append('sid', this.sid);
+                }
+                if(this.uid!=null&&this.uid!=""){
+                    formData.append('uid', this.uid);
+                }
+                for(var i=0;i<this.sfiles.length;i++){
+                    formData.append("file"+i, this.sfiles[i]);
+                }
+                $.ajax({
+                    url:"route/add",
+                    type:'POST',
+                    dataType:'json',
+                    data:formData,
+                    cache: false,//上传文件无需缓存
+                    processData: false,//用于对data参数进行序列化处理 这里必须false
+                    contentType: false, //必须
+                    success:function(re){
+                        if(re!=null){
+                            alert("添加成功")
+                            location.href="ht_route_detail.html?rid="+re.rid;
+                        }else{
+                            alert("添加失败")
+                        }
+                    },
+                    error:function (error){
                         alert("添加失败")
                     }
                 });
             },
-
+            getAllCategory(){
+                var that = this;
+                $.get("category/findAll",{},function (data) {
+                    if (data!=null){
+                        that.areas = data;
+                    }
+                });
+            }
         },
         created: function () {
-            this.goImg();
-            // this.auto_play();
-            // this.findOne();
-            this.findSeller();
+            var sid =  getParameter("sid");
+            if(sid!=null&&sid!=""){
+                this.sid = sid;
+                this.findSeller();
+            }
+            var uid =  getParameter("uid");
+            if(uid!=null&&uid!=""){
+                this.uid = uid;
+                this.findUser();
+            }
+            this.getAllCategory();
         }
     })
     </script>

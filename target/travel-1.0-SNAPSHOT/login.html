@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>黑马旅游网-登录</title>  
+    <title>城市旅游网-登录</title>
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -15,35 +15,11 @@
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
       <!--导入angularJS文件-->
-    <!--<script src="js/angular.min.js"></script>-->
+	<script src="js/vue.js"></script>
 	<!--导入jquery-->
 	<script src="js/jquery-3.3.1.js"></script>
-
-	<script>
-
-		$(function () {
-            //1.给登录按钮绑定单击事件
-			$("#btn_sub").click(function () {
-                //2.发送ajax请求，提交表单数据
-				$.post("user/login",$("#loginForm").serialize(),function (data) {
-					//data : {flag:false,errorMsg:''}
-					if(data.flag){
-					    //登录成功
-						location.href="index.html";
-					}else{
-					    //登录失败
-						$("#errorMsg").html(data.errorMsg);
-					}
-                });
-            });
-        });
-
-
-		//3.处理响应结果
-
-
-
-	</script>
+	<script src="js/jquery.cookie.js"></script>
+	<script src="js/base64.js"></script>
 </head>
 
 <body>
@@ -51,52 +27,130 @@
 <div id="header"></div>
     <!-- 头部 end -->
     <section id="login_wrap">
-        <div class="fullscreen-bg" style="background: url(images/login_bg.png);height: 532px;">
+        <div class="fullscreen-bg" style="background: url(images/bg.jpg);height: 532px;">
         	
         </div>
         <div class="login-box">
         	<div class="title">
-        		<img src="images/login_logo.png" alt="">
-        		<span>欢迎登录黑马旅游账户</span>
+        		<img src="jkkj/login_logo.png" alt="">
+        		<span>欢迎登录城市旅游网账户</span>
         	</div>
         	<div class="login_inner">
 				
 				<!--登录错误提示消息-->
-        		<div id="errorMsg" class="alert alert-danger" ></div>
+        		<div id="errorMsg" v-text="errorMsg" class="alert alert-danger" ></div>
 				<form id="loginForm" action="" method="post" accept-charset="utf-8">
         			<input type="hidden" name="action" value="login"/>
-					<input name="username" type="text" placeholder="请输入账号" autocomplete="off">
-        			<input name="password" type="text" placeholder="请输入密码" autocomplete="off">
+					<input name="username" type="text" v-model ="id" placeholder="请输入账号" autocomplete="off">
+        			<input name="password" type="password" v-model ="password" placeholder="请输入密码" autocomplete="off">
         			<div class="verify">
 					<input name="check" type="text" placeholder="请输入验证码" autocomplete="off">
-					<span><img src="checkCode" alt="" onclick="changeCheckCode(this)"></span>
-					<script type="text/javascript">
-						//图片点击事件
-						function changeCheckCode(img) {
-							img.src="checkCode?"+new Date().getTime();
-						}
-					</script>
+					<span><img :src="checkCode" id="code" alt="" @click="changeCheckCode(this)"></span>
 			</div>
 			<div class="submit_btn">
-        				<button type="button"  id="btn_sub">登录</button>
+        				<button type="button"  id="btn_sub" @click="login">登录</button>
         				<div class="auto_login">
-        					<input type="checkbox" name="" class="checkbox">
-        					<span>自动登录</span>
+        					<input type="checkbox" name="" class="checkbox" v-model="checkAuto">
+        					<span>记住密码</span>
+
         				</div>        				
         			</div>        			       		
         		</form>
-        		<div class="reg">没有账户？<a href="javascript:;">立即注册</a></div>
+        		<div class="reg">没有账户？<a href="register.html">立即注册</a></div>
         	</div>
         </div>
     </section>
     <!--引入尾部-->
     <div id="footer"></div>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery-1.11.0.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
+     jQuery (necessary for Bootstrap's JavaScript plugins)
+<!--    <script src="js/jquery-1.11.0.min.js"></script>-->
+     Include all compiled plugins (below), or include individual files as needed
     <script src="js/bootstrap.min.js"></script>
-    <!--导入布局js，共享header和footer-->
+    导入布局js，共享header和footer
     <script type="text/javascript" src="js/include.js"></script>
 </body>
 
+<script>
+	var content = new Vue({
+		el:"#login_wrap",
+		data:{
+			id: '',
+			password: '',
+			checkCode: "checkCode",
+			errorMsg: "",
+			checkAuto: false
+		},
+		methods:{
+			login() {
+				//2.发送ajax请求，提交表单数据
+				var that = this;
+				$.post("user/login",$("#loginForm").serialize(),function (data) {
+					//data : {flag:false,errorMsg:''}
+					if(data.flag){
+						//登录成功
+						that.setCookie();
+						location.href="index.html";
+					}else{
+						//登录失败
+						that.errorMsg = data.errorMsg;
+						this.checkCode="checkCode?"+new Date().getTime();
+						if(data.errorMsg != "验证码错误") {
+							that.password = "";
+						}
+					}
+				});
+			},
+			changeCheckCode(img){
+				this.checkCode="checkCode?"+new Date().getTime();
+			},
+			setCookie(){ //设置cookie
+				var that = this;
+				var base64 = new Base64();
+				if(that.checkAuto) {
+					$.cookie("login_code",that.id,{
+						expires: 3,
+						path: '/'
+					});
+					$.cookie("psw",base64.encode(that.password),{
+						expires: 3,
+						path: '/'
+					});//调用jquery.cookie.js中的方法设置cookie中的登陆密码，并使用base64（jquery.base64.js）进行加密
+
+				} else{
+					$.cookie("login_code",that.id,{
+						expires: 3,
+						path: '/'
+					});
+					$.cookie("psw",base64.encode(""),{
+						expires: 3,
+						path: '/'
+					});
+				}
+			},
+			getCookie(){ //获取cookie
+				var base64 = new Base64();
+				var id = $.cookie("login_code");
+				var password = $.cookie("psw");
+
+				if(id){//密码存在的话把“记住用户名和密码”复选框勾选住
+					this.checkAuto = true;
+				}else{
+					this.checkAuto = false;
+				}
+				if(id){//用户名存在的话把用户名填充到用户名文本框
+					this.id = id;
+					console.log(id+" "+password)
+					if(password){//密码存在的话把密码填充到密码文本框
+						this.password = base64.decode(password);
+					}
+				}
+			}
+		},
+		created: function () {
+			// console.log("login")
+			this.getCookie();
+		}
+	})
+</script>
+</html>
 </html>

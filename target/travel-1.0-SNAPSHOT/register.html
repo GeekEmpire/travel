@@ -27,7 +27,7 @@
 				var username = $("#username").val();
 				//2.定义正则
 				var reg_username = /^\w{8,20}$/;
-				
+
 				//3.判断，给出提示信息
 			    var flag = reg_username.test(username);
 			    if(flag){
@@ -37,29 +37,47 @@
 			        //用户名非法,加一个红色边框
 					$("#username").css("border","1px solid red");
 				}
-			    
+
                 return flag;
             }
 
             //校验密码
-            function checkPassword() {
-                //1.获取密码值
-                var password = $("#password").val();
-                //2.定义正则
-                var reg_password = /^\w{8,20}$/;
+			function checkPassword() {
+				//1.获取密码值
+				var password = $("#password").val();
+				//2.定义正则
+				var reg_password = /^\w{8,20}$/;
 
-                //3.判断，给出提示信息
-                var flag = reg_password.test(password);
-                if(flag){
-                    //密码合法
-                    $("#password").css("border","");
-                }else{
-                    //密码非法,加一个红色边框
-                    $("#password").css("border","1px solid red");
-                }
+				//3.判断，给出提示信息
+				var flag = reg_password.test(password);
+				if(flag){
+					//密码合法
+					$("#password").css("border","");
+				}else{
+					//密码非法,加一个红色边框
+					$("#password").css("border","1px solid red");
+				}
 
-                return flag;
-            }
+				return flag;
+			}
+
+			//确认密码是否一样
+			function redo_checkPassword() {
+				//1.获取两次密码值
+				var password = $("#password").val();
+				var re_password = $("#redo_password").val();
+
+				//2.判断是否一样
+				if(password === re_password){
+					//密码合法
+					$("#redo_password").css("border","");
+					return true;
+				}else{
+					//密码非法,加一个红色边框
+					$("#redo_password").css("border","1px solid red");
+					return false;
+				}
+			}
 
             //校验邮箱
 			function checkEmail(){
@@ -95,7 +113,7 @@
 							}else{
 							    //注册失败,给errorMsg添加提示信息
 								$("#errorMsg").html(data.errorMsg);
-
+								$("#code").attr("src","checkCode?"+new Date().getTime());
 							}
 						});
 
@@ -108,6 +126,7 @@
                 //当某一个组件失去焦点是，调用对应的校验方法
 				$("#username").blur(checkUsername);
                 $("#password").blur(checkPassword);
+                $("#redo_password").blur(redo_checkPassword);
                 $("#email").blur(checkEmail);
 
 
@@ -119,8 +138,8 @@
 
     </head>
 	<body>
-	<!--引入头部-->
-	<div id="header"></div>
+		<!--引入头部-->
+		<div id="header"></div>
         <!-- 头部 end -->
     	<div class="rg_layout">
     		<div class="rg_form clearfix">
@@ -129,7 +148,7 @@
     				<p>USER REGISTER</p>
     			</div>
     			<div class="rg_form_center">
-					<div id="errorMsg" style="color:red;text-align: center"></div>
+					<div id="errorMsg"></div>
 					<!--注册表单-->
     				<form id="registerForm" action="user">
 						<!--提交处理请求的标识符-->
@@ -137,21 +156,29 @@
     					<table style="margin-top: 25px;">
     						<tr>
     							<td class="td_left">
-    								<label for="username">用户名</label>
+    								<label for="username">账号</label>
     							</td>
     							<td class="td_right">
     								<input type="text" id="username" name="username" placeholder="请输入账号">
     							</td>
     						</tr>
-    						<tr>
-    							<td class="td_left">
-    								<label for="password">密码</label>
-    							</td>
-    							<td class="td_right">
-    								<input type="text" id="password" name="password" placeholder="请输入密码">
-    							</td>
-    						</tr>
-    						<tr>
+							<tr>
+								<td class="td_left">
+									<label for="password">密码</label>
+								</td>
+								<td class="td_right">
+									<input type="password" id="password" name="password" placeholder="请输入密码">
+								</td>
+							</tr>
+							<tr>
+								<td class="td_left">
+									<label for="password">确认密码</label>
+								</td>
+								<td class="td_right">
+									<input type="password" id="redo_password" name="redo_password" placeholder="请确认密码">
+								</td>
+							</tr>
+							<tr>
     							<td class="td_left">
     								<label for="email">Email</label>
     							</td>
@@ -159,7 +186,7 @@
     								<input type="text" id="email" name="email" placeholder="请输入Email">
     							</td>
     						</tr>
-    						<tr>
+							<tr>
     							<td class="td_left">
     								<label for="name">姓名</label>
     							</td>
@@ -189,7 +216,7 @@
     								<label for="birthday">出生日期</label>
     							</td>
     							<td class="td_right">
-    								<input type="date" id="birthday" name="birthday" placeholder="年/月/日">
+    								<input type="date" id="birthday" name="birthday" value="2000-01-01" placeholder="年/月/日">
     							</td>
     						</tr>
     						<tr>
@@ -198,7 +225,7 @@
     							</td>
     							<td class="td_right check">
     								<input type="text" id="check" name="check" class="check">
-    								<img src="checkCode" height="32px" alt="" onclick="changeCheckCode(this)">
+    								<img id="code" src="checkCode" height="32px" alt="" onclick="changeCheckCode(this)">
 									<script type="text/javascript">
 										//图片点击事件
 										function changeCheckCode(img) {
@@ -221,15 +248,16 @@
     			<div class="rg_form_right">
     				<p>
     					已有账号？
-    					<a href="#">立即登录</a>
+    					<a href="./login.html">立即登录</a>
     				</p>
     			</div>
     		</div>
     	</div>
+
         <!--引入尾部-->
     	<div id="footer"></div>
 		<!--导入布局js，共享header和footer-->
 		<script type="text/javascript" src="js/include.js"></script>
-    	
+
     </body>
 </html>

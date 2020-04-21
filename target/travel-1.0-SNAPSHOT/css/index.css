@@ -60,6 +60,7 @@
     text-align: center;
     position: absolute;
     top: 0px;
+	left: 0px;
     z-index: 99;
     text-decoration: none;
     color: #000;
@@ -79,8 +80,15 @@
 }
 .jx_content a, .guone_r a{
 	text-decoration: none;
-	display: block;	
+	display: block;
 }
+.share_del{
+	float: right;
+	cursor: pointer;
+	color: #1b6d85;
+	margin-right: 10px;
+}
+
 .jx_content .has_border, .guone_r .has_border{		
 	border: 1px solid #eee;
 	padding: 0 6px;
@@ -102,6 +110,7 @@
 .jx_content img, .guone_r .row img {
 	display: block;
     width: 100%;
+	height: 160px;
 }
 .price {
 	font-size: 12px;
@@ -152,6 +161,10 @@
 .fl {
 	float: left;
 	
+}
+.banner_img{
+	width: 100%;
+	height: 360px!important;
 }
 
 
