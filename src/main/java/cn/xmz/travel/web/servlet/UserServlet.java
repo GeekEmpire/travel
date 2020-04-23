@@ -298,7 +298,7 @@ public class UserServlet extends BaseServlet {
 
 
     /**
-     * 查询所有
+     * 分页查询
      * @param request
      * @param response
      * @throws ServletException

@@ -67,16 +67,9 @@ public class SellerServlet extends BaseServlet {
 
     }
 
-    /**
-     * 登录功能
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
 
-    /*
-     * 查询单个对象
+    /**
+     *  查询单个对象
      * @param request
      * @param response
      * @throws ServletException
@@ -92,7 +85,6 @@ public class SellerServlet extends BaseServlet {
         seller = service.findOne(sid);
         writeValue(seller,response);
     }
-
 
 
     /**
@@ -136,7 +128,7 @@ public class SellerServlet extends BaseServlet {
 
 
     /**
-     * 注销（禁用）账号
+     * 注销账号
      * @param request
      * @param response
      * @throws ServletException
@@ -156,7 +148,7 @@ public class SellerServlet extends BaseServlet {
 
 
     /**
-     * 查询所有
+     * 按条件分页查询
      * @param request
      * @param response
      * @throws ServletException
@@ -191,6 +183,13 @@ public class SellerServlet extends BaseServlet {
 
     }
 
+    /**
+     * 查询所有
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public void findAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         List<Seller> sellers = service.findAll();

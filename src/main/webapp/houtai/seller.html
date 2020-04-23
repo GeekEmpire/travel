@@ -119,6 +119,7 @@
             var table = layui.table;
             var laypage = layui.laypage;
 
+            //数据渲染
             table.render({
                 elem: '#mz_user_table'
                 ,url:'../seller/pageQuery'
@@ -325,7 +326,7 @@
 
     user_search(curnum,size);
 
-    //添加user
+    //添加seller
     $('#mz_add_user').on("click", function () {
         layer.open({
             type: 1
